@@ -22,9 +22,7 @@ export default function Hero() {
           chase attention—they naturally attract it.
         </p>
 
-        <button className="mt-12 border border-[#F5F2EA] px-10 py-4 uppercase tracking-[0.3em] hover:bg-[#F5F2EA] hover:text-black transition duration-300">
-          View Collection
-        </button>
+        <import Button from "./Button";
 
       </div>
     </section>
