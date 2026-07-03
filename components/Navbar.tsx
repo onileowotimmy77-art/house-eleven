@@ -1,8 +1,17 @@
 import Container from "./Container";
+import useScroll from "@/hooks/useScroll";
 
 export default function Navbar() {
+  const scrolled = useScroll();
+
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-black/60 backdrop-blur-xl">
+    <nav
+  className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
+    scrolled
+      ? "border-b border-white/10 bg-black/80 backdrop-blur-xl"
+      : "bg-transparent"
+  }`}
+>
 
       <Container>
 
