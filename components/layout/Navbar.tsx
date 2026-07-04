@@ -1,47 +1,102 @@
 "use client";
 
 import Link from "next/link";
-import Container from "./Container";
-
-const links = [
-  { name: "Shop", href: "#" },
-  { name: "Journal", href: "#" },
-  { name: "Residents", href: "#" },
-  { name: "Archive", href: "#" },
-  { name: "About", href: "#" },
-];
+import NavbarBlur from "./NavbarBlur";
 
 export default function Navbar() {
-  return (
-    <nav className="fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-black/70 backdrop-blur-md">
-      <Container>
-        <div className="flex h-20 items-center justify-between">
+return (
+<header
+className="
+fixed
+top-0
+left-0
+z-50
+w-full
+"
+>
+    <NavbarBlur />
+<div
+className="
+mx-auto
+flex
+max-w-[1600px]
+items-center
+justify-between
+px-10
+py-8
+lg:px-16
+xl:px-24
+"
+>
+{/* Logo */}
 
-          <Link
-            href="/"
-            className="text-xl font-semibold tracking-[0.35em] text-white"
-          >
-            HOUSE ELEVEN
-          </Link>
+<Link
+href="/"
+className="
+text-sm
+font-semibold
+uppercase
+tracking-[0.55em]
+"
+>
+HOUSE ELEVEN
+</Link>
 
-          <div className="hidden items-center gap-10 md:flex">
-            {links.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-sm uppercase tracking-[0.25em] text-white/70 transition hover:text-white"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
+{/* Navigation */}
 
-          <button className="rounded-full border border-white px-5 py-2 text-xs uppercase tracking-[0.3em] text-white transition hover:bg-white hover:text-black">
-            Enter
-          </button>
+<nav className="hidden lg:flex items-center gap-14">
 
-        </div>
-      </Container>
-    </nav>
-  );
+<Link
+href="/collections"
+className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
+>
+Collections
+</Link>
+
+<Link
+href="/manifesto"
+className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
+>
+Manifesto
+</Link>
+
+<Link
+href="/journal"
+className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
+>
+Journal
+</Link>
+
+<Link
+href="/residents"
+className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
+>
+Residents
+</Link>
+
+</nav>
+
+{/* CTA */}
+
+<button
+className="
+border
+border-white/20
+px-6
+py-3
+text-[11px]
+uppercase
+tracking-[0.35em]
+transition-all
+duration-500
+hover:bg-white
+hover:text-black
+"
+>
+ENTER
+</button>
+
+</div>
+</header>
+);
 }

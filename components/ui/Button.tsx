@@ -1,12 +1,10 @@
-import { ReactNode } from "react";
-
 interface ButtonProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function Button({ children }: ButtonProps) {
   return (
-    <button className="group relative overflow-hidden rounded-full border border-white px-8 py-4 text-sm uppercase tracking-[0.35em] transition-all duration-500 hover:bg-white hover:text-black">
+    <button className="rounded-full border border-white/30 px-10 py-5 uppercase tracking-[0.4em]  text-xs transition-all duration-500 hover:bg-white hover:text-black">
       {children}
     </button>
   );
