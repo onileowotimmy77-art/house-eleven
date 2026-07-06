@@ -2,8 +2,14 @@
 
 import Link from "next/link";
 import NavbarBlur from "./NavbarBlur";
+import { useCursorContext } from "@/components/cursor/CursorProvider";
 
 export default function Navbar() {
+    const {
+      setHovering,
+      setLabel,
+    } = useCursorContext();
+
 return (
 <header
 className="
@@ -31,15 +37,26 @@ xl:px-24
 {/* Logo */}
 
 <Link
-href="/"
-className="
-text-sm
-font-semibold
-uppercase
-tracking-[0.55em]
-"
+  href="/"
+
+  onMouseEnter={() => {
+    setHovering(true);
+    setLabel("HOME");
+  }}
+
+  onMouseLeave={() => {
+    setHovering(false);
+    setLabel("");
+  }}
+
+  className="
+    text-sm
+    font-semibold
+    uppercase
+    tracking-[0.55em]
+  "
 >
-HOUSE ELEVEN
+  HOUSE ELEVEN
 </Link>
 
 {/* Navigation */}
@@ -47,21 +64,54 @@ HOUSE ELEVEN
 <nav className="hidden lg:flex items-center gap-14">
 
 <Link
-href="/collections"
-className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
+  href="/collections"
+
+  onMouseEnter={() => {
+    setHovering(true);
+    setLabel("GO");
+  }}
+
+  onMouseLeave={() => {
+    setHovering(false);
+    setLabel("");
+  }}
+
+  className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
 >
-Collections
+  Collections
 </Link>
 
 <Link
-href="/manifesto"
-className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
+  href="/manifesto"
+
+  onMouseEnter={() => {
+    setHovering(true);
+    setLabel("READ");
+  }}
+
+  onMouseLeave={() => {
+    setHovering(false);
+    setLabel("");
+  }}
+
+  className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
 >
 Manifesto
 </Link>
 
 <Link
 href="/journal"
+
+onMouseEnter={() => {
+    setHovering(true);
+    setLabel("GO");
+  }}
+
+  onMouseLeave={() => {
+    setHovering(false);
+    setLabel("");
+  }}
+
 className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
 >
 Journal
@@ -69,6 +119,17 @@ Journal
 
 <Link
 href="/residents"
+
+onMouseEnter={() => {
+    setHovering(true);
+    setLabel("GO");
+  }}
+
+  onMouseLeave={() => {
+    setHovering(false);
+    setLabel("");
+  }}
+  
 className="uppercase text-xs tracking-[0.3em] text-white/60 hover:text-white transition-colors duration-500"
 >
 Residents
@@ -79,21 +140,31 @@ Residents
 {/* CTA */}
 
 <button
-className="
-border
-border-white/20
-px-6
-py-3
-text-[11px]
-uppercase
-tracking-[0.35em]
-transition-all
-duration-500
-hover:bg-white
-hover:text-black
-"
+  onMouseEnter={() => {
+    setHovering(true);
+    setLabel("ENTER");
+  }}
+
+  onMouseLeave={() => {
+    setHovering(false);
+    setLabel("");
+  }}
+
+  className="
+    border
+    border-white/20
+    px-6
+    py-3
+    text-[11px]
+    uppercase
+    tracking-[0.35em]
+    transition-all
+    duration-500
+    hover:bg-white
+    hover:text-black
+  "
 >
-ENTER
+  ENTER
 </button>
 
 </div>

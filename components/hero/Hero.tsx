@@ -5,10 +5,25 @@ import HeroContent from "@/components/hero/HeroContent";
 import HeroImage from "@/components/hero/HeroImage";
 import HeroOverlay from "@/components/hero/HeroOverlay";
 import HeroScrollIndicator from "@/components/hero/HeroScrollIndicator";
+import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-black text-white">
+    <motion.section 
+      initial={{ 
+        opacity:0,
+      }}
+      animate={{ 
+        opacity:1,
+     }}
+      transition={{ 
+        duration:1,
+        delay:1.8,
+        ease:[0.22,1,0.36,1],
+    }}
+    
+    
+      className="relative min-h-screen overflow-hidden bg-black text-white">
 
       <HeroBackground />
 
@@ -32,6 +47,6 @@ export default function Hero() {
 
       <HeroScrollIndicator />
 
-    </section>
+    </motion.section>
   );
 }

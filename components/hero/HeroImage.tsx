@@ -2,16 +2,12 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { imageReveal } from "@/lib/motion";
 
 export default function HeroImage() {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 80 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{
-        duration: 1.2,
-        delay: .3,
-      }}
+        {...imageReveal}
       className="
         relative
         h-screen

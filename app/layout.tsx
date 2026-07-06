@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import LenisProvider from "@/components/providers/LenisProvider";
+import Cursor from "@/components/cursor/Cursor";
+import { CursorProvider } from "@/components/cursor/CursorProvider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -30,10 +33,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${spaceGrotesk.variable} ${inter.variable} ${ibmMono.variable}`}
-      >
-        {children}
+      <body className={`${spaceGrotesk.variable} ${inter.variable} ${ibmMono.variable}`} >
+        <CursorProvider>
+          <Cursor />
+          <LenisProvider>
+            {children}
+          </LenisProvider>
+        </CursorProvider>
       </body>
     </html>
   );

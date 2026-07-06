@@ -1,11 +1,41 @@
-interface ButtonProps {
+import { ButtonHTMLAttributes } from "react";
+import clsx from "clsx";
+import Magnetic from "@/components/motion/Magnetic";
+
+interface ButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-export default function Button({ children }: ButtonProps) {
+export default function Button({
+  children,
+  className,
+  ...props
+}: ButtonProps) {
   return (
-    <button className="rounded-full border border-white/30 px-10 py-5 uppercase tracking-[0.4em]  text-xs transition-all duration-500 hover:bg-white hover:text-black">
-      {children}
-    </button>
+    <Magnetic>
+      <button
+        {...props}
+        className={clsx(
+          `
+          rounded-full
+          border
+          border-white
+          px-8
+          py-4
+          text-xs
+          uppercase
+          tracking-[0.35em]
+          transition-all
+          duration-300
+          hover:bg-white
+          hover:text-black
+          `,
+          className
+        )}
+      >
+        {children}
+      </button>
+    </Magnetic>
   );
 }

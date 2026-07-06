@@ -1,22 +1,40 @@
 @import "tailwindcss";
 
+
 :root{
   --background:#050505;
   --foreground:#F6F3EE;
 
   --surface:#111111;
-  --border:#242424;
+  --border:rgba(255, 255, 255, 0.08);
 
   --gold:#C6A15B;
 
   --font-display:"Space Grotesk",sans-serif;
   --font-body:"Inter",sans-serif;
   --font-mono:"IBM Plex Mono",monospace;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-7: 96px;
+  --space-8: 160px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --nav-height: 72px;
+
+  --container-width: 1600px;
 }
 
 *{
-  margin:0;
-  padding:0;
+  margin-left: 3px;
+  
+  padding: 0px;
   box-sizing:border-box;
 }
 
@@ -29,8 +47,16 @@ body{
   color:var(--foreground);
   font-family:var(--font-body);
   overflow-x:hidden;
+  cursor:none;
 }
 
+a,
+button,
+input
+textarea
+select {
+  cursor: none;
+}
 h1,h2,h3,h4,h5,h6{
   font-family:var(--font-display);
 }
@@ -43,4 +69,17 @@ pre{
 ::selection{
   background:white;
   color:black;
+}
+::selection{
+  background:white;
+  color:black;
+}
+
+html,
+body{
+  cursor:none;
+}
+
+*{
+  cursor:none !important;
 }
