@@ -2,37 +2,28 @@
 
 import CollectionHeader from "./CollectionHeader";
 import CollectionCard from "./CollectionCard";
+
 import Container from "@/components/layout/Container";
-import Section from "@/components/layout/Section"
+import Section from "@/components/layout/Section";
 import Stagger from "@/components/motion/Stagger";
 
+import { collections } from "@/data/collections";
+
 export default function Collections() {
-   
-return (
-<Section>
-<Container>
-<CollectionHeader />
+  return (
+    <Section padding="py-48">
+      <Container>
+        <CollectionHeader />
 
-<Stagger>
-<CollectionCard
-image="/collection1.jpg"
-code="H11-001"
-title="Foundation Knit Polo"
-/>
-
-<CollectionCard
-image="/collection2.jpg"
-code="H11-002"
-title="Heavyweight Tee"
-/>
-
-<CollectionCard
-image="/collection3.jpg"
-code="H11-003"
-title="Tailored Trouser"
-/>
-</Stagger>
-</Container>
-</Section>
-);
+        <Stagger>
+          {collections.map((collection) => (
+            <CollectionCard
+              key={collection.id}
+              collection={collection}
+            />
+          ))}
+        </Stagger>
+      </Container>
+    </Section>
+  );
 }

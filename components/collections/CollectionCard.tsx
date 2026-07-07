@@ -5,36 +5,45 @@ import Image from "next/image";
 import Reveal from "@/components/motion/Reveal";
 import HoverCard from "@/components/motion/HoverCard";
 import { useCursorContext } from "@/components/cursor/CursorProvider";
+import { Collection } from "@/types/collection";
+import Link from "next/link";
 
 interface CollectionCardProps {
-  image: string;
-  code: string;
-  title: string;
+  collection: Collection;
 }
 
 export default function CollectionCard({
-  image,
-  code,
-  title,
+  collection,
 }: CollectionCardProps) {
+  const { 
+    image, 
+    code, 
+    title, 
+    slug, 
+} = collection;
+  
   const {
-    setHovering,
+    setHovering, 
     setLabel,
   } = useCursorContext();
 
   return (
     <Reveal>
       <HoverCard>
-        <article className="mb-40 group">
-          <div
-            onMouseEnter={() => {
-              setHovering(true);
-              setLabel("VIEW");
-            }}
+        <Link href={`/collections/${slug}`}>
+          <article 
+              className="mb-40 group cursor-none"
+            
+              onMouseEnter={() => {
+                setHovering(true);
+                setLabel("READ");
+              }}
             onMouseLeave={() => {
               setHovering(false);
               setLabel("");
             }}
+            >
+          <div   
             className="
               relative
               aspect-[4/5]
@@ -46,11 +55,12 @@ export default function CollectionCard({
               duration-500
               group-hover:border-white/20
             "
-          >
+            >
             <Image
               src={image}
               alt={title}
               fill
+              sizes="(max-width: 768px) 100vw, 92vw"
               className="
                 object-cover
                 transition-transform
@@ -61,9 +71,9 @@ export default function CollectionCard({
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-          </div>
+            </div>
 
-          <div className="mt-10 flex items-end justify-between">
+            <div className="mt-10 flex items-end justify-between">
             <div>
               <p
                 className="
@@ -97,22 +107,24 @@ export default function CollectionCard({
             </div>
 
            <span
-  className="
-    font-mono
-    text-xs
-    uppercase
-    tracking-[0.4em]
-    text-white/35
-    transition-transform
-    duration-500
-    group-hover:-translate-y-1
-  "
->
-  View
-</span>
+             className="
+             font-mono
+             text-xs
+             uppercase
+             tracking-[0.4em]
+             text-white/35
+             transition-transform
+             duration-500
+             group-hover:-translate-y-1
+             "
+             >
+              Read Collection 
+            </span>
             </div>
           </article>
+        </Link>
       </HoverCard>
     </Reveal>
   );
+
 }

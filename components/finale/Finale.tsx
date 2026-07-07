@@ -9,34 +9,36 @@ import Reveal from "@/components/motion/Reveal";
 
 export default function Finale() {
 return (
-<Section>
+<Section 
+  padding="py-56"
+>
 
-<Container>
+    <Container>
 
-<Stagger className="relative z-20">
+        <Stagger className="relative z-20">
 
-<FinaleWordmark />
+          <FinaleWordmark />
 
-<FinaleNavigation />
+          <FinaleNavigation />
 
-<Reveal>
-<div className="mt-32 text-center">
+            <Reveal>
+                <div className="mt-32 text-center">
 
-<p className="font-mono text-xs uppercase tracking-[0.45em] text-white/30">
-© 2026 House Eleven
-</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.45em] text-white/30">
+                    © 2026 House Eleven
+                    </p>
 
-<p className="mt-5 text-white/45">
-Built Somewhere.
-<br />
-Worn Everywhere.
-</p>
+                    <p className="mt-5 text-white/45">
+                    Built Somewhere.
+                    <br />
+                    Worn Everywhere.
+                    </p>
 
-</div>
-</Reveal>
-</Stagger>
+                </div>
+            </Reveal>
+        </Stagger>
 
-</Container>
+    </Container>
 </Section>
 );
 }

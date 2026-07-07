@@ -8,37 +8,39 @@ import Stagger from "@/components/motion/Stagger";
 
 export default function Residents() {
 return (
-<Section>
-<Container>
-<ResidentsHeader />
-
-<Stagger 
-className="
-grid 
-gap-10 
-md:grid-cols-2 
-lg:grid-cols-3
-"
+<Section
+  padding="py-48"
 >
-<ResidentCard
-image="/resident1.jpg"
-name="Kai"
-role="Photographer"
-/>
+    <Container>
+        <ResidentsHeader />
 
-<ResidentCard
-image="/resident2.jpg"
-name="Amara"
-role="Stylist"
-/>
+        <Stagger 
+        className="
+        grid 
+        gap-10 
+        md:grid-cols-2 
+        lg:grid-cols-3
+        "
+        >
+            <ResidentCard
+            image="/resident1.jpg"
+            name="Kai"
+            role="Photographer"
+            />
 
-<ResidentCard
-image="/resident3.jpg"
-name="Noah"
-role="Creative Director"
-/>
-</Stagger>
-</Container>
+            <ResidentCard
+            image="/resident2.jpg"
+            name="Amara"
+            role="Stylist"
+            />
+
+            <ResidentCard
+            image="/resident3.jpg"
+            name="Noah"
+            role="Creative Director"
+            />
+        </Stagger>
+    </Container>
 </Section>
 );
 }

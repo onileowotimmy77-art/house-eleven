@@ -8,7 +8,9 @@ import Stagger from "../motion/Stagger";
 
 export default function Journal() {
   return (
-    <Section>
+    <Section
+      padding="py-44"
+    >
       <Container>
 
         <JournalHeader />

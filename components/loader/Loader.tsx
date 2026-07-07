@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import LoaderWordmark from "./LoaderWordmark";
-import useLoading from "@/hooks/useLoading";
+import useLoading from "@/lib/hooks/useLoading";
 
 export default function Loader() {
   const loading = useLoading();
