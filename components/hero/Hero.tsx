@@ -24,9 +24,10 @@ export default function Hero() {
       <div
         className="
           absolute
+          mt-5
           inset-0
           z-10
-          h-full
+          height: 100vh
         "
       >
         <HeroContent />

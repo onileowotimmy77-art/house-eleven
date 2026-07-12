@@ -3,8 +3,12 @@
 import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
 
-import ChapterHeader from "./ChapterHeader";
+
 import ChapterCampaign from "./ChapterCampaign";
+import ResidenceShowcase from "@/src/features/chapter01/ResidenceShowcase/ResidenceShowcase";
+import SectionHeader from "@/components/ui/SectionHeader";
+import Transition from "../transition/Transition";
+
 
 
 export default function Chapter01() {
@@ -12,9 +16,16 @@ export default function Chapter01() {
     <Section padding="py-56">
       <Container className="max-w-[1700px]">
 
-        <ChapterHeader />
+        <SectionHeader className="mt-32"
+          eyebrow="Chapter01"
+          title="Residence"
+        />
 
         <ChapterCampaign />
+
+        <Transition />
+
+        <ResidenceShowcase />
 
       </Container>
     </Section>

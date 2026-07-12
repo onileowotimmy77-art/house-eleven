@@ -15,9 +15,7 @@ export default function HeroContent() {
           flex
           h-full
           items-end
-          pb-20
-          -mt-45
-        "
+  ]     "
       >
         <div
           className="
@@ -55,8 +53,6 @@ export default function HeroContent() {
               id="hero-text"
               className="
                 max-w-xl
-                -mt-5
-                -mb-10
                 text-lg
                 leading-8
                 text-white/65
@@ -72,8 +68,8 @@ export default function HeroContent() {
 
           {/* CTA */}
           <Entrance delay={1.1}>
-            <div>
-              <Button 
+            <div className="-mt-5">
+              <Button
               
                 onMouseEnter={() => {
                   setHovering(true);

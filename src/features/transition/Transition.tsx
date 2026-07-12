@@ -12,6 +12,7 @@ export default function Transition() {
           <h2
             className="
               text-center
+              mt-20
               font-black
               uppercase
               tracking-[-0.05em]

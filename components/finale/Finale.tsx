@@ -1,6 +1,6 @@
 "use client";
 
-import Container from "../Container";
+import Container from "@/components/layout/Container";
 import Section from "../layout/Section";
 import FinaleNavigation from "./FinaleNavigation";
 import FinaleWordmark from "./FinaleWordmark";

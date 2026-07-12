@@ -13,7 +13,7 @@ import {
   mono,
   editorial,
 } from "./fonts";
-import { AmbientProvider } from "@/src/components/ambient/AmbientProvider";
+
 
 
 

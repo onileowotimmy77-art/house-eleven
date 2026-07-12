@@ -1,24 +1,146 @@
-export const featuredProducts = [
+export interface ProductGalleryImage {
+  image: string;
+  alt: string;
+  aspect: "landscape" | "portrait";
+}
+
+export interface ProductSpec {
+  label: string;
+  value: string;
+}
+
+export interface ProductCraftsmanshipItem {
+  title: string;
+  description: string;
+}
+
+export interface Product {
+  slug: string;
+
+  name: string;
+  subtitle: string;
+  description: string;
+
+  price: string;
+
+  chapter: string;
+  collection: string;
+  edition: string;
+
+  color: string;
+  material: string;
+  fit: string;
+  madeIn: string;
+
+  sizes: string[];
+
+  heroImage: string;
+
+  story: string;
+
+  craftsmanship: ProductCraftsmanshipItem[];
+
+  specs: ProductSpec[];
+
+  gallery: ProductGalleryImage[];
+}
+
+export const products: Product[] = [
   {
-    name: "Residence Hoodie",
-    subtitle: "Heavyweight French Terry",
+    slug: "residence-polo",
+
+    name: "Residence Polo",
+
+    subtitle: "Heavyweight Cotton Piqué",
+
+    description:
+      "A refined everyday polo designed with architectural simplicity, premium construction, and effortless comfort.",
+
     price: "₦95,000",
-    image: "/products/hoodie.jpg",
-    href: "/shop/residence-hoodie",
-    featured: true,
+
+    chapter: "01",
+
+    collection: "Residence",
+
+    edition: "First Release",
+
+    color: "Midnight Black",
+
+    material: "Heavyweight Cotton Piqué",
+
+    fit: "Relaxed",
+
+    madeIn: "Lagos, Nigeria",
+
+    sizes: ["S", "M", "L", "XL"],
+
+    heroImage: "/products/residence-polo/hero.jpg",
+
+    story:
+      "Residence explores quiet confidence through timeless silhouettes. Every seam, proportion, and fabric choice exists to create garments that feel considered rather than loud.",
+
+    craftsmanship: [
+  {
+    title: "Heavyweight Cotton Piqué",
+    description:
+      "Selected for its structured hand feel, exceptional durability, and ability to become softer with every wear.",
   },
   {
-    name: "Residence Tee",
-    subtitle: "Heavyweight Cotton",
-    price: "₦45,000",
-    image: "/products/tee.jpg",
-    href: "/shop/residence-tee",
+    title: "Relaxed Silhouette",
+    description:
+      "Cut with generous proportions that create effortless movement while maintaining a refined shape.",
   },
   {
-    name: "Residence Trouser",
-    subtitle: "Relaxed Tailoring",
-    price: "₦78,000",
-    image: "/products/trouser.jpg",
-    href: "/shop/residence-trouser",
+    title: "Precision Construction",
+    description:
+      "Every seam is carefully reinforced to ensure lasting structure, comfort, and everyday reliability.",
+  },
+  {
+    title: "Quiet Identity",
+    description:
+      "Branding remains intentionally restrained, allowing craftsmanship and proportion to define the garment.",
+  },
+],
+    specs: [
+      {
+        label: "Material",
+        value: "100% Heavyweight Cotton Piqué",
+      },
+      {
+        label: "Fit",
+        value: "Relaxed",
+      },
+      {
+        label: "Color",
+        value: "Midnight Black",
+      },
+      {
+        label: "Origin",
+        value: "Made in Lagos, Nigeria",
+      },
+    ],
+
+    gallery: [
+      {
+        image: "/products/residence-polo/gallery-1.jpg",
+        alt: "Residence Polo Campaign",
+        aspect: "landscape",
+      },
+      {
+        image: "/products/residence-polo/gallery-2.jpg",
+        alt: "Residence Polo Detail",
+        aspect: "portrait",
+      },
+      {
+        image: "/products/residence-polo/gallery-3.jpg",
+        alt: "Residence Polo Fabric Detail",
+        aspect: "portrait",
+      },
+      {
+        image: "/products/residence-polo/gallery-4.jpg",
+        alt: "Residence Polo Editorial",
+        aspect: "landscape",
+      },
+    ],
   },
 ];

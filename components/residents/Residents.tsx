@@ -1,8 +1,8 @@
 "use client";
 
-import ResidentsHeader from "./ResidentsHeader";
+import SectionHeader from "../ui/SectionHeader";
 import ResidentCard from "./ResidentCard";
-import Container from "../Container";
+import Container from "@/components/layout/Container";
 import Section from "../layout/Section";
 import Stagger from "@/components/motion/Stagger";
 
@@ -12,8 +12,11 @@ return (
   padding="py-48"
 >
     <Container>
-        <ResidentsHeader />
-
+       <SectionHeader  
+          eyebrow="Residents"
+          title="The House"
+          description="Designers, photographers, musicians and artists building the culture of House Eleven."
+        />
         <Stagger 
         className="
         grid 

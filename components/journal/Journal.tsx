@@ -1,10 +1,11 @@
 "use client";
 
-import JournalHeader from "./JournalHeader";
+
 import JournalCard from "./JournalCard";
-import Container from "../Container";
+import Container from "@/components/layout/Container";
 import Section from "../layout/Section";
 import Stagger from "../motion/Stagger";
+
 
 export default function Journal() {
   return (
@@ -13,9 +14,8 @@ export default function Journal() {
     >
       <Container>
 
-        <JournalHeader />
-
-        <Stagger className="space-y-40">
+      
+        <Stagger className="space-y-40 mt-10">
 
           <JournalCard
             image="/journal1.jpg"

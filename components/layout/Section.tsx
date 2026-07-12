@@ -12,9 +12,11 @@ export default function Section({
   return (
     <section
       className={`
+        max-w-[1600]
         relative
         overflow-hidden
         bg-black
+        
         text-white
         ${padding}
         ${className}

@@ -52,8 +52,8 @@ body{
 
 a,
 button,
-input
-textarea
+input,
+textarea,
 select {
   cursor: none;
 }
@@ -66,10 +66,6 @@ pre{
   font-family:var(--font-mono);
 }
 
-::selection{
-  background:white;
-  color:black;
-}
 ::selection{
   background:white;
   color:black;
