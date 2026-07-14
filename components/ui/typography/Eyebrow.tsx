@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import clsx from "clsx";
 
 interface EyebrowProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }
 

@@ -5,14 +5,15 @@ import Link from "next/link";
 
 export default function FeaturedResidence() {
   return (
-    <section className="mb-56">
+    <section className="mb-50">
 
       {/* Campaign Image */}
       <div
         className="
           relative
-          mt-20
+          mt-3
           h-[120vh]
+        
           overflow-hidden
           bg-neutral-900
         "
@@ -44,7 +45,7 @@ export default function FeaturedResidence() {
         className="
           mt-20
           max-w-4xl
-          pl-8
+        
         "
       >
         <p

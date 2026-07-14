@@ -6,27 +6,27 @@ import { useAppTransition } from "../providers/AppTransitionProvider";
 
 export default function HeroMedia() {
   const { ready } = useAppTransition();
-  return (
-   <motion.div
-  className="absolute inset-0"
-  initial={{
-    opacity: 0,
-    scale: 1.06,
-  }}
-  animate={
-    ready
-      ? {
-          opacity: 1,
-          scale: 1,
-        }
-      : {}
-  }
-  transition={{
-    duration: 2.4,
-    ease: [0.22, 1, 0.36, 1],
-  }}
->
 
+  return (
+    <motion.div
+      className="absolute inset-0 overflow-hidden"
+      initial={{
+        opacity: 0,
+        scale: 1.04,
+      }}
+      animate={
+        ready
+          ? {
+              opacity: 1,
+              scale: 1,
+            }
+          : {}
+      }
+      transition={{
+        duration: 2.8,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
       <Image
         src="/hero.jpg"
         alt="House Eleven Chapter 01 Campaign"
@@ -34,51 +34,64 @@ export default function HeroMedia() {
         priority
         sizes="100vw"
         className="
-          object-cover object-[20%_center]
+          object-cover
+          object-center
+        
+          select-none
+          pointer-events-none
         "
       />
 
-      
-
-      {/* Left gradient */}
+      {/* Left Editorial Light */}
       <div
         className="
           absolute
           inset-0
           bg-gradient-to-r
-          from-black/70
-          via-black/20
+          from-black/56
+          via-black/14
           to-transparent
+          pointer-events-none
         "
       />
 
-      {/* Bottom gradient */}
+      {/* Bottom Grounding */}
       <div
         className="
           absolute
           inset-0
           bg-gradient-to-t
-          from-black/65
-          via-transparent
-          to-black/15
+          from-black/72
+          via-black/6
+          to-transparent
+          pointer-events-none
         "
       />
-      {/* Section Blend */}
 
-<div
-  className="
-    absolute
-    inset-x-0
-    bottom-0
-    h-56
-    bg-gradient-to-b
-    from-transparent
-    via-black/40
-    to-black
-    pointer-events-none
-  "
-/>
+      {/* Cinematic Vignette */}
+      <div
+        className="
+          absolute
+          inset-0
+          bg-[radial-gradient(circle_at_center,transparent_42%,rgba(0,0,0,.16)_100%)]
+          pointer-events-none
+        "
+      />
 
+      {/* Transition Into Gallery */}
+      <div
+        className="
+          absolute
+          inset-x-0
+          bottom-0
+          h-72
+          bg-gradient-to-b
+          from-transparent
+          via-black/24
+          to-black
+          pointer-events-none
+        "
+      />
     </motion.div>
   );
 }

@@ -1,26 +1,37 @@
 "use client";
 
-import Button from "@/components/ui/Button";
-import { useCursorContext } from "@/components/cursor/CursorProvider";
+import Magnetic from "@/components/motion/Magnetic";
+import useCursorTarget from "@/components/cursor/useCursorTarget";
 
 export default function NavButton() {
-  const {
-    setHovering,
-    setLabel,
-  } = useCursorContext();
+  const cursor = useCursorTarget("ENTER");
 
   return (
-    <Button
-      onMouseEnter={() => {
-        setHovering(true);
-        setLabel("ENTER");
-      }}
-      onMouseLeave={() => {
-        setHovering(false);
-        setLabel("");
-      }}
-    >
-      ENTER
-    </Button>
+    <Magnetic>
+      <button
+        {...cursor}
+        className="
+          rounded-full
+          border
+          border-white/15
+
+          px-4
+          py-2
+
+          text-[10px]
+          font-medium
+          uppercase
+          tracking-[0.4em]
+
+          transition-all
+          duration-500
+
+          hover:border-white/30
+          hover:bg-white/5
+        "
+      >
+        ENTER
+      </button>
+    </Magnetic>
   );
 }

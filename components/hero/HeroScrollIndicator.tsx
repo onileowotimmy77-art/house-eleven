@@ -30,7 +30,7 @@ export default function HeroScrollIndicator() {
         }}
         className="
           fixed
-          bottom-12
+          bottom-10 lg:bottom-12
           left-1/2
           z-30
           -translate-x-1/2
@@ -41,9 +41,10 @@ export default function HeroScrollIndicator() {
             y: [0, 8, 0],
           }}
           transition={{
-            duration: 3,
+            duration: 2.2,
             repeat: Infinity,
-            ease: "easeInOut",
+            repeatType: "mirror",
+            ease: [0.76, 0, 0.24, 1],
           }}
           className="flex flex-col items-center gap-4"
         >
@@ -53,7 +54,7 @@ export default function HeroScrollIndicator() {
               text-[10px]
               uppercase
               tracking-[0.45em]
-              text-white/40
+              text-white/45
             "
           >
             SCROLL
@@ -62,12 +63,14 @@ export default function HeroScrollIndicator() {
           <div className="relative h-12 w-px overflow-hidden bg-white/20">
             <motion.div
               animate={{
-                y: [-12, 48],
+                y: [0, 10],
+                opacity: [0.45, 1],
               }}
               transition={{
-                duration: 1.8,
+                duration: 2.2,
                 repeat: Infinity,
-                ease: "easeInOut",
+                repeatType: "mirror",
+                ease: [0.76, 0, 0.24, 1],
               }}
               className="
                 absolute

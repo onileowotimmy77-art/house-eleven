@@ -1,16 +1,31 @@
 "use client";
 
-import MagneticLink from "../motion/MagneticLink";
+import Link from "next/link";
+
+import Magnetic from "@/components/motion/Magnetic";
+import useCursorTarget from "@/components/cursor/useCursorTarget";
 
 export default function NavLogo() {
-return (
+  const cursor = useCursorTarget("HOME");
 
-    <div className="leading-none">
-<MagneticLink>        
-    <h1 className="font-black uppercase tracking-[-0.06em] text-xl">
+  return (
+    <Magnetic>
+      <Link
+        href="/"
+        {...cursor}
+        className="
+          text-[12px]
+          font-medium
+          uppercase
+          tracking-[0.42em]
+          leading-none
+          transition-all
+          duration-500
+          hover:opacity-80
+        "
+      >
         HOUSE ELEVEN
-    </h1>
-</MagneticLink>
-</div>
-);
+      </Link>
+    </Magnetic>
+  );
 }

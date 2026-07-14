@@ -14,7 +14,8 @@ export default function Body({
       className={clsx(
         `
         text-lg
-        leading-relaxed
+        leading-9
+        md:leading-10
         text-white/70
         `,
         className

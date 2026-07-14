@@ -21,8 +21,8 @@ export default function Button({
           rounded-full
           border
           border-white
-          px-8
-          py-4
+          px-5
+          py-3
           text-xs
           uppercase
           tracking-[0.35em]

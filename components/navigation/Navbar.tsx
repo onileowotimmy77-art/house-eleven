@@ -1,56 +1,65 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import useNavbarVisibility from "@/lib/hooks/useNavbarVisibility";
 import { motion } from "framer-motion";
 
+import Container from "../layout/Container";
 import NavLogo from "./NavLogo";
 import NavLinks from "./NavLinks";
 import NavButton from "./NavButton";
 
 export default function Navbar() {
-const [scrolled, setScrolled] = useState(false);
+  const { scrolled, visible } = useNavbarVisibility();
 
-useEffect(() => {
-const handleScroll = () => {
-setScrolled(window.scrollY > 24);
-};
+  return (
+    <motion.header
+  initial={{
+    y: -72,
+    opacity: 0,
+  }}
+  animate={{
+    y: visible ? 0 : -72,
+    opacity: visible ? 1 : 0,
+  }}
+  transition={{
+    duration: 0.45,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className={`
+    fixed
+    inset-x-0
+    top-0
+    z-50
+    w-full
 
-window.addEventListener("scroll", handleScroll);
+    transition-[background-color,border-color,backdrop-filter]
+    duration-300
 
-return () =>
-window.removeEventListener("scroll", handleScroll);
-}, []);
-
-return (
-<motion.header
-initial={{ y: -80 }}
-animate={{ y: 0 }}
-transition={{ duration: 0.8 }}
-className={`
-fixed
-top-0
-left-0
-z-50
-w-full
-transition-all
-duration-500
-mx-8
-${
-scrolled
-? "bg-black/40 backdrop-blur-xl"
-: "bg-transparent"
-}
-`}
+    ${
+      scrolled
+        ? "bg-black/15 backdrop-blur-xl border-b border-white/5"
+        : "bg-transparent border-b border-transparent"
+    }
+  `}
 >
-<div className="mx-auto flex h-[72px] max-w-[1600px] items-center justify-between px-8 lg:px-24">
+    
 
-<NavLogo />
+      <Container>
+        <div
+          className="
+            flex
+            items-center
+            justify-between
+            h-[55px]
+          "
+        >
+          <NavLogo />
 
-<NavLinks />
+          <NavLinks />
 
-<NavButton />
-
-</div>
-</motion.header>
-);
+          <NavButton />
+        </div>
+      </Container>
+    </motion.header>
+  );
 }

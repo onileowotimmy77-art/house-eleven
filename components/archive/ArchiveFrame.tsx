@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+import Container from "@/components/layout/Container";
 
 interface ArchiveFrameProps {
   children: ReactNode;
@@ -10,10 +11,10 @@ export default function ArchiveFrame({
   className = "",
 }: ArchiveFrameProps) {
   return (
-    <div
-      className={`mx-auto w-full max-w-6xl px-6 md:px-10 lg:px-16 ${className}`}
-    >
-      {children}
-    </div>
+    <Container className={className}>
+      <div className="mx-auto w-full max-w-5xl">
+        {children}
+      </div>
+    </Container>
   );
 }

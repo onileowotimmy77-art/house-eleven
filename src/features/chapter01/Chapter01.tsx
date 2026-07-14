@@ -13,10 +13,10 @@ import Transition from "../transition/Transition";
 
 export default function Chapter01() {
   return (
-    <Section padding="py-56">
-      <Container className="max-w-[1700px]">
+    <Section padding="py-20">
+      <Container className="max-w-none">
 
-        <SectionHeader className="mt-32"
+        <SectionHeader className="mt-5"
           eyebrow="Chapter01"
           title="Residence"
         />

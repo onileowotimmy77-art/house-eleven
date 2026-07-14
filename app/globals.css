@@ -8,7 +8,7 @@
   --surface:#111111;
   --border:rgba(255, 255, 255, 0.08);
 
-  --gold:#C6A15B;
+  --accent:#C6A15B;
 
   --font-display:"Space Grotesk",sans-serif;
   --font-body:"Inter",sans-serif;
@@ -31,23 +31,18 @@
   --container-width: 1600px;
 }
 
-*{
-  margin-left: 3px;
-  margin-right: 3px;
-  padding: 0px;
-  box-sizing:border-box;
-}
+
 
 html{
   scroll-behavior:smooth;
 }
 
-body{
+body {
   background:var(--background);
   color:var(--foreground);
   font-family:var(--font-body);
   overflow-x:hidden;
-  cursor:none;
+  cursor: none;
 }
 
 a,
@@ -76,17 +71,16 @@ body{
   cursor:none;
 }
 
-*{
-  cursor:none !important;
-}
+
 
 em {
   font-style: italic;
   color: rgba(255,255,255,.92);
 }
 
-#hero-text {
-  display: block;
-  width: 390px;
-  height: 100px;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

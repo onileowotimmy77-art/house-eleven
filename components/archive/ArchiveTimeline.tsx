@@ -2,7 +2,7 @@ export default function ArchiveTimeline() {
   return (
     <section className="bg-[#090909] px-6 py-40 text-[#F5F5F2]">
       <div className="mx-auto max-w-5xl">
-        <p className="mb-6 text-xs uppercase tracking-[0.5em] text-white/40">
+        <p className="mb-6 mt-15 text-xs uppercase tracking-[0.5em] text-white/40">
           TIMELINE
         </p>
 
