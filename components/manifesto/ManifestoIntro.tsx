@@ -5,22 +5,16 @@ import Body from "@/components/ui/typography/Body";
 
 export default function ManifestoIntro() {
   return (
-    <FadeUp>
-      <div className="mx-auto mt-6">
+    <FadeUp delay={0.2}>
+      <div className="mx-auto mt-8 max-w-2xl">
 
         <Body className="text-center leading-[1.9]">
           House Eleven exists for people who believe
-          what they wear should say something 
-          <>
-          <br />
-          </>long
-          before they speak.
+          what they wear should say something long before they speak.
+          
         </Body>
 
-        <div className="mt-10 flex justify-center">
-          <div className="h-px w-24 bg-white/10" />
-        </div>
-
+        
       </div>
     </FadeUp>
   );

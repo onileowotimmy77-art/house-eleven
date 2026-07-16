@@ -96,7 +96,7 @@ const y = useTransform(
       </section>
 
       {/* Product Identity */}
-      <Section padding="pt-40 pb-24">
+      <Section padding="pt-56 pb-24">
         <Container>
           <p
             className="
@@ -110,6 +110,10 @@ const y = useTransform(
             {product.chapter}
           </p>
 
+          <div className="mt-8 mb-10">
+            <div className="h-px w-20 bg-white/10" />
+          </div>
+
           <h1
             className="
               mt-6
@@ -122,18 +126,17 @@ const y = useTransform(
           >
             {product.name}
           </h1>
-
-          <p
-            className="
-              mt-10
-              max-w-2xl
-              text-xl
-              leading-9
-              text-white/60
-            "
-          >
-            {product.description}
-          </p>
+        <p
+  className="
+    mt-16
+    max-w-xl
+    text-[clamp(1.5rem,2vw,2rem)]
+    leading-[1.6]
+    text-white/90
+  "
+>
+  Designed as the defining garment of {product.chapter}.
+</p>
         </Container>
       </Section>
     </>

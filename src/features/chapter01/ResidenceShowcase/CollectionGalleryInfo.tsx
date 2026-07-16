@@ -17,7 +17,7 @@ interface GalleryInfoProps {
 
 export default function GalleryInfo({
   title,
-  description,
+  
   price,
   availableColours,
   availableFits,
@@ -49,17 +49,7 @@ export default function GalleryInfo({
         {title}
       </h3>
 
-      <p
-        className={`
-          mt-4
-          max-w-2xl
-          leading-8
-          text-white/60
-          ${align === "center" ? "text-center" : "text-left"}
-        `}
-      >
-        {description}
-      </p>
+      
 
       {availableColours && (
         <p
@@ -85,23 +75,26 @@ export default function GalleryInfo({
         </p>
       )}
 
-      <div className="mt-8 flex items-center">
+      <div className="mt-8">
 
         {price && (
-          <span className="text-xl font-semibold">
+          <span className="text-xl font-semibold mb-6">
             {price}
           </span>
         )}
 
         <span
   className="
-    ml-auto
-    text-sm
+    inline-flex
+    items-center
+    gap-2
+    
+    text-[11px]
     uppercase
-    tracking-[0.2em]
+    tracking-[0.35em]
     text-white/45
     transition-colors
-    duration-300
+    duration-500
     hover:text-white
   "
 >

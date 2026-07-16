@@ -2,14 +2,17 @@
 
 import Magnetic from "@/components/motion/Magnetic";
 import useCursorTarget from "@/components/cursor/useCursorTarget";
+import { useMenu } from "./MenuProvider";
 
 export default function NavButton() {
-  const cursor = useCursorTarget("ENTER");
+  const cursor = useCursorTarget("MENU");
+  const { toggleMenu } = useMenu();
 
   return (
     <Magnetic>
       <button
         {...cursor}
+        onClick={toggleMenu}
         className="
           rounded-full
           border
@@ -30,7 +33,7 @@ export default function NavButton() {
           hover:bg-white/5
         "
       >
-        ENTER
+        MENU
       </button>
     </Magnetic>
   );

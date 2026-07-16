@@ -32,7 +32,7 @@ export default function FinaleNavigation() {
             text-sm
             uppercase
             tracking-[0.45em]
-            text-white/45
+            text-white/40
             transition
             duration-300
             hover:text-white

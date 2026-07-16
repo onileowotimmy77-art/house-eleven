@@ -50,7 +50,7 @@ export default function Navbar() {
             flex
             items-center
             justify-between
-            h-[55px]
+            h-[72px]
           "
         >
           <NavLogo />

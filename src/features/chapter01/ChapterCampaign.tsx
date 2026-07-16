@@ -25,13 +25,12 @@ export default function ChapterCampaign() {
       className="
         relative
         overflow-hidden
-        
       "
     >
       <div
         className="
           relative
-          h-[90vh]
+          h-screen
           min-h-[700px]
           w-full
         "
@@ -40,7 +39,21 @@ export default function ChapterCampaign() {
           src="/chapter01.jpg"
           alt="House Eleven Residence Campaign"
           fill
+          priority
           className="object-cover"
+        />
+
+        {/* Editorial Grounding */}
+        <div
+          className="
+            absolute
+            inset-0
+            bg-gradient-to-t
+            from-black/55
+            via-black/10
+            to-transparent
+            pointer-events-none
+          "
         />
       </div>
     </motion.div>

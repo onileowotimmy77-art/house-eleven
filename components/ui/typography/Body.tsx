@@ -16,7 +16,7 @@ export default function Body({
         text-lg
         leading-9
         md:leading-10
-        text-white/70
+        text-white/80
         `,
         className
       )}

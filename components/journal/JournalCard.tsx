@@ -103,7 +103,7 @@ export default function JournalCard({
               text-xs
               uppercase
               tracking-[0.45em]
-              text-white/50
+              text-white/60
               transition-colors
               duration-300
               hover:text-white

@@ -30,17 +30,17 @@ export default function ProductPage({
     <>
       <ProductHero product={product} />
 
-      <ProductStory product={product} />
+<ProductStory product={product} />
 
-      <ProductCraftsmanship product={product} />
+<ProductGallery product={product} />
 
-      <ProductSpecs product={product} />
+<ProductCraftsmanship product={product} />
 
-      <ProductGallery product={product} />
+<ProductSpecs product={product} />
 
-      <ProductAcquisition product={product} />
+<ProductAcquisition product={product} />
 
-      <ProductFinale />
+<ProductFinale />
     </>
   );
 }

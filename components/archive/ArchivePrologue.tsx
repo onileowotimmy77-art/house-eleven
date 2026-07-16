@@ -10,7 +10,7 @@ export default function ArchivePrologue() {
 
           {/* Heading */}
           <div className="col-span-12">
-            <p className="mb-6 text-xs uppercase tracking-[0.5em] text-white/45">
+            <p className="mb-6 text-xs uppercase tracking-[0.5em] text-white/40">
               PROLOGUE
             </p>
 
@@ -46,13 +46,13 @@ export default function ArchivePrologue() {
           >
             <Reveal>
               <div className="max-w-[34rem] space-y-10">
-                <p className="text-lg leading-9 text-white/65 md:text-xl md:leading-10">
+                <p className="text-lg leading-9 text-white/60 md:text-xl md:leading-10">
                   House Eleven does not begin with garments.
                   Every chapter starts as a question, a thought,
                   or an observation waiting to take form.
                 </p>
 
-                <p className="text-lg leading-9 text-white/65 md:text-xl md:leading-10">
+                <p className="text-lg leading-9 text-white/60 md:text-xl md:leading-10">
                   The Archive exists to preserve that journey...
                   from concept to object, and from object
                   to memory.

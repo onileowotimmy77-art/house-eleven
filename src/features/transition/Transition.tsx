@@ -2,26 +2,17 @@
 
 import FadeUp from "@/components/ui/FadeUp";
 import Container from "@/components/layout/Container";
+import Editorial from "@/components/ui/typography/Editorial";
 
 export default function Transition() {
   return (
-    <section className="min-h-[50vh] flex items-center justify-center py-24">
-      <Container className="max-w-6xl">
+    <section className="min-h-[60vh] flex items-center justify-center">
+      <Container className="max-w-5xl">
 
-        <FadeUp>
-          <h2
-            className="
-              text-center
-              mt-20
-              font-black
-              uppercase
-              tracking-[-0.05em]
-              leading-[1]
-              text-[clamp(3rem,6vw,5.5rem)]
-            "
-          >
-            Every piece begins with intention.
-          </h2>
+        <FadeUp delay={0.2}>
+          <Editorial className="text-center">
+            Every piece is a decision.
+          </Editorial>
         </FadeUp>
 
       </Container>

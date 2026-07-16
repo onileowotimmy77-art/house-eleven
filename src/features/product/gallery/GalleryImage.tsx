@@ -35,10 +35,7 @@ export default function GalleryImage({
         fill
         className="
           object-cover
-          transition-transform
-          duration-1000
-          ease-out
-          hover:scale-[1.03]
+          
         "
       />
 

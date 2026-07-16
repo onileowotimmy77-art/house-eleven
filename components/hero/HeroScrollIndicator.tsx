@@ -54,7 +54,7 @@ export default function HeroScrollIndicator() {
               text-[10px]
               uppercase
               tracking-[0.45em]
-              text-white/45
+              text-white/40
             "
           >
             SCROLL

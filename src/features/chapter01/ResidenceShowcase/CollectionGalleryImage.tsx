@@ -17,6 +17,8 @@ export default function GalleryImage({
     <div
       className={`
         relative
+        w-full
+        min-w-0
         overflow-hidden
         bg-neutral-900
 
@@ -33,8 +35,11 @@ export default function GalleryImage({
         fill
         className="
           object-cover
-  
-          hover:rotate-6
+          transition-transform
+          duration-[1200ms]
+          ease-out
+          group-hover:scale-[1.025]
+
         "
       />
 

@@ -1,6 +1,6 @@
 "use client";
 
-import GalleryItem from "@/src/features/product/CollectionGalleryItem";
+import GalleryItem from "@/src/features/chapter01/ResidenceShowcase/CollectionGalleryItem";
 
 export default function ResidenceGrid() {
   return (
@@ -13,13 +13,13 @@ export default function ResidenceGrid() {
         <div
           className="
             grid
-            gap-24
+            gap-15
             
             lg:grid-cols-12
           "
         >
           {/* Sweatshirt */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-6">
           <GalleryItem
             editorial
             eyebrow="Layer"
@@ -32,7 +32,7 @@ export default function ResidenceGrid() {
         </div>
 
           {/* Hoodie */}
-         <div className="lg:col-span-5 lg:pt-32">
+         <div className="lg:col-span-6 lg:pt-32">
           <GalleryItem
             editorial
             eyebrow="Layer"
@@ -45,7 +45,7 @@ export default function ResidenceGrid() {
         </div>
 
           {/* Tee 01 */}
-         <div className="lg:col-span-5 lg:pt-32">
+         <div className="lg:col-span-6 lg:pt-32">
           <GalleryItem
             editorial
             eyebrow="Essential"
@@ -57,7 +57,7 @@ export default function ResidenceGrid() {
           />
          </div>
           {/* Tee 02 */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-6">
           <GalleryItem
             editorial
             eyebrow="Essential"

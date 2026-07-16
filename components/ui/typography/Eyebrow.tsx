@@ -18,7 +18,7 @@ export default function Eyebrow({
         text-xs
         uppercase
         tracking-[0.45em]
-        text-white/45
+        text-white/40
         `,
         className
       )}

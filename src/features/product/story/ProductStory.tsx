@@ -18,17 +18,17 @@ export default function ProductStory({
       <Container>
         <div className="max-w-5xl">
           <Eyebrow>
-            The Story
+            Chapter notes
           </Eyebrow>
 
           <Display className="mt-8">
-            Every garment begins long before the first stitch.
+            Clothing becomes beautiful when it carries memories
           </Display>
 
           <Body
             className="
               mt-10
-              max-w-3xl
+              max-w-2xl
               text-xl
               leading-9
               text-white/60

@@ -17,21 +17,21 @@ export default function ProductCraftsmanship({
     <Section padding="pt-32 pb-56 mt-25">
       <Container>
         <Eyebrow>
-          Craftsmanship
+          Construction
         </Eyebrow>
 
         <Display className="mt-8 max-w-5xl">
-          Every proportion, seam and silhouette is considered with intention.
+          Nothing exists by accident.
         </Display>
 
-        <div className="mt-15 grid gap-16 lg:grid-cols-3">
-          {product.craftsmanship.map((item) => (
+        <div className="mt-20 grid gap-x-24 gap-y-20 lg:grid-cols-2">
+          {product.craftsmanship.map((item, index) => (
             <div key={item.title}>
               <h3
                 className="
-                  text-2xl
-                  font-bold
-                  uppercase
+                  text-[1.65rem]
+                  font-semibold
+                  
                   tracking-[-0.03em]
                 "
               >
@@ -45,9 +45,15 @@ export default function ProductCraftsmanship({
                   text-white/60
                 "
               >
-                {item.body}
+                {item.description}
               </p>
+
+              {index < 2 && ( 
+
+              <div className="mt-10 h-px w-16 bg-white/10" />
+              )}
             </div>
+
           ))}
         </div>
       </Container>

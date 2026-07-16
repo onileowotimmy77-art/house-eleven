@@ -72,7 +72,7 @@ group-hover:scale-[1.05]
 {name}
 </h3>
 
-<p className="mt-2 font-mono text-xs uppercase tracking-[0.35em] text-white/45">
+<p className="mt-2 font-mono text-xs uppercase tracking-[0.35em] text-white/40">
 {role}
 </p>
 </div>

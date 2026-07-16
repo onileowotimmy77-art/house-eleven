@@ -17,7 +17,7 @@ export default function Chapter01() {
       <Container className="max-w-none">
 
         <SectionHeader className="mt-5"
-          eyebrow="Chapter01"
+          eyebrow="Chapter I"
           title="Residence"
         />
 

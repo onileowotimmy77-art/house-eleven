@@ -13,7 +13,7 @@ import {
   mono,
   editorial,
 } from "./fonts";
-
+import { MenuProvider } from "@/components/navigation/MenuProvider";
 
 
 
@@ -59,6 +59,7 @@ export default function RootLayout({
       
       
           <div className="relative z-10">
+            <MenuProvider>
             <AppTransitionProvider>
               <CursorProvider>
                 <AnimationProvider>
@@ -71,6 +72,7 @@ export default function RootLayout({
                 </AnimationProvider>
               </CursorProvider>
             </AppTransitionProvider>
+            </MenuProvider>
           </div>
        
 

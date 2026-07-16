@@ -19,7 +19,7 @@ export default function FinaleWordmark() {
         ELEVEN
       </h2>
 
-      <p className="mt-12 text-xl text-white/55">
+      <p className="mt-12 text-xl text-white/60">
         Second To None.
       </p>
     </Reveal>

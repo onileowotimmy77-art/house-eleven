@@ -24,7 +24,7 @@ export default function EditorialLink({
         text-[11px]
         uppercase
         tracking-[0.45em]
-        text-white/65
+        text-white/60
         transition-all
         duration-500
         hover:text-white

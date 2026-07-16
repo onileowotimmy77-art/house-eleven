@@ -8,7 +8,7 @@ import ResidenceGrid from "./ResidenceGrid";
 
 export default function ResidenceShowcase() {
   return (
-    <Section padding="py-48">
+    <Section padding="pt-64 pb-48">
       <Container>
 
         <FeaturedResidence />

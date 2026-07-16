@@ -2,31 +2,73 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";import HoverCard from "@/components/motion/HoverCard";
+import { useCursorContext } from "@/components/cursor/CursorProvider";
+
 
 export default function FeaturedResidence() {
+  const { setHovering, setLabel } = useCursorContext();
   return (
-    <section className="mb-50">
-
+    <HoverCard>
+  <section
+    className="mb-50"
+    onMouseEnter={() => {
+      setHovering(true);
+      setLabel("VIEW");
+    }}
+    onMouseLeave={() => {
+      setHovering(false);
+      setLabel("");
+    }}
+  >
       {/* Campaign Image */}
-      <div
-        className="
-          relative
-          mt-3
-          h-[120vh]
-        
-          overflow-hidden
-          bg-neutral-900
-        "
-      >
-        <Image
-          src="/chapter01.jpg"
-          alt="Residence Polo"
-          fill
-          priority
-          className="
-            object-cover
-          "
-        />
+      <motion.div
+  initial={{
+    opacity: 0,
+    scale: 1.08,
+    y: 50,
+  }}
+  whileInView={{
+    opacity: 1,
+    scale: 1,
+    y: 0,
+  }}
+  viewport={{
+    once: true,
+    amount: 0.25,
+  }}
+  transition={{
+    duration: 1.8,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="
+    relative
+    mx-auto
+    mt-3
+    h-[110vh]
+    max-w-6xl
+    overflow-hidden
+    bg-neutral-900
+  "
+>
+        <motion.div
+  whileHover={{
+    scale: 1.025,
+  }}
+  transition={{
+    duration: 1.2,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="absolute inset-0"
+>
+  <Image
+    src="/chapter01.jpg"
+    alt="Residence Polo"
+    fill
+    priority
+    className="object-cover"
+  />
+</motion.div>
 
         <div
           className="
@@ -38,31 +80,21 @@ export default function FeaturedResidence() {
             to-transparent
           "
         />
-      </div>
+      </motion.div>
 
       {/* Editorial Content */}
       <div
         className="
-          mt-20
+          mt-10
           max-w-4xl
         
         "
       >
-        <p
-          className="
-            font-mono
-            text-[11px]
-            uppercase
-            tracking-[0.45em]
-            text-white/40
-          "
-        >
-          Signature Piece
-        </p>
+       
 
         <h2
           className="
-            mt-7
+            mt-5
             text-[clamp(4.5rem,9vw,8rem)]
             font-black
             uppercase
@@ -73,24 +105,13 @@ export default function FeaturedResidence() {
           Residence Polo
         </h2>
 
+        
         <p
           className="
-            mt-4
-            font-mono
-            text-xs
-            uppercase
-            tracking-[0.35em]
-            text-white/35
-            "
-        >
-            Chapter 01
-        </p>
-        <p
-          className="
-            mt-6
-            max-w-3xl
-            text-xl
-            leading-9
+            mt-8
+            max-w-2xl
+            text-lg
+            leading-8
             text-white/60
           "
         >
@@ -114,11 +135,12 @@ export default function FeaturedResidence() {
             hover:text-white
           "
         >
-          View
+          Explore
           <span>→</span>
         </Link>
       </div>
 
     </section>
+    </HoverCard>
   );
 }

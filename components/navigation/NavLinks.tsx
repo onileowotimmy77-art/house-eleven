@@ -10,8 +10,8 @@ export default function NavLinks() {
         hidden
         lg:flex
         items-center
-        gap-12
-        xl:gap-14
+        gap-14
+        xl:gap-16
       "
     >
       {navItems.map((item) => (

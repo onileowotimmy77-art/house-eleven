@@ -14,7 +14,7 @@ export default function ArchiveTimeline() {
               Chapter 01 — The Foundation
             </h3>
 
-            <p className="max-w-xl leading-8 text-white/70">
+            <p className="max-w-xl leading-8 text-white/60">
               The inaugural chapter of House Eleven. A study in identity,
               restraint, and the beginning of a living archive.
             </p>

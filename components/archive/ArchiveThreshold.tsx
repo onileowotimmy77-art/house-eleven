@@ -44,7 +44,7 @@ export default function ArchiveThreshold() {
                   max-w-[30rem]
                   text-lg
                   leading-9
-                  text-white/65
+                  text-white/60
                 "
               >
                 Every chapter begins

@@ -5,6 +5,8 @@ import { collections } from "@/data/collections";
 import CollectionHero from "@/components/collections/CollectionHero";
 import CollectionStory from "@/components/collections/CollectionStory";
 import CollectionQuote from "@/components/collections/CollectionQuote";
+import CollectionCampaign from "@/components/collections/CollectionsCampaign";
+import CollectionPieces from "@/components/collections/CollectionPieces";
 
 interface PageProps {
   params: Promise<{
@@ -28,7 +30,9 @@ export default async function CollectionPage({
   return (
     <>
       <CollectionHero collection={collection} />
+      <CollectionCampaign collection={collection}/>
       <CollectionStory collection={collection} />
+      <CollectionPieces collection={collection} />
       <CollectionQuote collection={collection} />
     </>
   );

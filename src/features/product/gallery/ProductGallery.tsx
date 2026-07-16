@@ -26,7 +26,7 @@ export default function ProductGallery({
         aspect={hero.aspect}
       />
 
-      <Container className="mt-40">
+      <Container className="mt-56">
 
         <div className="grid gap-16 lg:grid-cols-2">
 
@@ -46,7 +46,7 @@ export default function ProductGallery({
 
       </Container>
 
-      <div className="mt-40">
+      <div className="mt-56">
 
         <GalleryImage
           image={finale.image}

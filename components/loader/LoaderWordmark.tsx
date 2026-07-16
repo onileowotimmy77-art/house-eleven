@@ -78,7 +78,7 @@ export default function LoaderWordmark() {
           text-[11px]
           uppercase
           tracking-[0.45em]
-          text-white/45
+          text-white/40
         "
       >
         SECOND TO NONE.

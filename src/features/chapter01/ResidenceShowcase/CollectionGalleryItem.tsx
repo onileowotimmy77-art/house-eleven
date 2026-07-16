@@ -6,6 +6,7 @@ import GalleryImage from "./CollectionGalleryImage";
 import GalleryInfo from "./CollectionGalleryInfo";
 import HoverCard from "@/components/motion/HoverCard";
 import Reveal from "@/components/motion/Reveal";
+import { useCursorContext } from "@/components/cursor/CursorProvider";
 
 interface GalleryItemProps {
   title: string;
@@ -24,6 +25,7 @@ interface GalleryItemProps {
   align?: "left" | "center";
 }
 
+
 export default function GalleryItem({
   title,
   description,
@@ -37,12 +39,23 @@ export default function GalleryItem({
   eyebrow,
   align = "left",
 }: GalleryItemProps) {
+  const { setHovering, setLabel } = useCursorContext();
   return (
     <Reveal>
       <HoverCard>
         <article
-          className={featured ? "mx-auto max-w-[1400px]" : ""}
-        >
+            className={`group w-full min-w-0 ${
+            featured ? "mx-auto max-w-[1400px]" : ""
+            }`}
+            onMouseEnter={() => {
+              setHovering(true);
+              setLabel("VIEW");
+            }}
+            onMouseLeave={() => {
+               setHovering(false);
+               setLabel("");
+            }}
+         >
           <Link href={href} className="block">
             <GalleryImage
               image={image}

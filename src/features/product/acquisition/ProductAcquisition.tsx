@@ -27,7 +27,7 @@ export default function ProductAcquisition({
               text-white/40
             "
           >
-            Ready to Wear
+            Current Edition
           </p>
 
           <h2
@@ -45,14 +45,27 @@ export default function ProductAcquisition({
 
           <p
             className="
-              mt-8
-              text-3xl
-              font-semibold
+              mt-10
+              text-xl
+              font-medium
+              text-wgite/65
             "
           >
             {product.price}
           </p>
 
+          <p
+  className="
+    mb-6
+    font-mono
+    text-[11px]
+    uppercase
+    tracking-[0.4em]
+    text-white/40
+  "
+>
+  Select Size
+</p>
           <div
             className="
               mt-16
@@ -61,20 +74,23 @@ export default function ProductAcquisition({
               gap-4
             "
           >
-            {["S", "M", "L", "XL"].map((size) => (
+            {product.sizes.map((size) => (
               <button
                 key={size}
                 className="
                   border
-                  border-white/15
-                  px-8
+                  border-white/10
+                  px-10
                   py-4
-                  text-sm
+                  font-mono
+                  text-xs
                   uppercase
-                  tracking-[0.3em]
-                  transition-colors
+                  tracking-[0.45em]
+                  text-white/70
+                  transition-all
                   duration-300
-                  hover:border-white
+                  hover:border-white/40
+                  hover:text-white
                 "
               >
                 {size}
@@ -83,20 +99,29 @@ export default function ProductAcquisition({
           </div>
 
           <button
-            className="
-              mt-20
-              mb-20
-              text-sm
-              uppercase
-              tracking-[0.35em]
-              transition-opacity
-              duration-300
-              hover:opacity-60
-            "
-          >
-            Acquire Piece →
-          </button>
-
+  className="
+    mt-20
+    inline-flex
+    items-center
+    gap-4
+    border-b
+    border-white/20
+    pb-3
+    font-mono
+    text-[11px]
+    uppercase
+    tracking-[0.45em]
+    text-white/80
+    transition-all
+    duration-300
+    hover:gap-6
+    hover:border-white/60
+    hover:text-white
+  "
+>
+  Acquire Piece
+  <span aria-hidden>→</span>
+</button>
         </div>
       </Container>
     </Section>

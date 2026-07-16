@@ -54,11 +54,11 @@ export const products: Product[] = [
     subtitle: "Heavyweight Cotton Piqué",
 
     description:
-      "A refined everyday polo designed with architectural simplicity, premium construction, and effortless comfort.",
+      "The defining garment of Chapter I",
 
     price: "₦95,000",
 
-    chapter: "01",
+    chapter: "CHAPTER I",
 
     collection: "Residence",
 
@@ -77,7 +77,7 @@ export const products: Product[] = [
     heroImage: "/products/residence-polo/hero.jpg",
 
     story:
-      "Residence explores quiet confidence through timeless silhouettes. Every seam, proportion, and fabric choice exists to create garments that feel considered rather than loud.",
+  "Residence was never designed to compete for attention. It was created for those who understand that presence doesn't need permission. Every proportion, every material, and every decision reflects the belief that the pieces we return to most are the ones that quietly become part of our lives.",
 
     craftsmanship: [
   {

@@ -28,10 +28,10 @@ export default function NavLink({
           text-[11px]
           font-medium
           tracking-[0.34em]
-          text-white/55
-          transition-all
-          duration-500
-          hover:text-white
+          text-white/45
+          transition-colors
+          duration-300
+          hover:text-white/90
         "
       >
         {label}

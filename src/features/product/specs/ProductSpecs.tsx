@@ -43,7 +43,7 @@ export default function ProductSpecs({
   return (
     <Section padding="py-48 mt-28">
       <Container>
-        <Eyebrow>Specifications</Eyebrow>
+        <Eyebrow>Details</Eyebrow>
 
         <div className="mt-12 border-t border-white/10">
           {specifications.map((spec) => (
@@ -55,7 +55,7 @@ export default function ProductSpecs({
                 gap-3
                 border-b
                 border-white/10
-                py-8
+                py-10
                 md:flex-row
                 md:items-center
                 md:justify-between
@@ -75,9 +75,9 @@ export default function ProductSpecs({
 
               <span
                 className="
-                  text-2xl
-                  font-semibold
-                  tracking-[-0.03em]
+                  text-xl
+                  font-medium
+                  tracking-[-0.02em]
                   text-white
                 "
               >
