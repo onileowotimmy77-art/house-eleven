@@ -6,13 +6,15 @@ import {
   useState,
 } from "react";
 
+import { motion } from "framer-motion";
+
 import { Collection } from "@/types/collection";
 
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
-import PieceRow from "./PieceRow";
 import PiecePreview from "./PiecePreview";
+import PieceRow from "./PieceRow";
 
 interface CollectionPiecesProps {
   collection: Collection;
@@ -22,37 +24,98 @@ export default function CollectionPieces({
   collection,
 }: CollectionPiecesProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [showPreview, setShowPreview] = useState(false);
 
   const rowRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const hovering = useRef(false);
+  const previewVisible = useRef(false);
+
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (hovering.current) return;
+ const updateActivePiece = () => {
+  const viewportCenter = window.innerHeight / 2;
 
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
+  let closestIndex = -1;
+  let closestDistance = Number.POSITIVE_INFINITY;
 
-          const index = Number(
-            entry.target.getAttribute("data-index")
-          );
+  rowRefs.current.forEach((row, index) => {
+    if (!row) return;
 
-          setActiveIndex(index);
-        });
-      },
+    const rect = row.getBoundingClientRect();
+
+    const rowCenter = rect.top + rect.height / 2;
+
+    const distance = Math.abs(
+      rowCenter - viewportCenter
+    );
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
+    }
+  });
+
+  if (closestIndex === -1) {
+    if (previewVisible.current) {
+      previewVisible.current = false;
+      setShowPreview(false);
+    }
+    return;
+  }
+
+  // Hysteresis:
+  // Appear when very close to center.
+  // Stay visible until much farther away.
+
+  const ENTER_DISTANCE = 250;
+  const EXIT_DISTANCE = 220;
+
+  if (!previewVisible.current) {
+    if (closestDistance <= ENTER_DISTANCE) {
+      previewVisible.current = true;
+      setShowPreview(true);
+    }
+  } else {
+    if (closestDistance >= EXIT_DISTANCE) {
+      previewVisible.current = false;
+      setShowPreview(false);
+    }
+  }
+
+  
+    setActiveIndex((current) =>
+      current === closestIndex
+        ? current
+        : closestIndex
+    );
+  }
+
+
+    updateActivePiece();
+
+    window.addEventListener(
+      "scroll",
+      updateActivePiece,
       {
-        root: null,
-        rootMargin: "-35% 0px -35% 0px",
-        threshold: 0,
+        passive: true,
       }
     );
 
-    rowRefs.current.forEach((row) => {
-      if (row) observer.observe(row);
-    });
+    window.addEventListener(
+      "resize",
+      updateActivePiece
+    );
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener(
+        "scroll",
+        updateActivePiece
+      );
+
+      window.removeEventListener(
+        "resize",
+        updateActivePiece
+      );
+    };
   }, []);
 
   if (!collection.pieces.length) {
@@ -60,7 +123,7 @@ export default function CollectionPieces({
   }
 
   return (
-    <Section padding="py-40">
+    <Section padding="pt-40 pb-[55vh]">
       <Container>
         <div className="max-w-2xl">
           <p
@@ -100,45 +163,44 @@ export default function CollectionPieces({
           </p>
         </div>
 
-        <div
-          className="
-            mt-32
-            grid
-            gap-24
-            lg:grid-cols-[1fr_520px]
-          "
-        >
-          <div>
+        <div className="relative mt-32">
+          <div className="max-w-[58rem]">
             {collection.pieces.map((piece, index) => (
               <PieceRow
                 key={piece.code}
                 piece={piece}
                 active={activeIndex === index}
-                onHover={() => {
-                  hovering.current = true;
-                  setActiveIndex(index);
-                }}
+                onHover={() => setActiveIndex(index)}
                 rowRef={(node) => {
                   rowRefs.current[index] = node;
-
-                  if (node) {
-                    node.setAttribute(
-                      "data-index",
-                      index.toString()
-                    );
-                  }
                 }}
               />
             ))}
           </div>
 
-          <div className="relative">
-            <div className="sticky top-32">
-              <PiecePreview
-                piece={collection.pieces[activeIndex]}
-              />
-            </div>
-          </div>
+          <motion.div
+            initial={false}
+            animate={{
+              opacity: showPreview ? 1 : 0,
+            }}
+            transition={{
+              duration: 0.2,
+            }}
+            className="
+              hidden
+              lg:block
+              fixed
+              top-25
+              right-[max(2rem,calc((100vw-1440px)/2))]
+              w-[280px]
+              pointer-events-none
+              z-20
+            "
+          >
+            <PiecePreview
+              piece={collection.pieces[activeIndex]}
+            />
+          </motion.div>
         </div>
       </Container>
     </Section>

@@ -11,7 +11,7 @@ import { journal } from "@/src/data/journal";
 export default function JournalList() {
   return (
     <EditorialSection>
-      <div className="border-t border-white/10">
+      <div>
         {journal.map((entry) => (
           <article
             key={entry.slug}

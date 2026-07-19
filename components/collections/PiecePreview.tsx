@@ -13,22 +13,21 @@ export default function PiecePreview({
   piece,
 }: PiecePreviewProps) {
   return (
-    <div className="relative h-full">
     <div
       className="
-        
+        relative
         aspect-[4/5]
         overflow-hidden
         rounded-sm
         bg-white/5
       "
     >
-      <AnimatePresence mode="wait">
+      <AnimatePresence initial={false} mode="sync">
         <motion.div
           key={piece.image}
           initial={{
             opacity: 0,
-            scale: 1.04,
+            scale: 1.008,
           }}
           animate={{
             opacity: 1,
@@ -36,11 +35,11 @@ export default function PiecePreview({
           }}
           exit={{
             opacity: 0,
-            scale: 0.98,
+            scale: 0.995,
           }}
           transition={{
-            duration: 0.32,
-            ease: [0.4, 0, 0.2, 1],
+            duration: 0.14,
+            ease: [0.22, 1, 0.36, 1],
           }}
           className="absolute inset-0"
         >
@@ -48,12 +47,11 @@ export default function PiecePreview({
             src={piece.image}
             alt={piece.name}
             fill
-            className="object-cover"
             priority
+            className="object-cover"
           />
         </motion.div>
       </AnimatePresence>
-    </div>
     </div>
   );
 }
