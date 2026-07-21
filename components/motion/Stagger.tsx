@@ -19,7 +19,7 @@ export default function Stagger({
       initial="hidden"
       whileInView="show"
       viewport={{
-        once: true,
+        once: ,
         amount: 0.25,
       }}
       className={className}
