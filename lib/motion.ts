@@ -12,3 +12,5 @@ export const MotionViewport = {
   once: true,
   amount: 0.2,
 } as const;
+
+export const MK
