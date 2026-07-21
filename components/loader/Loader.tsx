@@ -5,7 +5,7 @@ import LoaderWordmark from "./LoaderWordmark";
 import useLoading from "@/lib/hooks/useLoading";
 import { useEffect } from "react";
 import { useAppTransition } from "../providers/AppTransitionProvider";
-import {  MotionDuration, MotionEase } from "@/lib/motion";
+import { MotionDelay, MotionDuration, MotionEase } from "@/lib/motion";
 
 export default function Loader() {
   const loading = useLoading();
@@ -34,8 +34,8 @@ export default function Loader() {
             opacity: 0,
             y: -60,
             transition: {
-              duration: MotionDuration.slow
-              ease: MotionEase.standard
+              duration: MotionDuration.slow,
+              ease: MotionEase.standard,
             },
           }}
           className="
