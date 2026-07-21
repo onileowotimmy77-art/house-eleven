@@ -8,7 +8,7 @@ import Container from "@/components/layout/Container";
 
 import JournalContent from "./JournalContent";
 
-import { fadeUp, imageReveal } from "@/lib/animations";
+import { FadeUp
 
 export default function JournalHero() {
   return (
@@ -18,7 +18,7 @@ export default function JournalHero() {
     >
       <Container>
         <div className="grid gap-20 lg:gap-28">
-          <motion.div {...fadeUp}>
+          <motion.div {...FadeUp}>
             <JournalContent />
           </motion.div>
 
