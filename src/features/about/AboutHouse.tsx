@@ -11,7 +11,7 @@ import {
   Body,
 } from "@/components/ui/typography";
 
-import { fadeUp } from "@/lib/animations";
+import FadeUp from "@/components/ui/FadeUp";
 
 export default function AboutHouse() {
   return (
@@ -26,7 +26,7 @@ export default function AboutHouse() {
           {/* Main Editorial Column */}
 
           <motion.div
-            {...fadeUp}
+            {...FadeUp}
             className="
               col-span-12
               lg:col-span-7
