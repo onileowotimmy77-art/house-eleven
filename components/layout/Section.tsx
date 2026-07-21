@@ -6,7 +6,17 @@ import {
 interface SectionProps {
   children: React.ReactNode;
   className?: string;
+
+  /**
+   * Uses the global spacing system.
+   */
   padding?: SectionSpacingKey;
+
+  /**
+   * Allows bespoke spacing for unique experiences
+   * like Product Pages without polluting the
+   * global spacing tokens.
+   */
   customPadding?: string;
 }
 
@@ -14,6 +24,7 @@ export default function Section({
   children,
   className = "",
   padding = "lg",
+  customPadding,
 }: SectionProps) {
   return (
     <section
