@@ -9,7 +9,7 @@ import Stagger from "@/components/motion/Stagger";
 export default function Residents() {
 return (
 <Section
-  padding="py-48"
+  customPadding="py-48"
 >
     <Container>
        <SectionHeader  

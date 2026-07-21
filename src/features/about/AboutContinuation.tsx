@@ -15,7 +15,7 @@ import { fadeUp } from "@/lib/motion";
 
 export default function AboutContinuation() {
   return (
-    <Section padding="py-56">
+    <Section customPadding="py-56">
       <Container>
         <motion.div
           {...fadeUp}
