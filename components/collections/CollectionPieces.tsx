@@ -123,7 +123,7 @@ export default function CollectionPieces({
   }
 
   return (
-    <Section padding="pt-40 pb-[55vh]">
+    <Section customPadding="pt-40 pb-[55vh]">
       <Container>
         <div className="max-w-2xl">
           <p

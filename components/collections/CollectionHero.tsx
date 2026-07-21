@@ -14,7 +14,7 @@ export default function CollectionHero({
   collection,
 }: CollectionHeroProps) {
   return (
-    <Section padding="pt-40 pb-40">
+    <Section customPadding="pt-40 pb-40">
       <Container>
         <Reveal>
           <p

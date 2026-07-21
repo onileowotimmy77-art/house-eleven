@@ -14,7 +14,7 @@ export default function CollectionQuote({
   collection,
 }: CollectionQuoteProps) {
   return (
-    <Section padding="py-32">
+    <Section customPadding="py-32">
       <Container>
         <Reveal>
           <blockquote className="max-w-4xl text-5xl font-black leading-tight tracking-[-0.04em]">
