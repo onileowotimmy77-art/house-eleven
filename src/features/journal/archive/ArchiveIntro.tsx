@@ -10,12 +10,12 @@ import {
   Eyebrow,
 } from "@/components/ui/typography";
 
-import { fadeUp } from "@/lib/motion";
+import { fadeUp } from "@/lib/animations";
 
 export default function ArchiveIntro() {
   return (
     <EditorialSection
-      padding="pt-56 pb-24"
+      customPadding="pt-56 pb-24"
     >
       <motion.div
         {...fadeUp}
