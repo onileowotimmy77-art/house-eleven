@@ -1,3 +1,5 @@
+import { Layout } from "@/src/lib/spacing";
+
 interface ContainerProps {
 children: React.ReactNode;
 className?: string;
@@ -13,7 +15,7 @@ className={`
 mx-auto
 w-full
 max-w-none
-
+${Layout.gutter}
 ${className}
 `}
 >
