@@ -50,7 +50,7 @@ export default function FeaturedEditorial() {
 
           <Display
             className="
-              mb-8
+              mt-8
               max-w-xl
             "
           >
