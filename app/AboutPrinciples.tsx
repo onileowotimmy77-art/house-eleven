@@ -10,7 +10,7 @@ import {
   Display,
 } from "@/components/ui/typography";
 
-import { fadeUp } from "@/lib/motion";
+import { fadeUp } from "@/lib/animation";
 
 const principles = [
   {
