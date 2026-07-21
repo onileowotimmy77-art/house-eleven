@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import LoaderWordmark from "./LoaderWordmark";
-import useLoading from "@/lib/hooks/useLoading";
+import useLoading from "@/lib/hooks/useIntroLoader";
 import { useEffect } from "react";
 import { useAppTransition } from "../providers/AppTransitionProvider";
 import { MotionDelay, MotionDuration, MotionEase } from "@/lib/motion";

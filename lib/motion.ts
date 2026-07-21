@@ -15,5 +15,5 @@ export const MotionViewport = {
 
 export const MotionDelay = {
   loaderComplete: 0.25,
-  minimumLosder
+  minimumLoader: 2.6,
 } as const;
