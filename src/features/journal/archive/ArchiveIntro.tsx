@@ -10,7 +10,6 @@ import {
   Eyebrow,
 } from "@/components/ui/typography";
 
-import FadeUp from "@/components/ui/FadeUp";
 
 export default function ArchiveIntro() {
   return (
@@ -18,7 +17,7 @@ export default function ArchiveIntro() {
       padding="pt-56 pb-24"
     >
       <motion.div
-        {...FadeUp}
+       
         className="max-w-4xl"
       >
         <Eyebrow>
