@@ -52,7 +52,7 @@ export default function JournalArticle({
       </EditorialSection>
 
       {/* First Image */}
-      <section className="px-8">
+      <Section customPadding="py-45">
         <div className="relative mx-auto aspect-[16/9] max-w-7xl overflow-hidden">
           <Image
             src={article.gallery[0].image}
