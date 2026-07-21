@@ -11,12 +11,12 @@ import {
   Body,
 } from "@/components/ui/typography";
 
-import { fadeUp } from "@/lib/motion";
+import { fadeUp } from "@/lib/animations";
 
 export default function AboutHero() {
   return (
     <Section
-      padding="py-0"
+     customPadding="py-0"
       className="min-h-screen mt-30 flex items-center"
     >
       <Container>
