@@ -15,7 +15,7 @@ import { fadeUp } from "@/lib/motion";
 
 export default function AboutHouse() {
   return (
-    <Section padding="py-56">
+    <Section seadding="py-56">
       <Container>
         <div className="grid grid-cols-12">
 
