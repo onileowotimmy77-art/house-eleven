@@ -8,7 +8,7 @@ import Container from "@/components/layout/Container";
 export default function ProductFinale() {
   return (
     <Section
-      padding="py-64"
+      customPadding="py-64"
       className="border-t border-white/10"
     >
       <Container>

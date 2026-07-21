@@ -14,7 +14,7 @@ export default function ProductCraftsmanship({
   product,
 }: ProductCraftsmanshipProps) {
   return (
-    <Section padding="pt-32 pb-56 mt-25">
+    <Section customPadding="pt-32 pb-56 mt-25">
       <Container>
         <Eyebrow>
           Construction
