@@ -15,11 +15,9 @@ import Finale from "@/components/finale/Finale";
 
 export default function Home() {
   return (
-    <main className=" text-white">
+    <main>
       <Loader />
       <Navbar />
-
-    
 
       <Hero />
 
