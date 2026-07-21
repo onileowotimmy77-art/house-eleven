@@ -5,7 +5,7 @@ import Image from "next/image";
 import EditorialSection from "@/components/editorial/EditorialSection";
 import EditorialLink from "@/components/editorial/EditorialLink";
 import { Eyebrow, Display, Body } from "@/components/ui/typography";
-import Sect
+import Section from "@/components/layout/Section";
 
 import type { JournalContent } from "@/src/data/journal-content";
 
@@ -62,7 +62,7 @@ export default function JournalArticle({
             className="object-cover"
           />
         </div>
-      </section>
+      </Section>
 
       {/* First Paragraph */}
       <EditorialSection padding="xl">
