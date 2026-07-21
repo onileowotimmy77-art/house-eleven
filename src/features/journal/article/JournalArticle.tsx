@@ -99,7 +99,7 @@ export default function JournalArticle({
       </section>
 
       {/* Closing */}
-      <EditorialSection padding="py-56">
+      <EditorialSection padding="xl">
         <Body className="mx-auto max-w-3xl text-xl leading-relaxed text-white/70">
           {article.body[2]}
         </Body>
