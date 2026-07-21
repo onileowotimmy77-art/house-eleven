@@ -5,7 +5,7 @@ import LoaderWordmark from "./LoaderWordmark";
 import useLoading from "@/lib/hooks/useLoading";
 import { useEffect } from "react";
 import { useAppTransition } from "../providers/AppTransitionProvider";
-import { MotionDuration, MotionEase } from "@/lib/motion";
+import {  MotionDuration, MotionEase } from "@/lib/motion";
 
 export default function Loader() {
   const loading = useLoading();
