@@ -1,4 +1,8 @@
 import { Variants } from "framer-motion";
+import {
+  MotionDuration,
+  MotionEase,
+} from "@/lib/motion";
 
 export const fadeUp: Variants = {
   hidden: {
@@ -11,8 +15,8 @@ export const fadeUp: Variants = {
     y: 0,
 
     transition: {
-      duration: 0.9,
-      ease: [0.22, 1, 0.36, 1],
+      duration: MotionDuration.standard,
+      ease: MotionEase.standard,
     },
   },
 };
@@ -26,12 +30,13 @@ export const fade: Variants = {
     opacity: 1,
 
     transition: {
-      duration: 0.9,
+      duration: MotionDuration.standard,
+      ease: MotionEase.standard,
     },
   },
 };
 
-export const stagger = {
+export const stagger: Variants = {
   hidden: {},
 
   show: {
@@ -53,8 +58,8 @@ export const imageReveal: Variants = {
     scale: 1,
 
     transition: {
-      duration: 1.2,
-      ease: [0.22, 1, 0.36, 1],
+      duration: MotionDuration.slow,
+      ease: MotionEase.standard,
     },
   },
 };
