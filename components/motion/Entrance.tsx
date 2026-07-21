@@ -32,7 +32,7 @@ export default function Entrance({
           : {}
       }
       transition={{
-        duration: 1,
+        duration: Mo,
         delay,
         ease: [0.22, 1, 0.36, 1],
       }}
