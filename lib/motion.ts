@@ -13,4 +13,6 @@ export const MotionViewport = {
   amount: 0.2,
 } as const;
 
-export const MK
+export const MotionDelay = {
+  loaderComplete: 0.25,
+} as const;
