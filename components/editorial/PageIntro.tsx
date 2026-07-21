@@ -21,7 +21,7 @@ export default function PageIntro({
   const centered = align === "center";
 
   return (
-    <Section padding="pt-56 pb-32">
+    <Section customPadding="pt-56 pb-32">
       <Container>
         <div
           className={
