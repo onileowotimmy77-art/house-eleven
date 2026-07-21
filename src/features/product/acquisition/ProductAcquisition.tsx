@@ -13,7 +13,7 @@ export default function ProductAcquisition({
   product,
 }: ProductAcquisitionProps) {
   return (
-    <Section customPadding="py-56">
+    <Section customPadding="py-45">
       <Container>
         <div className="border-t border-white/10 pt-20">
 
