@@ -7,6 +7,7 @@ interface SectionProps {
   children: React.ReactNode;
   className?: string;
   padding?: SectionSpacingKey;
+  custom
 }
 
 export default function Section({
