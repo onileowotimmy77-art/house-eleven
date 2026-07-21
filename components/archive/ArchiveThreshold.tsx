@@ -7,7 +7,7 @@ import ArchiveDivider from "./ArchiveDivider";
 
 export default function ArchiveThreshold() {
   return (
-    <Section padding="py-0">
+    <Section customPadding="py-0">
       <ArchiveFrame>
         <div
           className="

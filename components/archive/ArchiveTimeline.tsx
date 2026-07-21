@@ -6,7 +6,7 @@ import ArchiveDivider from "./ArchiveDivider";
 
 export default function ArchiveTimeline() {
   return (
-    <Section padding="pt-20 pb-28">
+    <Section customPadding="pt-20 pb-28">
       <ArchiveFrame>
         <Reveal>
           <div className="max-w-3xl">

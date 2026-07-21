@@ -4,7 +4,7 @@ import ArchiveFrame from "./ArchiveFrame";
 
 export default function ArchivePrologue() {
   return (
-    <Section padding="py-52">
+    <Section customPadding="py-52">
       <ArchiveFrame>
         <div className="grid grid-cols-12">
 
