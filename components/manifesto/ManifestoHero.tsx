@@ -3,7 +3,7 @@ import Section from "@/components/layout/Section";
 
 export default function ManifestoHero() {
   return (
-    <Section padding="pt-52 pb-36">
+    <Section padding="xl">
       <Container>
         <div className="max-w-5xl">
           <p
