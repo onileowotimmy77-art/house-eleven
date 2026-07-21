@@ -168,7 +168,7 @@ export default function FeaturedEditorial() {
               )}
           </div>
         </div>
-        </div>
+      </div>
     </EditorialSection>
   );
 }
