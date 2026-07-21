@@ -13,7 +13,7 @@ import Transition from "../transition/Transition";
 
 export default function Chapter01() {
   return (
-    <Section padding="py-20">
+    <Section customPadding="py-20">
       <Container className="max-w-none">
 
         <SectionHeader className="mt-5"
