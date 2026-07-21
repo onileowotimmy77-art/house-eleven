@@ -8,12 +8,12 @@ import Container from "@/components/layout/Container";
 
 import JournalContent from "./JournalContent";
 
-import { fadeUp, imageReveal } from "@/lib/motion";
+import { fadeUp, imageReveal } from "@/lib/animations";
 
 export default function JournalHero() {
   return (
     <Section
-      padding="pt-44 pb-24 lg:pt-56 lg:pb-32"
+      customPadding="pt-44 pb-24 lg:pt-56 lg:pb-32"
       className="min-h-[75vh] flex items-center"
     >
       <Container>
