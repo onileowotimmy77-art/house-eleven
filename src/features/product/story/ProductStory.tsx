@@ -14,7 +14,7 @@ export default function ProductStory({
   product,
 }: ProductStoryProps) {
   return (
-    <Section padding="pt-56 pb-32 mt-23">
+    <Section customPadding="pt-56 pb-32 mt-23">
       <Container>
         <div className="max-w-5xl">
           <Eyebrow>
