@@ -2,7 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useAppTransition } from "../providers/AppTransitionProvider";
-import { MotionDuration } from "@/lib/animation/token";
+import {
+  MotionDuration,
+  MotionEase,
+} from "@/lib/motion";
 
 interface EntranceProps {
   children: React.ReactNode;
@@ -11,7 +14,6 @@ interface EntranceProps {
 }
 
 export default function Entrance({
-  
   children,
   delay = 0,
   y = 28,
@@ -25,13 +27,13 @@ export default function Entrance({
         y,
       }}
       animate={{
-  opacity: ready ? 1 : 0,
-  y: ready ? 0 : y,
-}}
+        opacity: ready ? 1 : 0,
+        y: ready ? 0 : y,
+      }}
       transition={{
         duration: MotionDuration.standard,
         delay,
-        ease: [0.22, 1, 0.36, 1],
+        ease: MotionEase.standard,
       }}
     >
       {children}
