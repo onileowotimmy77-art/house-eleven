@@ -10,7 +10,7 @@ import Reveal from "@/components/motion/Reveal";
 export default function Finale() {
 return (
 <Section 
-  padding="py-56"
+  customPadding="py-56"
 >
 
     <Container>
