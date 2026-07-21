@@ -44,7 +44,7 @@ export default function FeaturedEditorial() {
         {/* LEFT */}
 
         <motion.div
-          {...fadeUp}
+          {...FadeUp}
           className="lg:col-span-5"
         >
           <Eyebrow>
