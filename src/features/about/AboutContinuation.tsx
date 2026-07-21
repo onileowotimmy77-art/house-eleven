@@ -11,7 +11,7 @@ import {
   Body,
 } from "@/components/ui/typography";
 
-import { fadeUp } from "@/lib/animations";
+import { fadeUp } from "@/components/ui/FadeUp
 
 export default function AboutContinuation() {
   return (
