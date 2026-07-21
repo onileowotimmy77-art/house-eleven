@@ -15,10 +15,10 @@ import {
 export default function ArchiveIntro() {
   return (
     <EditorialSection
-      padding="pt-56 pb-24"
+      padding="xl"
     >
       <motion.div
-        {...fadeUp}
+      
         className="max-w-4xl"
       >
         <Eyebrow>
