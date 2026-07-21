@@ -114,14 +114,12 @@ const y = useTransform(
             <div className="h-px w-20 bg-white/10" />
           </div>
 
-          <h1
+          <Display
+            as="h1"
             className="
               mt-6
               text-[clamp(4rem,9vw,8rem)]
-              font-black
-              uppercase
-              leading-[0.9]
-              tracking-[-0.06em]
+              
             "
           >
             {product.name}
