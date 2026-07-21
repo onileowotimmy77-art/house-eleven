@@ -24,14 +24,10 @@ export default function Entrance({
         opacity: 0,
         y,
       }}
-      animate={
-        ready
-          ? {
-              opacity: 1,
-              y: 0,
-            }
-          : {}
-      }
+      animate={{
+  opacity: ready ? 1 : 0,
+  y: ready ? 0 : y,
+}}
       transition={{
         duration: MotionDuration.standard,
         delay,
