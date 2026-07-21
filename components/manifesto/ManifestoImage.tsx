@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Reve } from "@/lib/motion";
+import { Reveal } from "@/lib/motion";
 import { useCursorContext } from "@/components/cursor/CursorProvider";
 
 export default function ManifestoImage() {
