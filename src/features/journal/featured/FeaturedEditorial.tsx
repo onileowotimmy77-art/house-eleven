@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/typography";
 
 import FadeUp from "@/components/ui/FadeUp";
+import { imageReveal } from "@/lib/animations";
+
 const featuredEssay = {
   volume: "FEATURED ESSAY",
 
