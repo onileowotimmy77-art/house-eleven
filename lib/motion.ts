@@ -1,60 +1,14 @@
-export const fadeUp = {
-  initial: {
-    opacity: 0,
-    y: 40,
-  },
+export const MotionDuration = {
+  fast: 0.6,
+  standard: 0.9,
+  slow: 1.2,
+} as const;
 
-  whileInView: {
-    opacity: 1,
-    y: 0,
-  },
-
-  viewport: {
-    once: true,
-    amount: 0.25,
-  },
-
-  transition: {
-    duration: 0.9,
-    ease: [0.22, 1, 0.36, 1],
-  },
+export const MotionEase = {
+  standard: [0.22, 1, 0.36, 1] as const,
 };
 
-export const fade = {
-  initial: {
-    opacity: 0,
-  },
-
-  whileInView: {
-    opacity: 1,
-  },
-
-  viewport: {
-    once: true,
-  },
-
-  transition: {
-    duration: 0.8,
-  },
-};
-
-export const imageReveal = {
-  initial: {
-    opacity: 0,
-    scale: 1.08,
-  },
-
-  whileInView: {
-    opacity: 1,
-    scale: 1,
-  },
-
-  viewport: {
-    once: true,
-  },
-
-  transition: {
-    duration: 1.2,
-    ease: [0.22, 1, 0.36, 1],
-  },
-};
+export const MotionViewport = {
+  once: true,
+  amount: 0.2,
+} as const;
