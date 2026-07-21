@@ -12,11 +12,7 @@ import {
   Eyebrow,
 } from "@/components/ui/typography";
 
-import {
-  fadeUp,
-  imageReveal,
-} from "@/lib/motion";
-
+import FadeUp from "@/components/ui/FadeUp";
 const featuredEssay = {
   volume: "FEATURED ESSAY",
 
