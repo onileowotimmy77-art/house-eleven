@@ -14,7 +14,7 @@ export default function CollectionStory({
   collection,
 }: CollectionStoryProps) {
   return (
-    <Section padding="py-24">
+    <Section customPadding="py-24">
       <Container>
         <Reveal>
           <div className="max-w-3xl">
