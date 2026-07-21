@@ -17,7 +17,7 @@ export default function ProductGallery({
   const [hero, left, right, finale] = product.gallery;
 
   return (
-    <Section padding="py-56">
+    <Section customPadding="py-56">
 
       {/* Campaign */}
       <GalleryImage
