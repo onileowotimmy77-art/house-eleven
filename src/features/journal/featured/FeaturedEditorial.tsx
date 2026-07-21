@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 import EditorialSection from "@/components/editorial/EditorialSection";
@@ -11,8 +10,6 @@ import {
   Body,
   Eyebrow,
 } from "@/components/ui/typography";
-
-
 
 const featuredEssay = {
   volume: "FEATURED ESSAY",
@@ -33,17 +30,11 @@ const featuredEssay = {
 
 export default function FeaturedEditorial() {
   return (
-    <EditorialSection
-      padding="pt-56 pb-64"
-    >
+    <EditorialSection padding="pt-56 pb-64">
       <div className="grid gap-24 lg:grid-cols-12 lg:items-center">
-
         {/* LEFT */}
 
-        <motion.div
-        
-          className="lg:col-span-5"
-        >
+        <div className="lg:col-span-5">
           <Eyebrow>
             {featuredEssay.volume}
           </Eyebrow>
@@ -69,84 +60,113 @@ export default function FeaturedEditorial() {
 
           <div
             className="
-              mt-16
+              mt-20
               flex
-              items-center
+              items-end
               justify-between
-              gap-10
+              gap-12
             "
           >
-            <p
-              className="
-                font-mono
-                text-[11px]
-                uppercase
-                tracking-[0.45em]
-                text-white/40
-              "
-            >
-              {featuredEssay.date}
-              <br />
-              {featuredEssay.readTime}
-            </p>
+            <div>
+              <p
+                className="
+                  font-mono
+                  text-[11px]
+                  uppercase
+                  tracking-[0.45em]
+                  text-white/40
+                "
+              >
+                {featuredEssay.date}
+              </p>
+
+              <p
+                className="
+                  mt-3
+                  font-mono
+                  text-[11px]
+                  uppercase
+                  tracking-[0.45em]
+                  text-white/25
+                "
+              >
+                {featuredEssay.readTime}
+              </p>
+            </div>
 
             <EditorialLink href={featuredEssay.href}>
               Read Essay
             </EditorialLink>
           </div>
-        </motion.div>
+        </div>
 
         {/* RIGHT */}
 
-        <motion.div
-          {...imageReveal}
-          className="lg:col-span-7"
-        >
+        <div className="lg:col-span-7">
           <div
             className="
               relative
               aspect-[4/5]
               overflow-hidden
-              bg-white/[0.03]
               border
               border-white/10
+              bg-white/[0.03]
             "
           >
             {featuredEssay.image ? (
-              <Image
-                src={featuredEssay.image}
-                alt={featuredEssay.title}
-                fill
-                className="object-cover"
-                sizes="50vw"
-              />
+              <>
+                <Image
+                  src={featuredEssay.image}
+                  alt={featuredEssay.title}
+                  fill
+                  quality={90}
+                  sizes="(max-width:1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+
+                <div
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    bg-gradient-to-t
+                    from-black/12
+                    via-transparent
+                    to-transparent
+                  "
+                />
+              </>
             ) : (
               <div
                 className="
                   flex
                   h-full
                   w-full
+                  flex-col
                   items-center
                   justify-center
-                "
-              >
-                <span
-                  className="
-                    font-mono
-                    text-[10px]
-                    uppercase
-                    tracking-[0.45em]
-                    text-white/20
-                  "
+                  gap-5
                 >
-                  Editorial Photography
-                </span>
-              </div>
-            )}
-          </div>
-        </motion.div>
+                  <div className="h-px w-20 bg-white/10" />
 
-      </div>
+                  <span
+                    className="
+                      font-mono
+                      text-[10px]
+                      uppercase
+                      tracking-[0.45em]
+                      text-white/20
+                    "
+                  >
+                    Editorial Photography
+                  </span>
+
+                  <div className="h-px w-20 bg-white/10" />
+                </div>
+              )}
+          </div>
+        </div>
+        </div>
     </EditorialSection>
   );
 }
