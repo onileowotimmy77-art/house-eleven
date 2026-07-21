@@ -99,8 +99,7 @@ const y = useTransform(
 
       {/* Product Identity */}
       <Section
-        padding="lg"
-        className="pt-56 pb-24">
+        customPadding="pt-56 pb-24">
         <Container>
           <p
             className="
