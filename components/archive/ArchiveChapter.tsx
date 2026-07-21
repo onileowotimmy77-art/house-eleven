@@ -17,7 +17,7 @@ import ArchiveDivider from "./ArchiveDivider";
 
 export default function ArchiveChapter() {
   return (
-    <Section padding="pt-0 pb-56">
+    <Section customPadding="pt-0 pb-56">
       <ArchiveFrame>
         <Reveal>
           <article className="mx-auto max-w-6xl">
