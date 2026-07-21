@@ -41,7 +41,7 @@ export default function ProductSpecs({
   ];
 
   return (
-    <Section padding="py-48 mt-28">
+    <Section customPadding="py-48 mt-28">
       <Container>
         <Eyebrow>Details</Eyebrow>
 
