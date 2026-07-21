@@ -1,27 +1,26 @@
 import clsx from "clsx";
+import { ElementType } from "react";
+import { TypeScale } from "@/lib/typography";
 
 interface BodyProps {
   children: React.ReactNode;
   className?: string;
+  as?: ElementType;
 }
 
 export default function Body({
   children,
   className,
+  as: Component = "p",
 }: BodyProps) {
   return (
-    <p
+    <Component
       className={clsx(
-        `
-        text-lg
-        leading-9
-        md:leading-10
-        text-white/80
-        `,
+        TypeScale.body,
         className
       )}
     >
       {children}
-    </p>
+    </Component>
   );
 }
