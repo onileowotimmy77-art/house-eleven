@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Reveal } from "@/lib/motion";
+
 import { useCursorContext } from "@/components/cursor/CursorProvider";
 
 export default function ManifestoImage() {
@@ -17,7 +17,7 @@ const {
 
 return (
 <motion.div
-    {...imageReveal}
+   
 
     style={{ y }}
 
