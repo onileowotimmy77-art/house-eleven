@@ -15,7 +15,7 @@ import { fadeUp } from "@/lib/animations";
 export default function ArchiveIntro() {
   return (
     <EditorialSection
-      customPadding="pt-56 pb-24"
+      padding="pt-56 pb-24"
     >
       <motion.div
         {...fadeUp}
