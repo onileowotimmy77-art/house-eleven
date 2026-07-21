@@ -59,7 +59,7 @@ export default function RootLayout({
 
       
       
-          <div className="relative z-10">
+          
             <MenuProvider>
             <AppTransitionProvider>
               <CursorProvider>
@@ -76,7 +76,7 @@ export default function RootLayout({
               </CursorProvider>
             </AppTransitionProvider>
             </MenuProvider>
-          </div>
+         
        
 
       </body>
