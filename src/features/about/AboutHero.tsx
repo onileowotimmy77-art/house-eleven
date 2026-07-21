@@ -16,7 +16,7 @@ import FadeUp from "@/components/ui/FadeUp";
 export default function AboutHero() {
   return (
     <Section
-     
+      customPadding="py-56"
       className="min-h-screen mt-30 flex items-center"
     >
       <Container>
