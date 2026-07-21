@@ -52,7 +52,7 @@ export default function JournalArticle({
       </EditorialSection>
 
       {/* First Image */}
-      <section customPadding="py-8">
+      <section className="px-8">
         <div className="relative mx-auto aspect-[16/9] max-w-7xl overflow-hidden">
           <Image
             src={article.gallery[0].image}
@@ -71,7 +71,7 @@ export default function JournalArticle({
       </EditorialSection>
 
       {/* Pull Quote */}
-      <EditorialSection padding="py-24">
+      <EditorialSection padding="lg">
         <blockquote className="mx-auto max-w-5xl text-center">
           <p className="text-[clamp(2.5rem,5vw,5rem)] font-light leading-[1.1] tracking-[-0.04em]">
             “{article.quote}”
@@ -80,7 +80,7 @@ export default function JournalArticle({
       </EditorialSection>
 
       {/* Second Paragraph */}
-      <EditorialSection padding="py-48">
+      <EditorialSection padding="lg">
         <Body className="mx-auto max-w-3xl text-xl leading-relaxed text-white/70">
           {article.body[1]}
         </Body>
