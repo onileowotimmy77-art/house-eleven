@@ -145,7 +145,7 @@ export default function FeaturedEditorial() {
                   flex-col
                   items-center
                   justify-center
-                  gap-5
+                  gap-5"
                 >
                   <div className="h-px w-20 bg-white/10" />
 
