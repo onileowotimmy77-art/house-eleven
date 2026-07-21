@@ -11,11 +11,11 @@ import {
   Body,
 } from "@/components/ui/typography";
 
-import { fadeUp } from "@/lib/motion";
+import { fadeUp } from "@/lib/";
 
 export default function AboutHouse() {
   return (
-    <Section seadding="py-56">
+    <Section customPadding="py-56">
       <Container>
         <div className="grid grid-cols-12">
 
