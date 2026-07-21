@@ -11,7 +11,7 @@ import {
   Body,
 } from "@/components/ui/typography";
 
-import { fadeUp } from "@/lib/animations";
+import FadeUp from "@/components/ui/FadeUp";
 
 const process = [
   "Observation",
@@ -28,7 +28,7 @@ export default function AboutProcess() {
       <Container>
 
         <motion.div
-          {...fadeUp}
+          {...FadeUp}
           className="max-w-4xl"
         >
           <Eyebrow>
@@ -59,7 +59,7 @@ export default function AboutProcess() {
           {process.map((step, index) => (
             <motion.div
               key={step}
-              {...fadeUp}
+              {...FadeUp}
               className="
                 flex
                 items-center
