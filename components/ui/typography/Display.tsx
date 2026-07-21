@@ -1,28 +1,26 @@
 import clsx from "clsx";
+import { ElementType } from "react";
+import { TypeScale } from "@/lib/typography";
 
 interface DisplayProps {
   children: React.ReactNode;
   className?: string;
+  as?: ElementType;
 }
 
 export default function Display({
   children,
   className,
+  as: Component = "h2",
 }: DisplayProps) {
   return (
-    <h2
+    <Component
       className={clsx(
-        `
-        text-[clamp(3rem,6vw,5rem)]
-        font-black
-        uppercase
-        tracking-[-0.05em]
-        leading-[0.9]
-        `,
+        TypeScale.display,
         className
       )}
     >
       {children}
-    </h2>
+    </Component>
   );
 }
