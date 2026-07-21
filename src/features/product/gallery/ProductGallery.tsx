@@ -28,7 +28,7 @@ export default function ProductGallery({
 
       <Container className="mt-56">
 
-        <div className="grid gap-16 lg:grid-cols-2">
+        <div className="grid gap-24 lg:grid-cols-2">
 
           <GalleryImage
             image={left.image}
