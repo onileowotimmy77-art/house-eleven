@@ -1,7 +1,7 @@
 import {
   SectionSpacing,
   type SectionSpacingKey,
-} from "@/lib/spacing";
+} from "@/src/lib/spacing";
 
 interface SectionProps {
   children: React.ReactNode;
