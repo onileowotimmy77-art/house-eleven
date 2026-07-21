@@ -11,7 +11,7 @@ import {
   Body,
 } from "@/components/ui/typography";
 
-import { fadeUp } from "@/lib/animations";
+import FadeUp from "@/components/ui/FadeUp";
 
 export default function AboutHero() {
   return (
@@ -21,7 +21,7 @@ export default function AboutHero() {
     >
       <Container>
         <motion.div
-          {...fadeUp}
+          {...FadeUp}
           className="
             mx-auto
             flex
