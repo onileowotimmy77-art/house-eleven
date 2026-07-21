@@ -53,6 +53,7 @@ const y = useTransform(
           alt={product.gallery[0].alt}
           fill
           priority
+          sizes="100vw"
           className="object-cover"
         />
       </motion.div>
