@@ -7,7 +7,7 @@ interface SectionProps {
   children: React.ReactNode;
   className?: string;
   padding?: SectionSpacingKey;
-  custom
+  customPadding?: string;
 }
 
 export default function Section({
@@ -21,7 +21,7 @@ export default function Section({
         relative
         bg-black
         text-white
-        ${SectionSpacing[padding]}
+        ${customPadding ?? SectionSpacing[padding]}
         ${className}
       `}
     >
