@@ -1,6 +1,6 @@
 "use client";
 
-import PageIntro from "./PageIntro";
+import PageIntro from "@/components/editorial/PageIntro";
 
 export default function JournalIntro() {
   return (
