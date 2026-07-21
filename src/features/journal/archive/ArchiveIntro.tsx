@@ -10,7 +10,7 @@ import {
   Eyebrow,
 } from "@/components/ui/typography";
 
-import Fade
+import FadeUp from "@/components/ui/FadeUp";
 
 export default function ArchiveIntro() {
   return (
