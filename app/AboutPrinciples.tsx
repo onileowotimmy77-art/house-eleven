@@ -42,7 +42,7 @@ const principles = [
 
 export default function AboutPrinciples() {
   return (
-    <Section padding="py-56">
+    <Section customPadding="py-56">
       <Container>
 
         <motion.div
