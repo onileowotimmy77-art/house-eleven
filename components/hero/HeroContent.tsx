@@ -3,10 +3,11 @@
 import Container from "@/components/layout/Container";
 import Button from "@/components/ui/Button";
 import Entrance from "@/components/motion/Entrance";
-import { useCursorContext } from "@/components/cursor/CursorProvider";
+import useCursorTarget from "../cursor/useCursorTarget";
+import { CursorLabels } from "@/lib/cursor";
 
 export default function HeroContent() {
-  const { setHovering, setLabel } = useCursorContext();
+  const enterCursor = useCursorTarget(CursorLabels.ENTER);
 
   return (
     <Container className="h-full">
@@ -67,20 +68,14 @@ export default function HeroContent() {
           <Entrance delay={1.1}>
             <div className="pt-6">
               <Button
+                {...enterCursor}
                 className="
                   px-3
                   py-2
                   text-[10px]
                   tracking-[0.42em]
                 "
-                onMouseEnter={() => {
-                  setHovering(true);
-                  setLabel("ENTER");
-                }}
-                onMouseLeave={() => {
-                  setHovering(false);
-                  setLabel("");
-                }}
+                
               >
                 ENTER THE HOUSE
               </Button>

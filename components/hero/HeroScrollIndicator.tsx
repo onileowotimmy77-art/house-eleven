@@ -26,7 +26,7 @@ export default function HeroScrollIndicator() {
         }}
         transition={{
           duration: 0.45,
-          ease: "easeOut",
+          ease: [0.22, 1, 0.36, 1],
         }}
         className="
           fixed

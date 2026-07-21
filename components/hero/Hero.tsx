@@ -10,7 +10,7 @@ export default function Hero() {
       className="
         relative
         isolate
-        min-h-screen
+        min-h-dvh
         
         overflow-hidden
       "

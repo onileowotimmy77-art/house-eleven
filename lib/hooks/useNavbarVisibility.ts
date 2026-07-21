@@ -2,6 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const TOP_OFFSET = 8;
+const HIDE_VIEWPORT_RATIO = 0.65;
+const SCROLL_DELTA = 6;
+
 export default function useNavbarVisibility() {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -11,9 +15,15 @@ export default function useNavbarVisibility() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const HIDE_THRESHOLD = window.innerHeight * 0.65;
+
+      const hideThreshold =
+        window.innerHeight * HIDE_VIEWPORT_RATIO;
+
+      const difference =
+        currentScrollY - lastScrollY.current;
+
       // Top of page
-      if (currentScrollY <= 8) {
+      if (currentScrollY <= TOP_OFFSET) {
         setScrolled(false);
         setVisible(true);
         lastScrollY.current = currentScrollY;
@@ -24,14 +34,14 @@ export default function useNavbarVisibility() {
 
       // Scrolling down
       if (
-        currentScrollY > lastScrollY.current &&
-        currentScrollY > HIDE_THRESHOLD
+        difference > SCROLL_DELTA &&
+        currentScrollY > hideThreshold
       ) {
         setVisible(false);
       }
 
       // Scrolling up
-      if (currentScrollY < lastScrollY.current) {
+      if (difference < -SCROLL_DELTA) {
         setVisible(true);
       }
 
@@ -44,8 +54,9 @@ export default function useNavbarVisibility() {
       passive: true,
     });
 
-    return () =>
+    return () => {
       window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return {

@@ -14,13 +14,10 @@ export default function HeroMedia() {
         opacity: 0,
         scale: 1.04,
       }}
-      animate={
-        ready
-          ? {
-              opacity: 1,
-              scale: 1,
+      animate={{
+              opacity: ready ? 1 : 0,
+              scale: ready? 1 : 1.04,
             }
-          : {}
       }
       transition={{
         duration: 2.8,
