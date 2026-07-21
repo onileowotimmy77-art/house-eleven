@@ -64,7 +64,7 @@ export default function JournalArticle({
       </section>
 
       {/* First Paragraph */}
-      <EditorialSection padding="py-48">
+      <EditorialSection padding="xl">
         <Body className="mx-auto max-w-3xl text-xl leading-relaxed text-white/70">
           {article.body[0]}
         </Body>
