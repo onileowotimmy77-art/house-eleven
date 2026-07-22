@@ -2,6 +2,7 @@
 
 import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
+import CheckoutIdentity from "./CheckoutIdentity";
 
 export default function CheckoutSection() {
   return (
@@ -11,7 +12,7 @@ export default function CheckoutSection() {
 
         <div className="max-w-5xl">
 
-          <Checkout
+          <CheckoutIdentity />
 
           {/* Delivery */}
 
