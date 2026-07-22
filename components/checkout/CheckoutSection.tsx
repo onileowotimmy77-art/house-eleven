@@ -17,7 +17,7 @@ export default function CheckoutSection() {
 
           <CheckoutDelivery />
 
-          {/* Payment */}
+          <Checkout
 
           {/* Review */}
 
