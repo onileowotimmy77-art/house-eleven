@@ -4,6 +4,7 @@ import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
 import CheckoutIdentity from "./CheckoutIdentity";
 import CheckoutDelivery from "./CheckoutDelivery";
+import CheckoutPayment from "./CheckoutPayment";
 
 export default function CheckoutSection() {
   return (
@@ -17,7 +18,7 @@ export default function CheckoutSection() {
 
           <CheckoutDelivery />
 
-          <Checkout
+          <CheckoutPayment />
 
           {/* Review */}
 
