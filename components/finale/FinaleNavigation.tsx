@@ -4,24 +4,14 @@ import Link from "next/link";
 
 import { useCursorContext } from "@/components/cursor/CursorProvider";
 
+import {
+  finaleNavigation,
+  socialNavigation,
+} from "@/lib/navigation";
+
 const links = [
-  {
-    label: "Collections",
-    href: "/collections",
-  },
-  {
-    label: "Journal",
-    href: "/journal",
-  },
-  {
-    label: "Residents",
-    href: "/residents",
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/stfu_milooo?igsh=cjRzem9qOHpxMGsy&utm_source=qr",
-    external: true,
-  },
+  ...finaleNavigation,
+  ...socialNavigation,
 ];
 
 export default function FinaleNavigation() {
@@ -32,7 +22,7 @@ export default function FinaleNavigation() {
 
   return (
     <nav
-      aria-label="Footer Navigation"
+      aria-label="Finale Navigation"
       className="mt-28 flex flex-col items-center gap-8"
     >
       {links.map((link) => (
@@ -40,7 +30,11 @@ export default function FinaleNavigation() {
           key={link.label}
           href={link.href}
           target={link.external ? "_blank" : undefined}
-          rel={link.external ? "noopener noreferrer" : undefined}
+          rel={
+            link.external
+              ? "noopener noreferrer"
+              : undefined
+          }
           onMouseEnter={() => {
             setHovering(true);
             setLabel("OPEN");
