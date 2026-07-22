@@ -70,7 +70,7 @@ export default function CheckoutReview() {
 
         <CommerceButton
           href="/checkout/confirmation"
-          fullWidth
+          className="w-full"
         >
           Confirm Order
         </CommerceButton>
