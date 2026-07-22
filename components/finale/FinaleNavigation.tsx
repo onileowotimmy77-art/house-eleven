@@ -19,7 +19,7 @@ const links = [
   },
   {
     label: "Instagram",
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/stfu_milooo?igsh=cjRzem9qOHpxMGsy&utm_source=qr",
     external: true,
   },
 ];
