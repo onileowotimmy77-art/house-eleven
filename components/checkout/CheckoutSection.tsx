@@ -3,6 +3,7 @@
 import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
 import CheckoutIdentity from "./CheckoutIdentity";
+import CheckoutDelivery from "./CheckoutDelivery";
 
 export default function CheckoutSection() {
   return (
@@ -14,7 +15,7 @@ export default function CheckoutSection() {
 
           <CheckoutIdentity />
 
-          <Check
+          <CheckoutDelivery />
 
           {/* Payment */}
 
