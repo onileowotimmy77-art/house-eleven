@@ -1,12 +1,27 @@
 "use client";
 
+import Link from "next/link";
+
 import { useCursorContext } from "@/components/cursor/CursorProvider";
 
 const links = [
-  "Collections",
-  "Journal",
-  "Residents",
-  "Instagram",
+  {
+    label: "Collections",
+    href: "/collections",
+  },
+  {
+    label: "Journal",
+    href: "/journal",
+  },
+  {
+    label: "Residents",
+    href: "/residents",
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com",
+    external: true,
+  },
 ];
 
 export default function FinaleNavigation() {
@@ -16,10 +31,16 @@ export default function FinaleNavigation() {
   } = useCursorContext();
 
   return (
-    <div className="mt-28 flex flex-col items-center gap-8">
+    <nav
+      aria-label="Footer Navigation"
+      className="mt-28 flex flex-col items-center gap-8"
+    >
       {links.map((link) => (
-        <button
-          key={link}
+        <Link
+          key={link.label}
+          href={link.href}
+          target={link.external ? "_blank" : undefined}
+          rel={link.external ? "noopener noreferrer" : undefined}
           onMouseEnter={() => {
             setHovering(true);
             setLabel("OPEN");
@@ -33,14 +54,16 @@ export default function FinaleNavigation() {
             uppercase
             tracking-[0.45em]
             text-white/40
-            transition
+            transition-colors
             duration-300
             hover:text-white
+            focus:outline-none
+            focus:text-white
           "
         >
-          {link}
-        </button>
+          {link.label}
+        </Link>
       ))}
-    </div>
+    </nav>
   );
 }
