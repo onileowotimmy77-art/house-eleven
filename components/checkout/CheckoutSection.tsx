@@ -5,6 +5,7 @@ import Container from "@/components/layout/Container";
 import CheckoutIdentity from "./CheckoutIdentity";
 import CheckoutDelivery from "./CheckoutDelivery";
 import CheckoutPayment from "./CheckoutPayment";
+import CheckoutReview from "./CheckoutReview";
 
 export default function CheckoutSection() {
   return (
@@ -20,7 +21,7 @@ export default function CheckoutSection() {
 
           <CheckoutPayment />
 
-          {/* Review */}
+          <CheckoutReview />
 
         </div>
 
