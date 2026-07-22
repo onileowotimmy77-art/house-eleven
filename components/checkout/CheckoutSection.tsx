@@ -11,7 +11,7 @@ export default function CheckoutSection() {
 
         <div className="max-w-5xl">
 
-          {/* Identity */}
+          <Checkout
 
           {/* Delivery */}
 
