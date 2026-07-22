@@ -10,7 +10,8 @@ import {
   Body,
 } from "@/components/ui/typography";
 
-import ReviewRow from "./ReviewRow";
+import ReviewItems from "./ReviewItems";
+import ReviewTotals from "./ReviewTotals";
 
 export default function CheckoutReview() {
   return (
@@ -32,45 +33,41 @@ export default function CheckoutReview() {
             max-w-2xl
           "
         >
-          Review every detail before your order is confirmed.
+          Take one final look before your order begins its journey.
         </Body>
 
       </Reveal>
 
       <div className="mt-24">
 
-        <ReviewRow
-          label="Pieces"
-          value="2"
+        <ReviewItems
+          items={[
+            {
+              id: "1",
+              name: "Residence Polo",
+              color: "Black",
+              size: "Medium",
+              price: "₦145,000",
+            },
+            {
+              id: "2",
+              name: "Residence Cap",
+              color: "Black",
+              size: "One Size",
+              price: "₦45,000",
+            },
+          ]}
         />
 
-        <ReviewRow
-          label="Subtotal"
-          value="₦290,000"
+        <ReviewTotals
+          subtotal="₦190,000"
+          shipping="Calculated at checkout"
+          total="₦190,000"
         />
-
-        <ReviewRow
-          label="Shipping"
-          value="Calculated at checkout"
-        />
-
-        <ReviewRow
-          label="Payment"
-          value="Debit / Credit Card"
-        />
-
-        <ReviewRow
-          label="Destination"
-          value="Lagos, Nigeria"
-        />
-
-      </div>
-
-      <div className="mt-20">
 
         <CommerceButton
           href="/checkout/confirmation"
-          className="w-full"
+          className="mt-20 w-full"
         >
           Confirm Order
         </CommerceButton>
