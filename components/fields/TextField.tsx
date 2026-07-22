@@ -42,7 +42,7 @@ export default function TextField({
         focus:border-white
         disabled:cursor-not-allowed
         disabled:border-white/5
-        disabled:text-white/25
+        disabled:text-white/25 
         `,
         className
       )}
