@@ -19,6 +19,12 @@ return (
 
           <FinaleWordmark />
 
+          <Reveal>
+  <div className="mt-20 mb-20 flex justify-center">
+    <div className="h-px w-20 bg-white/10" />
+  </div>
+</Reveal>
+
           <FinaleNavigation />
 
             <Reveal>
