@@ -51,6 +51,8 @@ export const products: Product[] = [
   {
     slug: "residence-polo",
 
+    order: 1,
+
     name: "Residence Polo",
 
     subtitle: "Heavyweight Cotton Piqué",
