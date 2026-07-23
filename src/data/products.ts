@@ -145,3 +145,104 @@ export const products: Product[] = [
   },
 ];
 
+{
+  slug: "double-layered-sweatshirt",
+
+  name: "Double Layered Sweatshirt",
+
+  subtitle: "Layered Heavyweight Cotton",
+
+  description:
+    "An architectural sweatshirt built through layered construction, balancing structure, weight and quiet confidence.",
+
+  price: "₦145,000",
+
+  chapter: "CHAPTER I",
+
+  collection: "Residence",
+
+  edition: "First Release",
+
+  color: "Midnight Black",
+
+  material: "Heavyweight Cotton",
+
+  fit: "Oversized",
+
+  madeIn: "Lagos, Nigeria",
+
+  sizes: ["S", "M", "L", "XL"],
+
+  heroImage:
+    "/products/double-layered-sweatshirt/hero.jpg",
+
+  story:
+    "Designed around the idea that depth can exist without excess, the Double Layered Sweatshirt combines two carefully balanced layers into one architectural silhouette. Every proportion was considered to create presence through restraint rather than decoration.",
+
+  craftsmanship: [
+    {
+      title: "Double Layer Construction",
+      description:
+        "Two integrated layers create visual depth while maintaining a clean exterior profile.",
+    },
+    {
+      title: "Heavyweight Cotton",
+      description:
+        "Premium cotton selected for structure, warmth and long-term durability.",
+    },
+    {
+      title: "Architectural Fit",
+      description:
+        "Oversized proportions engineered to drape naturally while preserving form.",
+    },
+    {
+      title: "Refined Construction",
+      description:
+        "Built with precision finishing that allows the garment to age beautifully over time.",
+    },
+  ],
+
+  specs: [
+    {
+      label: "Material",
+      value: "100% Heavyweight Cotton",
+    },
+    {
+      label: "Fit",
+      value: "Oversized",
+    },
+    {
+      label: "Color",
+      value: "Midnight Black",
+    },
+    {
+      label: "Origin",
+      value: "Made in Lagos, Nigeria",
+    },
+  ],
+
+  gallery: [
+    {
+      image: "/products/double-layered-sweatshirt/gallery-1.jpg",
+      alt: "Double Layered Sweatshirt Campaign",
+      aspect: "landscape",
+    },
+    {
+      image: "/products/double-layered-sweatshirt/gallery-2.jpg",
+      alt: "Double Layered Sweatshirt Detail",
+      aspect: "portrait",
+    },
+    {
+      image: "/products/double-layered-sweatshirt/gallery-3.jpg",
+      alt: "Double Layered Sweatshirt Construction",
+      aspect: "portrait",
+    },
+    {
+      image: "/products/double-layered-sweatshirt/gallery-4.jpg",
+      alt: "Double Layered Sweatshirt Editorial",
+      aspect: "landscape",
+    },
+  ],
+}
+
+
