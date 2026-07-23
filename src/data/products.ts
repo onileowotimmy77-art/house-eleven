@@ -363,7 +363,7 @@ export const products: Product[] = [
 },
 
 
-//Reflective Tan
+//Reflective Tanktop
 {
   slug: "house11-reflective-tank-top",
   order: 4,
