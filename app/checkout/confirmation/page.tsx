@@ -14,7 +14,7 @@ export default function ConfirmationPage() {
   return (
     <>
       <CommerceHeader
-      
+
         title="Confirmation"
       />
 
