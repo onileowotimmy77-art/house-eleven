@@ -354,7 +354,113 @@ export const products: Product[] = [
   //     name: "Long Sleeve",
   //   },
   // ],
-}
+},
+
+{
+  slug: "house11-reflective-tank-top",
+
+  name: "House 11 Reflective Tank Top",
+
+  subtitle: "Reflective Technical Jersey",
+
+  description:
+    "A minimalist performance-inspired silhouette elevated through reflective detailing and architectural restraint.",
+
+  price: "₦65,000",
+
+  chapter: "CHAPTER I",
+
+  collection: "Residence",
+
+  edition: "First Release",
+
+  color: "Midnight Black",
+
+  material: "Premium Cotton Technical Jersey",
+
+  fit: "Athletic Relaxed",
+
+  madeIn: "Lagos, Nigeria",
+
+  sizes: ["S", "M", "L", "XL"],
+
+  heroImage:
+    "/products/house11-reflective-tank-top/hero.jpg",
+
+  story:
+    "The House 11 Reflective Tank Top explores the balance between utility and luxury. Designed to remain understated by day while revealing subtle reflective detailing under light, it reflects the House Eleven philosophy that identity never needs to shout.",
+
+  craftsmanship: [
+    {
+      title: "Reflective Identity",
+      description:
+        "Precision reflective detailing reveals itself only when illuminated, creating quiet distinction rather than constant visibility.",
+    },
+    {
+      title: "Premium Jersey",
+      description:
+        "A dense cotton jersey selected to combine softness with long-lasting structure.",
+    },
+    {
+      title: "Architectural Silhouette",
+      description:
+        "Cut to frame the shoulders while maintaining an effortless drape throughout the body.",
+    },
+    {
+      title: "Minimal Construction",
+      description:
+        "Every seam has been simplified to allow proportion and material to become the focus.",
+    },
+  ],
+
+  specs: [
+    {
+      label: "Material",
+      value: "Premium Cotton Technical Jersey",
+    },
+    {
+      label: "Fit",
+      value: "Athletic Relaxed",
+    },
+    {
+      label: "Color",
+      value: "Midnight Black",
+    },
+    {
+      label: "Origin",
+      value: "Made in Lagos, Nigeria",
+    },
+  ],
+
+  gallery: [
+    {
+      image:
+        "/products/house11-reflective-tank-top/gallery-1.jpg",
+      alt: "House 11 Reflective Tank Campaign",
+      aspect: "landscape",
+    },
+    {
+      image:
+        "/products/house11-reflective-tank-top/gallery-2.jpg",
+      alt: "Reflective Detail",
+      aspect: "portrait",
+    },
+    {
+      image:
+        "/products/house11-reflective-tank-top/gallery-3.jpg",
+      alt: "Construction Detail",
+      aspect: "portrait",
+    },
+    {
+      image:
+        "/products/house11-reflective-tank-top/gallery-4.jpg",
+      alt: "Editorial Campaign",
+      aspect: "landscape",
+    },
+  ],
+},
+
+
 
 
 
