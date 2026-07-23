@@ -48,6 +48,8 @@ export interface Product {
 }
 
 export const products: Product[] = [
+
+  //Residence Polo
   {
     slug: "residence-polo",
 
