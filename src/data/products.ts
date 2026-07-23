@@ -245,7 +245,118 @@ export const products: Product[] = [
       aspect: "landscape",
     },
   ],
+},
+
+{
+  slug: "residence-tee",
+
+  name: "Residence Tee",
+
+  subtitle: "Heavyweight Cotton Jersey",
+
+  description:
+    "A foundational garment defined by proportion, restraint and everyday permanence.",
+
+  price: "₦75,000",
+
+  chapter: "CHAPTER I",
+
+  collection: "Residence",
+
+  edition: "First Release",
+
+  color: "Midnight Black",
+
+  material: "Heavyweight Cotton Jersey",
+
+  fit: "Relaxed",
+
+  madeIn: "Lagos, Nigeria",
+
+  sizes: ["S", "M", "L", "XL"],
+
+  heroImage: "/products/residence-tee/hero.jpg",
+
+  story:
+    "The Residence Tee represents the purest expression of House Eleven. Free from unnecessary detail, every decision focuses on proportion, weight and longevity. Designed to become the garment reached for instinctively, season after season.",
+
+  craftsmanship: [
+    {
+      title: "Heavyweight Jersey",
+      description:
+        "Premium cotton jersey selected for structure, softness and long-term durability.",
+    },
+    {
+      title: "Balanced Proportions",
+      description:
+        "A relaxed silhouette designed to drape naturally while maintaining a refined shape.",
+    },
+    {
+      title: "Everyday Permanence",
+      description:
+        "Created to become a lasting wardrobe foundation rather than a seasonal statement.",
+    },
+    {
+      title: "Quiet Construction",
+      description:
+        "Every seam, neckline and finish has been refined to prioritize longevity and comfort.",
+    },
+  ],
+
+  specs: [
+    {
+      label: "Material",
+      value: "100% Heavyweight Cotton Jersey",
+    },
+    {
+      label: "Fit",
+      value: "Relaxed",
+    },
+    {
+      label: "Color",
+      value: "Midnight Black",
+    },
+    {
+      label: "Origin",
+      value: "Made in Lagos, Nigeria",
+    },
+  ],
+
+  gallery: [
+    {
+      image: "/products/residence-tee/gallery-1.jpg",
+      alt: "Residence Tee Campaign",
+      aspect: "landscape",
+    },
+    {
+      image: "/products/residence-tee/gallery-2.jpg",
+      alt: "Residence Tee Detail",
+      aspect: "portrait",
+    },
+    {
+      image: "/products/residence-tee/gallery-3.jpg",
+      alt: "Residence Tee Fabric",
+      aspect: "portrait",
+    },
+    {
+      image: "/products/residence-tee/gallery-4.jpg",
+      alt: "Residence Tee Editorial",
+      aspect: "landscape",
+    },
+  ],
+
+  // Reserved for Phase II
+  // variants: [
+  //   {
+  //     name: "Short Sleeve",
+  //   },
+  //   {
+  //     name: "Long Sleeve",
+  //   },
+  // ],
 }
+
+
 
 
 
