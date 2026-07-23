@@ -362,6 +362,8 @@ export const products: Product[] = [
   // ],
 },
 
+
+//Reflective Tan
 {
   slug: "house11-reflective-tank-top",
   order: 4,
@@ -467,6 +469,8 @@ export const products: Product[] = [
   ],
 },
 
+
+//Rhinestone Jorts
 {
   slug: "residence-rhinestone-jorts",
   order: 5,
