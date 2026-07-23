@@ -3,6 +3,7 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useState,
   ReactNode,
 } from "react";
@@ -23,8 +24,16 @@ export function CursorProvider({
 }: {
   children: ReactNode;
 }) {
+  const pathname = usePathname();
+
   const [label, setLabel] = useState("");
   const [hovering, setHovering] = useState(false);
+
+  // Reset cursor state after every route change
+  useEffect(() => {
+    setHovering(false);
+    setLabel("");
+  }, [pathname]);
 
   return (
     <CursorContext.Provider
