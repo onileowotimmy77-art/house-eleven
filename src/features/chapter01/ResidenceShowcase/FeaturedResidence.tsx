@@ -115,7 +115,7 @@ export default function FeaturedResidence() {
             text-white/60
           "
         >
-          Tailored for Him & Her. Designed as the defining garment
+          Designed as the defining garment
           of Chapter 01.
         </p>
 
