@@ -364,7 +364,7 @@ export const products: Product[] = [
 
 {
   slug: "house11-reflective-tank-top",
-  order: 5,
+  order: 4,
 
   name: "House 11 Reflective Tank Top",
 
@@ -469,6 +469,7 @@ export const products: Product[] = [
 
 {
   slug: "residence-rhinestone-jorts",
+  order: 5,
 
   name: "Residence Rhinestone Jorts",
 
