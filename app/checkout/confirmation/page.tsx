@@ -13,7 +13,7 @@ import ConfirmationActions from "@/components/confirmation/ConfirmationActions";
 export default function ConfirmationPage() {
   return (
     <>
-      <CommerceHeader className="pb-0"
+      <CommerceHeader className="-pb-28"
         eyebrow=""
         description=""
         title="Confirmation"
