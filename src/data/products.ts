@@ -252,6 +252,7 @@ export const products: Product[] = [
   ],
 },
 
+//Residence tee
 {
   slug: "residence-tee",
   order: 3,
