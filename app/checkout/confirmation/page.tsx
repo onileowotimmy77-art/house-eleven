@@ -13,13 +13,13 @@ import ConfirmationActions from "@/components/confirmation/ConfirmationActions";
 export default function ConfirmationPage() {
   return (
     <>
-      <CommerceHeader className="-pb-28"
+      <CommerceHeader
         eyebrow=""
         description=""
         title="Confirmation"
       />
 
-      <Section customPadding="py-48">
+      <Section customPadding="py-20">
 
         <Container className="max-w-5xl">
 
