@@ -6,6 +6,37 @@ import { getCollection } from "@/src/data/getCollection";
 
 export default function ResidenceGrid() {
   const products = getCollection("Residence");
+
+  const layout = [
+  {
+    eyebrow: "Layer",
+    description:
+      "Built through layered construction and engineered for everyday permanence.",
+    image: "/sweatshirt.jpg",
+    className: "lg:col-span-6",
+  },
+  {
+    eyebrow: "Essential",
+    description:
+      "The foundation of the Residence collection, defined by proportion and longevity.",
+    image: "/tee.jpg",
+    className: "lg:col-span-6 lg:pt-32",
+  },
+  {
+    eyebrow: "Statement",
+    description:
+      "Performance-inspired minimalism elevated through restrained reflective detailing.",
+    image: "/tank.jpg",
+    className: "lg:col-span-6 lg:pt-32",
+  },
+  {
+    eyebrow: "Expression",
+    description:
+      "Heavyweight denim elevated through restrained embellishment.",
+    image: "/jorts.jpg",
+    className: "lg:col-span-6",
+  },
+];
   return (
     <>
     
