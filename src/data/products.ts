@@ -17,6 +17,8 @@ export interface ProductCraftsmanshipItem {
 export interface Product {
   slug: string;
 
+  order: number;
+
   name: string;
   subtitle: string;
   description: string;
