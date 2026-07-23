@@ -460,10 +460,108 @@ export const products: Product[] = [
   ],
 },
 
+{
+  slug: "residence-rhinestone-jorts",
 
+  name: "Residence Rhinestone Jorts",
 
+  subtitle: "Heavyweight Denim with Hand-Applied Rhinestones",
 
+  description:
+    "A structured denim silhouette elevated through restrained embellishment, balancing craftsmanship with quiet expression.",
 
+  price: "₦125,000",
 
+  chapter: "CHAPTER I",
+
+  collection: "Residence",
+
+  edition: "First Release",
+
+  color: "Vintage Black",
+
+  material: "14oz Premium Cotton Denim",
+
+  fit: "Relaxed",
+
+  madeIn: "Lagos, Nigeria",
+
+  sizes: ["S", "M", "L", "XL"],
+
+  heroImage:
+    "/products/residence-rhinestone-jorts/hero.jpg",
+
+  story:
+    "The Residence Rhinestone Jorts challenge the idea that embellishment must be excessive. Each stone is intentionally placed to catch light subtly, allowing craftsmanship rather than decoration to define the garment. Built as an expressive counterpart within the Residence collection, the silhouette remains grounded in House Eleven's philosophy of restraint.",
+
+  craftsmanship: [
+    {
+      title: "Premium Denim",
+      description:
+        "Constructed from heavyweight cotton denim chosen for structure, durability and graceful ageing.",
+    },
+    {
+      title: "Hand-Applied Rhinestones",
+      description:
+        "Each rhinestone is individually positioned to create depth and light without overwhelming the garment.",
+    },
+    {
+      title: "Architectural Fit",
+      description:
+        "Relaxed proportions allow effortless movement while maintaining a strong silhouette.",
+    },
+    {
+      title: "Built To Age",
+      description:
+        "Designed so both the denim and embellishment develop character through continued wear.",
+    },
+  ],
+
+  specs: [
+    {
+      label: "Material",
+      value: "14oz Premium Cotton Denim",
+    },
+    {
+      label: "Fit",
+      value: "Relaxed",
+    },
+    {
+      label: "Color",
+      value: "Vintage Black",
+    },
+    {
+      label: "Origin",
+      value: "Made in Lagos, Nigeria",
+    },
+  ],
+
+  gallery: [
+    {
+      image:
+        "/products/residence-rhinestone-jorts/gallery-1.jpg",
+      alt: "Residence Rhinestone Jorts Campaign",
+      aspect: "landscape",
+    },
+    {
+      image:
+        "/products/residence-rhinestone-jorts/gallery-2.jpg",
+      alt: "Rhinestone Detail",
+      aspect: "portrait",
+    },
+    {
+      image:
+        "/products/residence-rhinestone-jorts/gallery-3.jpg",
+      alt: "Denim Construction",
+      aspect: "portrait",
+    },
+    {
+      image:
+        "/products/residence-rhinestone-jorts/gallery-4.jpg",
+      alt: "Residence Rhinestone Jorts Editorial",
+      aspect: "landscape",
+    },
+  ],
+}
 
 ];
