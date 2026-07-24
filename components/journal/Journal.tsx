@@ -3,13 +3,13 @@
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
-import JournalFeature from "./JournalFeature";
+import HomepageJournalFeature from "./HomepageJournalFeature";
 
 export default function Journal() {
   return (
     <Section customPadding="py-44">
       <Container>
-        <JournalFeature />
+        <HomepageJournalFeature />
       </Container>
     </Section>
   );
