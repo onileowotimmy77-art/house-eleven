@@ -29,6 +29,7 @@ export default function Section({
 }: SectionProps) {
   return (
     <section
+      id={id}
       className={`
         relative
         bg-black
