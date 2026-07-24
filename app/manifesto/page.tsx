@@ -1,6 +1,6 @@
-import ManifestoHero from "@/src/homepage/manifesto/ManifestoHero";
+import ManifestoHero from "@/src/features/manifesto/ManifestoHero";
 import ManifestoStatements from "@/src/homepage/manifesto/ManifestoStatements";
-import ManifestoArrival from "@/src/homepage/manifesto/ManifestoArrival";
+import ManifestoArrival from "@/src/features/manifesto/ManifestoArrival";
 
 export default function ManifestoPage() {
   return (
