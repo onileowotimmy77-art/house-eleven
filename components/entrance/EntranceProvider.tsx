@@ -48,7 +48,18 @@ export function EntranceProvider({
 
   window.setTimeout(() => {
     setEntranceState("transitioning");
-  }, 950);
+
+    document
+      .getElementById("manifesto")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  }, 1100);
+
+  window.setTimeout(() => {
+    setEntranceState("entered");
+  }, 2400);
 }
   return (
     <EntranceContext.Provider
