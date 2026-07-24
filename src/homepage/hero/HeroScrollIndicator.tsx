@@ -8,7 +8,7 @@ import { useEntrance } from "@/components/entrance/EntranceProvider";
 export default function HeroScrollIndicator() {
   const [hidden, setHidden] = useState(false);
   const { entranceState } = useEntrance();
-  
+
   useEffect(() => {
     const handleScroll = () => {
       setHidden(window.scrollY > 80);
@@ -23,9 +23,16 @@ export default function HeroScrollIndicator() {
     <Entrance delay={1.6}>
       <motion.div
         animate={{
-          opacity: hidden ? 0 : 1,
-          y: hidden ? 30 : 0,
-        }}
+  opacity:
+    hidden || entranceState === "transitioning"
+      ? 0
+      : 1,
+
+  y:
+    hidden || entranceState === "transitioning"
+      ? 30
+      : 0,
+}}
         transition={{
           duration: 0.45,
           ease: [0.22, 1, 0.36, 1],
