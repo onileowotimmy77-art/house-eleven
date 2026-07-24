@@ -7,7 +7,8 @@ import { useEntrance } from "@/components/entrance/EntranceProvider";
 
 export default function HeroScrollIndicator() {
   const [hidden, setHidden] = useState(false);
-
+  const { entranceState } = useEntrance();
+  
   useEffect(() => {
     const handleScroll = () => {
       setHidden(window.scrollY > 80);
