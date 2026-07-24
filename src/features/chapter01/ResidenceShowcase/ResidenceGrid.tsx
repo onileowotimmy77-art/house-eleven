@@ -79,16 +79,17 @@ export default function ResidenceGrid() {
       <section className="mt-32"></section>
 
       {/* Chapter CTA */}
-<section
-  className="
-    mt-32
-    flex
-    justify-center
-  "
-        >
+        <section
+          className="
+            mt-32
+            flex
+            justify-center
+          "
+                >
           <Link
             href="/collections/residence"
             className="
+              group
               inline-flex
               items-center
               gap-3
