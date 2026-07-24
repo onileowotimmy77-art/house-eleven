@@ -60,7 +60,7 @@ export default function RootLayout({
       
       
           
-            <MenuProvider>
+          <MenuProvider>
             <AppTransitionProvider>
               <CursorProvider>
                 <AnimationProvider>
@@ -75,7 +75,7 @@ export default function RootLayout({
                 </AnimationProvider>
               </CursorProvider>
             </AppTransitionProvider>
-            </MenuProvider>
+          </MenuProvider>
          
        
 
