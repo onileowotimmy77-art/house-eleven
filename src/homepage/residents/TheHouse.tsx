@@ -101,7 +101,7 @@ export default function TheHouse() {
               <EditorialLink
                 href="/manifesto"
                 className="mt-12"
-                cursorLabel="ENTER"
+              
               >
                 Read the Manifesto
               </EditorialLink>
