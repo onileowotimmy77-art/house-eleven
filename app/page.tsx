@@ -2,7 +2,7 @@ import Loader from "@/components/loader/Loader";
 import Navbar from "@/components/navigation/Navbar";
 import Hero from "@/src/homepage/hero/Hero";
 import Manifesto from "@/src/homepage/manifesto/Manifesto";
-import Chapter01 from "@/src/features/chapter01/Chapter01";
+import Chapter01 from "@/src/homepage/chapter01/Chapter01";
 import EditorialTransition from "@/components/ui/EditorialTranstion";
 import Journal from "@/src/homepage/journal/Journal";
 import Residents from "@/src/homepage/residents/Residents";

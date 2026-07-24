@@ -1,6 +1,6 @@
 "use client";
 
-import GalleryItem from "@/src/features/chapter01/ResidenceShowcase/CollectionGalleryItem";
+import GalleryItem from "@/src/homepage/ResidenceShowcase/CollectionGalleryItem";
 import { getCollection } from "@/src/data/getCollection";
 import Link from "next/link";
 import EditorialLink from "@/components/ui/EditorialLink";
