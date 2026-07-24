@@ -5,7 +5,7 @@ import Container from "@/components/layout/Container";
 
 import ManifestoHeader from "./ManifestoHeader";
 import ManifestoIntro from "./ManifestoIntro";
-import ManifestoStatements from "./ManifestoStatements";
+import ManifestoStatements from "../../features/manifesto/ManifestoStatements";
 
 
 
