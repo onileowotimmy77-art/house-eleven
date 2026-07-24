@@ -15,6 +15,7 @@ import {
 } from "./fonts";
 import { MenuProvider } from "@/components/navigation/MenuProvider";
 import Concierge from "@/components/navigation/Concierge";
+import { EntranceProvider } from "@/components/entrance/EntranceProvider";
 
 
 
@@ -64,6 +65,7 @@ export default function RootLayout({
             <AppTransitionProvider>
               <CursorProvider>
                 <AnimationProvider>
+                  <EntranceProvider>
                   <Cursor />
                   
                 
