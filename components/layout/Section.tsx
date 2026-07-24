@@ -18,7 +18,7 @@ interface SectionProps {
    * global spacing tokens.
    */
   customPadding?: string;
-  id?: string
+  id?: string;
 }
 
 export default function Section({
