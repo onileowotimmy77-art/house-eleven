@@ -105,7 +105,7 @@ export default function HomepageJournalFeature() {
               <EditorialLink
                 href={`/journal/${featuredIssue.slug}`}
                 className="mt-12"
-                cursorLabel="READ"
+               
               >
                 Read Issue
               </EditorialLink>
