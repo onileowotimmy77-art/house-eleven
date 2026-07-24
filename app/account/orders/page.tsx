@@ -1,7 +1,7 @@
 "use client";
 
-import AccountLayout from "@/components/account/AccountLayout";
-import OrderCard from "@/components/account/OrderCard";
+import AccountLayout from "@/src/features/account/AccountLayout";
+import OrderCard from "@/src/features/account/OrderCard";
 
 export default function OrdersPage() {
   return (

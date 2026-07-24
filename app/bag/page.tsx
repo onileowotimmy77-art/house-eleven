@@ -1,6 +1,6 @@
-import CommerceHeader from "@/components/commerce/CommerceHeader";
-import BagItems from "@/components/bag/BagItems";
-import BagSummarySection from "@/components/bag/BagSummarySection";
+import CommerceHeader from "@/src/features/commerce/CommerceHeader";
+import BagItems from "@/src/features/bag/BagItems";
+import BagSummarySection from "@/src/features/bag/BagSummarySection";
 
 export default function BagPage() {
   return (

@@ -3,12 +3,12 @@
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
-import CommerceHeader from "@/components/commerce/CommerceHeader";
+import CommerceHeader from "@/src/features/commerce/CommerceHeader";
 
-import ConfirmationHero from "@/components/confirmation/ConfirmationHero";
-import ConfirmationSummary from "@/components/confirmation/ConfirmationSummary";
-import ConfirmationTimeline from "@/components/confirmation/ConfirmationTimeline";
-import ConfirmationActions from "@/components/confirmation/ConfirmationActions";
+import ConfirmationHero from "@/src/features/confirmation/ConfirmationHero";
+import ConfirmationSummary from "@/src/features/confirmation/ConfirmationSummary";
+import ConfirmationTimeline from "@/src/features/confirmation/ConfirmationTimeline";
+import ConfirmationActions from "@/src/features/confirmation/ConfirmationActions";
 
 export default function ConfirmationPage() {
   return (

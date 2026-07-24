@@ -1,7 +1,7 @@
 "use client";
 
 import BagItem from "./BagItem";
-import CommerceEmpty from "@/components/commerce/CommerceEmpty";
+import CommerceEmpty from "@/src/features/commerce/CommerceEmpty";
 
 const bagItems = [
   {

@@ -2,7 +2,7 @@
 
 import Reveal from "@/components/motion/Reveal";
 
-import CommerceButton from "@/components/commerce/CommerceButton";
+import CommerceButton from "@/src/features/commerce/CommerceButton";
 
 import {
   Eyebrow,

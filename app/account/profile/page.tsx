@@ -1,7 +1,7 @@
 "use client";
 
-import AccountLayout from "@/components/account/AccountLayout";
-import ProfileInformation from "@/components/account/ProfileInformation";
+import AccountLayout from "@/src/features/account/AccountLayout";
+import ProfileInformation from "@/src/features/account/ProfileInformation";
 
 export default function ProfilePage() {
   return (

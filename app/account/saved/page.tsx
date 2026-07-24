@@ -1,7 +1,7 @@
 "use client";
 
-import AccountLayout from "@/components/account/AccountLayout";
-import SavedPieceCard from "@/components/account/SavedPieceCard";
+import AccountLayout from "@/src/features/account/AccountLayout";
+import SavedPieceCard from "@/src/features/account/SavedPieceCard";
 
 export default function SavedPiecesPage() {
   return (

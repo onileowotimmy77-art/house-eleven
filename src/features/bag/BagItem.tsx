@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 
-import CommerceDivider from "@/components/commerce/CommerceDivider";
-import CommercePrice from "@/components/commerce/CommercePrice";
-import CommerceQuantity from "@/components/commerce/CommerceQuantity";
+import CommerceDivider from "@/src/features/commerce/CommerceDivider";
+import CommercePrice from "@/src/features/commerce/CommercePrice";
+import CommerceQuantity from "@/src/features/commerce/CommerceQuantity";
 
 interface BagItemProps {
   image: string;

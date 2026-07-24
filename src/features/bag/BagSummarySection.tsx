@@ -2,7 +2,7 @@
 
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
-import CommerceSummary from "@/components/commerce/CommerceSummary";
+import CommerceSummary from "@/src/features/commerce/CommerceSummary";
 
 interface BagSummarySectionProps {
   children: React.ReactNode;

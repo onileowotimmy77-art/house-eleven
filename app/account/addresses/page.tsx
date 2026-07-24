@@ -1,7 +1,7 @@
 "use client";
 
-import AccountLayout from "@/components/account/AccountLayout";
-import AddressCard from "@/components/account/AddressCard";
+import AccountLayout from "@/src/features/account/AccountLayout";
+import AddressCard from "@/src/features/account/AddressCard";
 
 export default function AddressesPage() {
   return (

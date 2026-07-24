@@ -4,7 +4,7 @@ import {
   ArchiveTimeline,
  
   ArchiveChapter,
-} from "@/components/archive";
+} from "@/src/features/archive";
 
 export default function ArchivePage() {
   return (

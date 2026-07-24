@@ -1,7 +1,7 @@
-import CommerceHeader from "@/components/commerce/CommerceHeader";
+import CommerceHeader from "@/src/features/commerce/CommerceHeader";
 
-import CheckoutProgress from "@/components/checkout/CheckoutProgress";
-import CheckoutSection from "@/components/checkout/CheckoutSection";
+import CheckoutProgress from "@/src/features/checkout/CheckoutProgress";
+import CheckoutSection from "@/src/features/checkout/CheckoutSection";
 
 export default function CheckoutPage() {
   return (
