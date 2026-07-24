@@ -28,30 +28,15 @@ export default function HeroContent() {
           pb-24
         "
       >
-        <motion.div
-  animate={
-    entranceState === "transitioning"
-      ? {
-          opacity: 0,
-          y: -48,
-        }
-      : {
-          opacity: 1,
-          y: 0,
-        }
-  }
-  transition={{
-    duration: 0.9,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  className="
-    max-w-5xl
-    flex
-    flex-col
-    justify-end
-    gap-6
-  "
->
+        <div
+          className="
+            max-w-5xl
+            flex
+            flex-col
+            justify-end
+            gap-6
+          "
+        >
           <Entrance delay={0.5}>
             <h1
               className="
@@ -109,7 +94,7 @@ export default function HeroContent() {
             </div>
           </Entrance>
         </div>
-      </motion.div>
+      </div>
     </Container>
   );
 }
