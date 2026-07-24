@@ -6,8 +6,9 @@ import Entrance from "@/components/motion/Entrance";
 
 import useCursorTarget from "@/components/cursor/useCursorTarget";
 import { CursorLabels } from "@/lib/cursor";
-
+import {  }
 import { useEntrance } from "@/components/entrance/EntranceProvider";
+
 
 export default function HeroContent() {
   const enterCursor = useCursorTarget(CursorLabels.ENTER);
