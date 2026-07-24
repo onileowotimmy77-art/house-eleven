@@ -1,9 +1,9 @@
 "use client";
 
-import SectionHeader from "../../ui/SectionHeader";
+import SectionHeader from "../../components/ui/SectionHeader";
 import ResidentCard from "./ResidentCard";
 import Container from "@/components/layout/Container";
-import Section from "../../layout/Section";
+import Section from "../../components/layout/Section";
 import Stagger from "@/components/motion/Stagger";
 
 export default function Residents() {

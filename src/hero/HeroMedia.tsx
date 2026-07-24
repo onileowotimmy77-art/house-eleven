@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useAppTransition } from "../../providers/AppTransitionProvider";
+import { useAppTransition } from "../../components/providers/AppTransitionProvider";
 
 export default function HeroMedia() {
   const { ready } = useAppTransition();

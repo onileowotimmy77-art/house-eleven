@@ -1,7 +1,7 @@
 "use client";
 
 import FadeUp from "@/components/ui/FadeUp";
-import Editorial from "../../ui/typography/Editorial";
+import Editorial from "../../components/ui/typography/Editorial";
 
 export default function ManifestoClosing() {
   return (
