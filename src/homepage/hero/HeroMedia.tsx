@@ -7,7 +7,7 @@ import { useAppTransition } from "../../../components/providers/AppTransitionPro
 
 export default function HeroMedia() {
   const { ready } = useAppTransition();
-  const { entranceState }
+  const { entranceState } = useEntrance();
   return (
     <motion.div
       className="absolute inset-0 overflow-hidden"
