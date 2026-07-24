@@ -108,7 +108,7 @@ export default function HeroContent() {
               </Button>
             </div>
           </Entrance>
-        </div>
+        </motion.div>
       </div>
     </Container>
   );
