@@ -2,7 +2,7 @@
 
 import GalleryItem from "@/src/homepage/chapter01/ResidenceShowcase/CollectionGalleryItem";
 import { getCollection } from "@/src/data/getCollection";
-import Link from "next/link";
+
 import EditorialLink from "@/components/ui/EditorialLink";
 
 export default function ResidenceGrid() {
