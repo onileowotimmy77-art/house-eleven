@@ -91,8 +91,13 @@ export default function ResidenceGrid() {
   className="
     group
     inline-flex
-    flex-col
     items-center
+    gap-3
+
+    border-b
+    border-transparent
+
+    pb-1
 
     text-[11px]
     uppercase
@@ -100,47 +105,25 @@ export default function ResidenceGrid() {
 
     text-white/60
 
-    transition-colors
+    transition-all
     duration-500
 
     hover:text-white
+    hover:border-white/70
   "
 >
-  <span
-    className="
-      inline-flex
-      items-center
-      gap-3
-    "
-  >
-    Explore the Full Residence Collection
-
-    <span
-      className="
-        transition-transform
-        duration-500
-        ease-out
-        group-hover:translate-x-1
-      "
-    >
-      →
-    </span>
-  </span>
+  <span>Explore the Full Residence Collection</span>
 
   <span
     className="
-      mt-3
-      h-px
-      w-0
-      bg-white
-
-      transition-all
+      transition-transform
       duration-500
       ease-[cubic-bezier(0.22,1,0.36,1)]
-
-      group-hover:w-full
+      group-hover:translate-x-1
     "
-  />
+  >
+    →
+  </span>
 </Link>
 </section>
     </>
