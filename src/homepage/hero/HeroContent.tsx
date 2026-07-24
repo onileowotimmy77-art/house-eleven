@@ -6,7 +6,7 @@ import Entrance from "@/components/motion/Entrance";
 
 import useCursorTarget from "@/components/cursor/useCursorTarget";
 import { CursorLabels } from "@/lib/cursor";
-import {  }
+import { motion } from "framer-motion";
 import { useEntrance } from "@/components/entrance/EntranceProvider";
 
 
