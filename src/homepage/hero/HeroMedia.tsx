@@ -16,10 +16,15 @@ export default function HeroMedia() {
         scale: 1.04,
       }}
       animate={{
-              opacity: ready ? 1 : 0,
-              scale: ready? 1 : 1.04,
-            }
-      }
+  opacity: ready ? 1 : 0,
+
+  scale:
+    !ready
+      ? 1.04
+      : entranceState === "transitioning"
+      ? 1.08
+      : 1,
+}}
       transition={{
         duration: 2.8,
         ease: [0.22, 1, 0.36, 1],
