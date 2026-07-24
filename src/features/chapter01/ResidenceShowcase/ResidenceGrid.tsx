@@ -87,37 +87,61 @@ export default function ResidenceGrid() {
           "
                 >
           <Link
-            href="/collections/residence"
-            className="
-              group
-              inline-flex
-              items-center
-              gap-3
+  href="/collections/residence"
+  className="
+    group
+    inline-flex
+    flex-col
+    items-center
 
-              text-[11px]
-              uppercase
-              tracking-[0.45em]
+    text-[11px]
+    uppercase
+    tracking-[0.45em]
 
-              text-white/60
+    text-white/60
 
-              transition-colors
-              duration-500
+    transition-colors
+    duration-500
 
-              hover:text-white
-            "
-          >
-            Explore the Full Residence Collection
+    hover:text-white
+  "
+>
+  <span
+    className="
+      inline-flex
+      items-center
+      gap-3
+    "
+  >
+    Explore the Full Residence Collection
 
-            <span
-              className="
-                transition-transform
-                duration-500
-                group-hover:translate-x-1
-              "
-            >
-              →
-            </span>
-          </Link>
+    <span
+      className="
+        transition-transform
+        duration-500
+        ease-out
+        group-hover:translate-x-1
+      "
+    >
+      →
+    </span>
+  </span>
+
+  <span
+    className="
+      mt-3
+      h-px
+      w-0
+      bg-white
+
+      transition-all
+      duration-500
+      ease-[cubic-bezier(0.22,1,0.36,1)]
+
+      group-hover:w-full
+    "
+  />
+</Link>
 </section>
     </>
   );
