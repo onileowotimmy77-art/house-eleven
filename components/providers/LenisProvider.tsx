@@ -5,6 +5,11 @@ import Lenis from "lenis";
 
 import { useMenu } from "@/components/navigation/MenuProvider";
 
+import {
+  registerLenis,
+  unregisterLenis,
+} from "@/lib/lenis";
+
 interface LenisProviderProps {
   children: React.ReactNode;
 }
@@ -25,6 +30,9 @@ export default function LenisProvider({
 
     lenisRef.current = lenis;
 
+    // Register globally
+    registerLenis(lenis);
+
     let frame: number;
 
     function raf(time: number) {
@@ -36,6 +44,9 @@ export default function LenisProvider({
 
     return () => {
       cancelAnimationFrame(frame);
+
+      unregisterLenis();
+
       lenis.destroy();
       lenisRef.current = null;
     };
