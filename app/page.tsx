@@ -1,11 +1,11 @@
 import Loader from "@/components/loader/Loader";
 import Navbar from "@/components/navigation/Navbar";
-import Hero from "@/src/hero/Hero";
-import Manifesto from "@/src/manifesto/Manifesto";
+import Hero from "@/src/homepage/hero/Hero";
+import Manifesto from "@/src/homepage/manifesto/Manifesto";
 import Chapter01 from "@/src/features/chapter01/Chapter01";
 import EditorialTransition from "@/components/ui/EditorialTranstion";
-import Journal from "@/src/journal/Journal";
-import Residents from "@/src/residents/Residents";
+import Journal from "@/src/homepage/journal/Journal";
+import Residents from "@/src/homepage/residents/Residents";
 import Finale from "@/components/finale/Finale";
 
 

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCursorContext } from "@/components/cursor/CursorProvider";
-import HoverCard from "../../components/motion/HoverCard";
+import HoverCard from "../../../components/motion/HoverCard";
 import Reveal from "@/components/motion/Reveal";
 
 interface ResidentCardProps {

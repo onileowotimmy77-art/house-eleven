@@ -3,7 +3,7 @@
 import Container from "@/components/layout/Container";
 import Button from "@/components/ui/Button";
 import Entrance from "@/components/motion/Entrance";
-import useCursorTarget from "../../components/cursor/useCursorTarget";
+import useCursorTarget from "../../../components/cursor/useCursorTarget";
 import { CursorLabels } from "@/lib/cursor";
 
 export default function HeroContent() {
