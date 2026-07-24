@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { }
+import { useEntrance } from "@/components/entrance/EntranceProvider";
 import { useAppTransition } from "../../../components/providers/AppTransitionProvider";
 
 export default function HeroMedia() {
   const { ready } = useAppTransition();
-
+  const { entranceState }
   return (
     <motion.div
       className="absolute inset-0 overflow-hidden"
