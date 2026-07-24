@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Entrance from "../../../components/motion/Entrance";
-import 
+import { useEntrance } from "@/components/entrance/EntranceProvider";
 
 export default function HeroScrollIndicator() {
   const [hidden, setHidden] = useState(false);
