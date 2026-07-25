@@ -44,27 +44,30 @@ export function EntranceProvider({
 
   setEntranceState("preparing");
 
+  // Button changes to WELCOME HOME
   window.setTimeout(() => {
     setEntranceState("welcome");
   }, 350);
 
+  // Hold for a cinematic beat
   window.setTimeout(() => {
-  setEntranceState("transitioning");
+    setEntranceState("transitioning");
 
-  const lenis = getLenis();
+    const lenis = getLenis();
 
-  if (!lenis) return;
+    if (!lenis) return;
 
-  lenis.scrollTo("#manifesto", {
-    offset: 0,
-    duration: 2.4,
-    easing: (t) => 1 - Math.pow(1 - t, 4),
-  });
-}, 1100);
+    lenis.scrollTo("#manifesto-header", {
+      offset: -120,
+      duration: 2.8,
+      easing: (t) => 1 - Math.pow(1 - t, 5),
+    });
+  }, 1500);
 
+  // Transition completes after the camera settles
   window.setTimeout(() => {
     setEntranceState("entered");
-  }, 2400);
+  }, 4500);
 }
   return (
     <EntranceContext.Provider
