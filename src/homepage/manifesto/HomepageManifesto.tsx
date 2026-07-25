@@ -16,7 +16,6 @@ export default function HomepageManifesto() {
   return (
     <div
       ref={ref}
-      className="mt-2"
     >
       <motion.div
         initial={{
@@ -58,7 +57,7 @@ export default function HomepageManifesto() {
 
           <Body
             className="
-              mt-10
+              mt-7
               text-[25px]
               leading-[2.2]
               tracking-[0.02em]
