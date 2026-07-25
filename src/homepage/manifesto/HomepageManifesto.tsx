@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 
-import Editorial from "@/components/ui/typography/Editorial";
+import { Display } from "@/components/ui/typography";
+
 import useEntranceReveal from "@/components/entrance/useEntranceReveal";
 
 export default function HomepageManifesto() {
@@ -13,7 +14,10 @@ export default function HomepageManifesto() {
   } = useEntranceReveal();
 
   return (
-    <div ref={ref} className="mt-28">
+    <div
+      ref={ref}
+      className="mt-24"
+    >
       <motion.div
         initial={{
           opacity: 0,
@@ -31,35 +35,34 @@ export default function HomepageManifesto() {
               }
         }
         transition={{
-          duration: cinematic ? 1.3 : 0.8,
+          duration: cinematic ? 1.2 : 0.8,
           delay: cinematic ? 0.95 : 0,
           ease: [0.22, 1, 0.36, 1],
         }}
       >
         <div className="mx-auto max-w-4xl text-center">
-          <Editorial>
+
+          <div className="mx-auto mb-12 h-px w-24 bg-white/10" />
+
+          <Display
+            className="
+              text-[clamp(2rem,3vw,3.75rem)]
+              leading-[1.08]
+              tracking-[-0.05em]
+            "
+          >
             <>
-              House Eleven exists for those who move first.
-              <br />
-              We do not design for seasons.
-              <br />
-              We design for permanence.
-              <br />
-              <br />
-              Every silhouette is intentional.
-              <br />
-              Every detail is deliberate.
-              <br />
-              Every chapter becomes part of a larger story.
-              <br />
-              <br />
               This is more than clothing.
               <br />
-              <span className="italic">
-                Welcome Home.
-              </span>
+              <br />
+              It is a house
+              <br />
+              built for those
+              <br />
+              creating lives of purpose.
             </>
-          </Editorial>
+          </Display>
+
         </div>
       </motion.div>
     </div>
