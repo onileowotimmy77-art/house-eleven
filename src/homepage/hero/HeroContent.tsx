@@ -16,7 +16,7 @@ export default function HeroContent() {
     onMouseEnter,
     onMouseLeave,
     onClick,
-  }
+  } = useCursorTarget(CursorLabels.ENTER);
   const {
     entranceState,
     enterHouse,
