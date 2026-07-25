@@ -4,8 +4,7 @@ import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
 
 import ManifestoHeader from "./ManifestoHeader";
-//import ManifestoIntro from "./ManifestoIntro";
-import ManifestoStatements from "../../features/manifesto/ManifestoStatements";
+import 
 
 
 
