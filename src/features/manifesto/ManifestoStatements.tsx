@@ -177,15 +177,15 @@ export default function ManifestoStatements({
         }
 
         return (
-          <FadeUp
-            key={index}
-            delay={0.2 + index * 0.15}
-          >
-            <div className={`max-w-2xl ${alignment}`}>
-              <Editorial>{statement}</Editorial>
-            </div>
-          </FadeUp>
-        );
+  <ManifestoStatement
+    key={index}
+    index={index}
+    alignment={alignment}
+    cinematic={cinematic}
+  >
+    {statement}
+  </ManifestoStatement>
+);
       })}
     </div>
   );
