@@ -52,7 +52,7 @@ export default function Hero() {
       >
         <HeroContent />
 
-       
+        <HeroScrollIndicator />
       </motion.div>
     </motion.section>
   );
