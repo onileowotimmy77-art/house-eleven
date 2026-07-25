@@ -120,7 +120,7 @@ export default function ManifestoStatements({
     entranceState === "entered";
 
   return (
-    <div className="mt-6 mb-20 space-y-10">
+    <div className="mt-6 mb-20 space-y-15">
       {statements.map((statement, index) => {
         const isLast =
           full && index === statements.length - 1;
