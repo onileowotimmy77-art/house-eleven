@@ -16,6 +16,7 @@ export default function ManifestoHeader() {
     <div
       id="manifesto-header" 
       ref={ref}>
+      
       <motion.div
         initial={{
           opacity: 0,
@@ -38,7 +39,7 @@ export default function ManifestoHeader() {
           ease: [0.22, 1, 0.36, 1],
         }}
       >
-        <SectionHeader
+        <SectionHeader className="-mb"
           eyebrow="Manifesto"
           title="Second To None."
           description="House Eleven exists for those who move first. Every garment is designed with intention, crafted with restraint, and created to outlive trends."
