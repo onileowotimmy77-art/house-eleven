@@ -74,7 +74,7 @@ export default function HomepageManifesto() {
           <Body
             className="
               
-              text-[15px]
+              text-[30px]
               leading-[2.2]
               tracking-[-0.08em]
               text-white/70
