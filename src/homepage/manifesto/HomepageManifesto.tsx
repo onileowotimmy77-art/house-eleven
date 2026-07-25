@@ -84,11 +84,9 @@ export default function HomepageManifesto() {
               This is more than clothing.
               <br />
               <br />
-              It is a house
+              It is a house built
               <br />
-              built for those
-              <br />
-              creating lives of purpose.
+              for those creating lives of purpose.
             </>
           </Body>
 
