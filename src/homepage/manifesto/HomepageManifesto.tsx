@@ -71,9 +71,9 @@ export default function HomepageManifesto() {
   "
 />
 
-          <p
+          <Body
             className="
-              font-mono
+              
               text-[15px]
               leading-[2.2]
               tracking-[-0.08em]
@@ -90,7 +90,7 @@ export default function HomepageManifesto() {
               <br />
               creating lives of purpose.
             </>
-          </p>
+          </Body>
 
         </div>
       </motion.div>
