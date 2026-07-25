@@ -39,7 +39,7 @@ export default function HomepageManifesto() {
           ease: [0.22, 1, 0.36, 1],
         }}
       >
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="relative mx-auto max-w-4xl text-center">
 
           <Body
             className="
