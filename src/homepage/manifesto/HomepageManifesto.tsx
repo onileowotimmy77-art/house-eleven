@@ -16,7 +16,7 @@ export default function HomepageManifesto() {
   return (
     <div
       ref={ref}
-      className="mt-24"
+      className="mt-12"
     >
       <motion.div
         initial={{
@@ -65,7 +65,7 @@ export default function HomepageManifesto() {
   }}
   className="
     mx-auto
-    mb-12
+    mb-6
     h-px
     bg-white/10
   "
@@ -86,7 +86,7 @@ export default function HomepageManifesto() {
               <br />
               It is a house built
               <br />
-              for thosecreating lives of purpose.
+              for those creating lives of purpose.
             </>
           </Body>
 
