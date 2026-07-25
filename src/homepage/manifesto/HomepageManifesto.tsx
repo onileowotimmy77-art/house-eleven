@@ -65,7 +65,7 @@ export default function HomepageManifesto() {
   }}
   className="
     mx-auto
-    mb-6
+    mb-12
     h-px
     bg-white/10
   "
@@ -86,7 +86,7 @@ export default function HomepageManifesto() {
               <br />
               It is a house built
               <br />
-              for those creating lives of purpose.
+              for thosecreating lives of purpose.
             </>
           </Body>
 
