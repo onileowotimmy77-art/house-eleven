@@ -13,7 +13,7 @@ export default function Manifesto() {
   return (
     <Section 
       id="manifesto"
-      customPadding="py-12">
+      padding="lg">
       <Container>
 
         <ManifestoHeader />

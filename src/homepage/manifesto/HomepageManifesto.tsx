@@ -65,7 +65,7 @@ export default function HomepageManifesto() {
   }}
   className="
     mx-auto
-    mb-12
+    mb-6
     h-px
     bg-white/10
   "
