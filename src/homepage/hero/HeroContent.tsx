@@ -81,16 +81,20 @@ export default function HeroContent() {
           <Entrance delay={1.1}>
             <div className="pt-6">
               <Button
-                {...enterCursor}
-                disabled={entranceState !== "idle"}
-                onClick={enterHouse}
-                className="
-                  px-3
-                  py-2
-                  text-[10px]
-                  tracking-[0.42em]
-                "
-              >
+  onMouseEnter={onMouseEnter}
+  onMouseLeave={onMouseLeave}
+  disabled={entranceState !== "idle"}
+  onClick={() => {
+    onClick();
+    enterHouse();
+  }}
+  className="
+    px-3
+    py-2
+    text-[10px]
+    tracking-[0.42em]
+  "
+>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
                     key={entranceState}
