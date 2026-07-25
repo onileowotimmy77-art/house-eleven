@@ -18,10 +18,7 @@ export default function Manifesto() {
       <Container>
 
         <ManifestoHeader />
-
-        
-
-        <ManifestoStatements cinematic />
+<ManifestoStatements cinematic />
 
     
 
