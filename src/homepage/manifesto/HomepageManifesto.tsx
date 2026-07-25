@@ -74,9 +74,9 @@ export default function HomepageManifesto() {
           <p
             className="
               font-mono
-              text-[clamp(2rem,3vw,3.75rem)]
-              leading-[1.08]
-              tracking-[-0.05em]
+              text-[15px]
+              leading-[2.2]
+              tracking-[-0.08em]
             "
           >
             <>
