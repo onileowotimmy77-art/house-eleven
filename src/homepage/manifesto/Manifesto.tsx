@@ -21,7 +21,7 @@ export default function Manifesto() {
 
         
 
-        <ManifestoStatements />
+        <ManifestoStatements cinematic />
 
     
 
