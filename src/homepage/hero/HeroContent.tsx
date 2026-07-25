@@ -13,7 +13,9 @@ import { useEntrance } from "@/components/entrance/EntranceProvider";
 
 export default function HeroContent() {
   const {
-    
+    onMouseEnter,
+    onMouseLeave,
+    onClick,
   }
   const {
     entranceState,
