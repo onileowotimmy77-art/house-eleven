@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-import { Display } from "@/components/ui/typography";
+import { Editorial } from "@/components/ui/typography";
 
 import useEntranceReveal from "@/components/entrance/useEntranceReveal";
 
