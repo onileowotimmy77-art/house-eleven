@@ -58,7 +58,7 @@ export default function HomepageManifesto() {
 
           <Body
             className="
-              
+              mt-10
               text-[25px]
               leading-[2.2]
               tracking-[0.02em]
