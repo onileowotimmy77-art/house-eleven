@@ -16,7 +16,7 @@ export default function HomepageManifesto() {
   return (
     <div
       ref={ref}
-      className="mt-6"
+      className="mt-2"
     >
       <motion.div
         initial={{
