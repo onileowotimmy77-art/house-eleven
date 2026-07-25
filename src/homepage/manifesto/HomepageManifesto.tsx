@@ -44,7 +44,7 @@ export default function HomepageManifesto() {
 
           <div className="mx-auto mb-12 h-px w-24 bg-white/10" />
 
-          <Display
+          <Editorial
             className="
               text-[clamp(2rem,3vw,3.75rem)]
               leading-[1.08]
@@ -61,7 +61,7 @@ export default function HomepageManifesto() {
               <br />
               creating lives of purpose.
             </>
-          </Display>
+          </Editorial>
 
         </div>
       </motion.div>
