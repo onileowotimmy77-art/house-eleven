@@ -19,7 +19,7 @@ export default function Manifesto() {
 
         <ManifestoHeader />
 
-        <ManifestoIntro />
+        
 
         <ManifestoStatements />
 
