@@ -144,37 +144,9 @@ export default function ManifestoStatements({
           }
         }
 
-        if (cinematic) {
-          return (
-            <motion.div
-              key={index}
-              initial={{
-                opacity: 0,
-                y: 60,
-              }}
-              animate={
-                entered
-                  ? {
-                      opacity: 1,
-                      y: 0,
-                    }
-                  : {
-                      opacity: 0,
-                      y: 60,
-                    }
-              }
-              transition={{
-                duration: 1.2,
-                delay: 0.9 + index * 0.45,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <div className={`max-w-2xl ${alignment}`}>
-                <Editorial>{statement}</Editorial>
-              </div>
-            </motion.div>
-          );
-        }
+       
+          
+        
 
         return (
   <ManifestoStatement
