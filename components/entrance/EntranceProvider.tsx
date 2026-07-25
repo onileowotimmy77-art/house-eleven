@@ -7,6 +7,8 @@ import {
   ReactNode,
 } from "react";
 
+import { getLenis } from "@/lib/lenis";
+
 export type EntranceState =
   | "idle"
   | "preparing"
