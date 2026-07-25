@@ -13,7 +13,9 @@ export default function ManifestoHeader() {
   } = useEntranceReveal();
 
   return (
-    <div ref={ref}>
+    <div
+       
+      ref={ref}>
       <motion.div
         initial={{
           opacity: 0,
