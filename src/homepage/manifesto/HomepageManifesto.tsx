@@ -60,7 +60,7 @@ export default function HomepageManifesto() {
         
           </Body>
 
-<Body
+          <Body
             className="
               
               text-[25px]
@@ -72,7 +72,7 @@ export default function HomepageManifesto() {
           It is a house built
               <br />
               for those creating lives of purpose.
-
+          </Body>
         </div>
       </motion.div>
     </div>
