@@ -51,14 +51,27 @@ export default function HomepageManifesto() {
               text-white/70
             "
           >
-            <>
+            
               This is more than clothing.
              
               It is a house built
               <br />
               for those creating lives of purpose.
-            </>
+        
           </Body>
+
+<Body
+            className="
+              
+              text-[25px]
+              leading-[2.2]
+              tracking-[0.02em]
+              text-white/70
+            "
+          >
+          It is a house built
+              <br />
+              for those creating lives of purpose.
 
         </div>
       </motion.div>
