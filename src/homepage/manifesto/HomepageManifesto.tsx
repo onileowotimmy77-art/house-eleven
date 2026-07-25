@@ -69,6 +69,7 @@ export default function HomepageManifesto() {
               <br />
               for those creating lives of purpose.
           </Body>
+          <ManifestoJourneyIndicator />
         </div>
       </motion.div>
     </div>
