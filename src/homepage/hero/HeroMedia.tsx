@@ -31,7 +31,7 @@ export default function HeroMedia() {
       }}
     >
       <Image
-        src="/hero2.jpg"
+        src="/homeHero.jpg"
         alt="House Eleven Chapter 01 Campaign"
         fill
         priority
