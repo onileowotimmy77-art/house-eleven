@@ -12,8 +12,9 @@ import { CursorLabels } from "@/lib/cursor";
 import { useEntrance } from "@/components/entrance/EntranceProvider";
 
 export default function HeroContent() {
-  const enterCursor = useCursorTarget(CursorLabels.ENTER);
-
+  const {
+    
+  }
   const {
     entranceState,
     enterHouse,
