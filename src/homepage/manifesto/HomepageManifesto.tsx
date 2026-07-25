@@ -76,7 +76,7 @@ export default function HomepageManifesto() {
               
               text-[30px]
               leading-[2.2]
-              tracking-[-0.08em]
+              tracking-[-0.8em]
               text-white/70
             "
           >
