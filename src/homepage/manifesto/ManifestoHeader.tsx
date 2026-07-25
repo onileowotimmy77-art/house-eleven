@@ -14,7 +14,7 @@ export default function ManifestoHeader() {
 
   return (
     <div
-       
+      id="manifesto-header" 
       ref={ref}>
       <motion.div
         initial={{
