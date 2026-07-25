@@ -1,10 +1,14 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 import FadeUp from "@/components/ui/FadeUp";
-import Editorial from "../../../components/ui/typography/Editorial";
+import Editorial from "@/components/ui/typography/Editorial";
+import { useEntrance } from "@/components/entrance/EntranceProvider";
 
 interface ManifestoStatementsProps {
   full?: boolean;
+  cinematic?: boolean;
 }
 
 const homepageStatements = [
@@ -103,10 +107,17 @@ const fullStatements = [
 
 export default function ManifestoStatements({
   full = false,
+  cinematic = false,
 }: ManifestoStatementsProps) {
+  const { entranceState } = useEntrance();
+
   const statements = full
     ? fullStatements
     : homepageStatements;
+
+  const entered =
+    entranceState === "transitioning" ||
+    entranceState === "entered";
 
   return (
     <div className="mt-12 mb-20 space-y-32">
@@ -132,17 +143,45 @@ export default function ManifestoStatements({
           }
         }
 
+        if (cinematic) {
+          return (
+            <motion.div
+              key={index}
+              initial={{
+                opacity: 0,
+                y: 60,
+              }}
+              animate={
+                entered
+                  ? {
+                      opacity: 1,
+                      y: 0,
+                    }
+                  : {
+                      opacity: 0,
+                      y: 60,
+                    }
+              }
+              transition={{
+                duration: 1.2,
+                delay: 0.9 + index * 0.45,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <div className={`max-w-2xl ${alignment}`}>
+                <Editorial>{statement}</Editorial>
+              </div>
+            </motion.div>
+          );
+        }
+
         return (
           <FadeUp
             key={index}
             delay={0.2 + index * 0.15}
           >
-            <div
-              className={`max-w-2xl ${alignment}`}
-            >
-              <Editorial>
-                {statement}
-              </Editorial>
+            <div className={`max-w-2xl ${alignment}`}>
+              <Editorial>{statement}</Editorial>
             </div>
           </FadeUp>
         );
