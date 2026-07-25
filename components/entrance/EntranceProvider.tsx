@@ -58,7 +58,7 @@ export function EntranceProvider({
     if (!lenis) return;
 
     lenis.scrollTo("#manifesto-header", {
-      offset: -120,
+      offset: -80,
       duration: 2.8,
       easing: (t) => 1 - Math.pow(1 - t, 5),
     });
