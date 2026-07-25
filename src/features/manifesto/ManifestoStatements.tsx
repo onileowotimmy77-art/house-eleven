@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 
-import FadeUp from "@/components/ui/FadeUp";
-import Editorial from "@/components/ui/typography/Editorial";
+
+
 import { useEntrance } from "@/components/entrance/EntranceProvider";
 import ManifestoStatement from "@/src/homepage/manifesto/ManifestoStatement";
 
