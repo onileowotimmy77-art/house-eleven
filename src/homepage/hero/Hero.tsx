@@ -11,17 +11,15 @@ import { useEntrance } from "@/components/entrance/EntranceProvider";
 export default function Hero() {
   const { entranceState } = useEntrance();
 
+  const entering =
+    entranceState === "transitioning" ||
+    entranceState === "entered";
+
   return (
     <motion.section
-      animate={
-        entranceState === "transitioning"
-          ? {
-              scale: 1.02,
-            }
-          : {
-              scale: 1,
-            }
-      }
+      animate={{
+        scale: entering ? 1.02 : 1,
+      }}
       transition={{
         duration: 1.8,
         ease: [0.22, 1, 0.36, 1],
@@ -35,7 +33,15 @@ export default function Hero() {
     >
       <HeroMedia />
 
-      <div
+      <motion.div
+        animate={{
+          opacity: entering ? 0 : 1,
+          y: entering ? -80 : 0,
+        }}
+        transition={{
+          duration: 1.4,
+          ease: [0.22, 1, 0.36, 1],
+        }}
         className="
           absolute
           inset-0
@@ -47,7 +53,7 @@ export default function Hero() {
         <HeroContent />
 
         <HeroScrollIndicator />
-      </div>
+      </motion.div>
     </motion.section>
   );
 }
