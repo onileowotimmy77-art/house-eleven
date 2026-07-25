@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Body,  } from "@/components/ui/typography";
 
 import useEntranceReveal from "@/components/entrance/useEntranceReveal";
+import ManifestoJourneyIndicator from "@/components/manifesto/ManifestoJourneyIndicator";
 
 export default function HomepageManifesto() {
   const {
