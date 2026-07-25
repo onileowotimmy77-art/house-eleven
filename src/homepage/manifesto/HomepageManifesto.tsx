@@ -42,35 +42,6 @@ export default function HomepageManifesto() {
       >
         <div className="mx-auto max-w-4xl text-center">
 
-          <motion.div
-  initial={{
-    width: 0,
-    opacity: 0,
-  }}
-  animate={
-    revealed
-      ? {
-          width: 96,
-          opacity: 1,
-        }
-      : {
-          width: 0,
-          opacity: 0,
-        }
-  }
-  transition={{
-    duration: 0.9,
-    delay: cinematic ? 1.15 : 0.2,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  className="
-    mx-auto
-    mb-6
-    h-px
-    bg-white/10
-  "
-/>
-
           <Body
             className="
               
