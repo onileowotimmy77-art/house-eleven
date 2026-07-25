@@ -49,15 +49,18 @@ export function EntranceProvider({
   }, 350);
 
   window.setTimeout(() => {
-    setEntranceState("transitioning");
+  setEntranceState("transitioning");
 
-    document
-      .getElementById("manifesto")
-      ?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-  }, 1100);
+  const lenis = getLenis();
+
+  if (!lenis) return;
+
+  lenis.scrollTo("#manifesto", {
+    offset: 0,
+    duration: 2.4,
+    easing: (t) => 1 - Math.pow(1 - t, 4),
+  });
+}, 1100);
 
   window.setTimeout(() => {
     setEntranceState("entered");
