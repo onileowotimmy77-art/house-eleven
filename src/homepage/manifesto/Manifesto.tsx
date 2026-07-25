@@ -14,11 +14,11 @@ export default function Manifesto() {
   return (
     <Section 
       id="manifesto"
-      padding="xl">
+      padding="lg">
       <Container>
 
         <ManifestoHeader />
-<ManifestoStatements cinematic />
+        <ManifestoStatements cinematic />
 
     
 
