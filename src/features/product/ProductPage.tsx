@@ -40,7 +40,10 @@ export default function ProductPage({
 
 <ProductSpecs product={product} />
 
-<ProductAcquisition product={product} />
+<ProductAcquisition 
+  product={product}
+  inventory={inventory}
+ />
 
 <ProductFinale />
     </>
