@@ -22,6 +22,7 @@ export default function ProductPage({
 }: ProductPageProps) {
 
   const product = getProduct(slug);
+  const inventory = getInventory(slug);
 
   if (!product) {
     notFound();
