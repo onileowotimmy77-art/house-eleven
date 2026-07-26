@@ -4,6 +4,7 @@ import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
 import type { Product } from "@/src/data/products";
+import type { ProductInventory } from "@/src/data/inventory";
 
 interface ProductAcquisitionProps {
   product: Product;
