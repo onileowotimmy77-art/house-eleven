@@ -1,47 +1,59 @@
 "use client";
 
+import { useMemo } from "react";
+
 import BagItem from "./BagItem";
+
 import CommerceEmpty from "@/src/features/commerce/CommerceEmpty";
 
-const bagItems = [
-  {
-    id: "residence-polo-black",
+import { useBag } from "@/src/lib/hooks/useBag";
 
-    image: "/products/residence-polo/01.jpg",
-
-    name: "Residence Polo",
-
-    collection: "Residence",
-
-    colour: "Black",
-
-    size: "M",
-
-    quantity: 1,
-
-    price: 145000,
-  },
-
-  {
-    id: "residence-polo-cream",
-
-    image: "/products/residence-polo/02.jpg",
-
-    name: "Residence Polo",
-
-    collection: "Residence",
-
-    colour: "Cream",
-
-    size: "L",
-
-    quantity: 1,
-
-    price: 145000,
-  },
-];
+import { getProduct } from "@/src/data/getProduct";
 
 export default function BagItems() {
+  const {
+    items,
+    removeFromBag,
+    updateBagQuantity,
+  } = useBag();
+
+  const bagItems = useMemo(() => {
+    return items
+      .map((item) => {
+        const product = getProduct(item.productSlug);
+
+        if (!product) {
+          return null;
+        }
+
+        return {
+          id: ${item.productSlug}-${item.size},
+
+          image: product.bagImage,
+
+          name: product.name,
+
+          collection: product.collection,
+
+          colour: product.color,
+
+          size: item.size,
+
+          quantity: item.quantity,
+
+          price: product.priceValue,
+
+          productSlug: item.productSlug,
+        };
+      })
+      .filter(
+        (
+          item
+        ): item is NonNullable<typeof item> =>
+          item !== null
+      );
+  }, [items]);
+
   if (bagItems.length === 0) {
     return (
       <CommerceEmpty
@@ -66,9 +78,26 @@ export default function BagItems() {
           size={item.size}
           quantity={item.quantity}
           price={item.price}
-          onIncrease={() => {}}
-          onDecrease={() => {}}
-          onRemove={() => {}}
+          onIncrease={() =>
+            updateBagQuantity(
+              item.productSlug,
+              item.size,
+              item.quantity + 1
+            )
+          }
+          onDecrease={() =>
+            updateBagQuantity(
+              item.productSlug,
+              item.size,
+              item.quantity - 1
+            )
+          }
+          onRemove={() =>
+            removeFromBag(
+              item.productSlug,
+              item.size
+            )
+          }
         />
       ))}
     </div>
