@@ -8,6 +8,7 @@ import type { ProductInventory } from "@/src/data/inventory";
 
 interface ProductAcquisitionProps {
   product: Product;
+  inventory?: ProductInventory;
 }
 
 export default function ProductAcquisition({
