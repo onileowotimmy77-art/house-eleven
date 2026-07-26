@@ -1,4 +1,4 @@
-import type { Bag 
+import type { Bag, BagItem } from "./types";
 
 const bag: Bag = {
   items: [],
