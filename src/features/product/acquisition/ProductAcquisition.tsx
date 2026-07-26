@@ -13,6 +13,7 @@ interface ProductAcquisitionProps {
 
 export default function ProductAcquisition({
   product,
+  inventory,
 }: ProductAcquisitionProps) {
   return (
     <Section customPadding="py-45">
@@ -76,7 +77,7 @@ export default function ProductAcquisition({
               gap-4
             "
           >
-            {product.sizes.map((size) => (
+            {inventory?.sizes.map((size) => (
               <button
                 key={size}
                 className="
