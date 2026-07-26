@@ -190,6 +190,7 @@ export const products: Product[] = [
 
   heroImage:
     "/products/double-layered-sweatshirt/hero.jpg",
+    bagImage:  "/products/double-layered-sweatshirt/hero.jpg",
 
   story:
     "Designed around the idea that depth can exist without excess, the Double Layered Sweatshirt combines two carefully balanced layers into one architectural silhouette. Every proportion was considered to create presence through restraint rather than decoration.",
@@ -273,6 +274,7 @@ export const products: Product[] = [
     "A foundational garment defined by proportion, restraint and everyday permanence.",
 
   price: "₦75,000",
+  priceValue: 75000,
 
   chapter: "CHAPTER I",
 
@@ -291,6 +293,7 @@ export const products: Product[] = [
   sizes: ["S", "M", "L", "XL"],
 
   heroImage: "/products/residence-tee/hero.jpg",
+   "/products/double-layered-sweatshirt/hero.jpg",
 
   story:
     "The Residence Tee represents the purest expression of House Eleven. Free from unnecessary detail, every decision focuses on proportion, weight and longevity. Designed to become the garment reached for instinctively, season after season.",
