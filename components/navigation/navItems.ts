@@ -46,7 +46,7 @@ export const navItems: NavItem[] = [
   },
 
   {
-    href: "/account",
+    href: "/account/profile",
     label: "Account",
     cursor: CursorLabels.ENTER,
 
