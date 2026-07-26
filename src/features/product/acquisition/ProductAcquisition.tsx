@@ -1,7 +1,11 @@
 "use client";
 
+import { useMemo, useState } from "react";
+
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
+
+import { useBag } from "@/src/lib/hooks/useBag";
 
 import type { Product } from "@/src/data/products";
 import type { ProductInventory } from "@/src/data/inventory";
@@ -15,6 +19,38 @@ export default function ProductAcquisition({
   product,
   inventory,
 }: ProductAcquisitionProps) {
+  const { addToBag } = useBag();
+
+  const [selectedSize, setSelectedSize] =
+    useState<string | null>(null);
+
+  const sizes = useMemo(
+    () =>
+      inventory?.sizes ??
+      product.sizes.map((size) => ({
+        size,
+        stock: 1,
+      })),
+    [inventory, product.sizes]
+  );
+
+  const canAcquire =
+    selectedSize !== null &&
+    inventory?.status !== "coming-soon" &&
+    inventory?.status !== "sold-out";
+
+  function handleAcquire() {
+    if (!selectedSize) {
+      return;
+    }
+
+    addToBag({
+      productSlug: product.slug,
+      size: selectedSize,
+      quantity: 1,
+    });
+  }
+
   return (
     <Section customPadding="py-45">
       <Container>
@@ -77,11 +113,21 @@ export default function ProductAcquisition({
               gap-4
             "
           >
-            {(inventory?.sizes ?? product.sizes.map((size) => ({ size, stock: 1 }))).map(
-              ({ size, stock }) => (
+            {sizes.map(({ size, stock }) => {
+              const isSelected =
+                selectedSize === size;
+
+              const isDisabled =
+                stock === 0;
+
+              return (
                 <button
                   key={size}
-                  disabled={stock === 0}
+                  type="button"
+                  disabled={isDisabled}
+                  onClick={() =>
+                    setSelectedSize(size)
+                  }
                   className={`
                     border
                     px-10
@@ -92,42 +138,54 @@ export default function ProductAcquisition({
                     tracking-[0.45em]
                     transition-all
                     duration-300
+
                     ${
-                      stock === 0
+                      isDisabled
                         ? "cursor-not-allowed border-white/5 text-white/20"
+                        : isSelected
+                        ? "border-white bg-white text-black"
                         : "border-white/10 text-white/70 hover:border-white/40 hover:text-white"
                     }
                   `}
                 >
                   {size}
                 </button>
-              )
-            )}
+              );
+            })}
           </div>
 
           <button
-            className="
+            type="button"
+            disabled={!canAcquire}
+            onClick={handleAcquire}
+            className={`
               mt-20
               inline-flex
               items-center
               gap-4
               border-b
-              border-white/20
               pb-3
               font-mono
               text-[11px]
               uppercase
               tracking-[0.45em]
-              text-white/80
               transition-all
               duration-300
-              hover:gap-6
-              hover:border-white/60
-              hover:text-white
-            "
+
+              ${
+                canAcquire
+                ? "border-white/20 text-white/80 hover:gap-6 hover:border-white/60 hover:text-white"
+                  : "cursor-not-allowed border-white/10 text-white/25"
+              }
+            `}
           >
-            Acquire Piece
-            <span aria-hidden>→</span>
+            {selectedSize
+              ? "Acquire Piece"
+              : "Select Size"}
+
+            {selectedSize && (
+              <span aria-hidden>→</span>
+            )}
           </button>
         </div>
       </Container>
