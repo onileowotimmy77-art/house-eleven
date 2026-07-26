@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { getInventory } from "@/src/data/getInventory";
 
 import { getProduct } from "@/src/data/getProduct";
 
