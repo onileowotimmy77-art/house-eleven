@@ -77,7 +77,7 @@ export default function ProductAcquisition({
               gap-4
             "
           >
-            {inventory?.sizes.map((size) => (
+            {inventory?.sizes.map(({size, stock}) => (
               <button
                 key={size}
                 className="
