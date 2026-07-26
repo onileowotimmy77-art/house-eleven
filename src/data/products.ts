@@ -24,6 +24,7 @@ export interface Product {
   description: string;
 
   price: string;
+  priceValue: number;
 
   chapter: string;
   collection: string;
@@ -37,6 +38,8 @@ export interface Product {
   sizes: string[];
 
   heroImage: string;
+
+  bagImage: string;
 
   story: string;
 
