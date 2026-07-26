@@ -19,11 +19,10 @@ export default function ProductAcquisition({
     <Section customPadding="py-45">
       <Container>
         <div className="border-t border-white/10 pt-20">
-
           <p
             className="
-              font-mono
               mt-10
+              font-mono
               text-[11px]
               uppercase
               tracking-[0.4em]
@@ -51,24 +50,25 @@ export default function ProductAcquisition({
               my-10
               text-xl
               font-medium
-              text-wgite/65
+              text-white/65
             "
           >
             {product.price}
           </p>
 
           <p
-  className="
-    my-6
-    font-mono
-    text-[11px]
-    uppercase
-    tracking-[0.4em]
-    text-white/40
-  "
->
-  Select Size
-</p>
+            className="
+              my-6
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[0.4em]
+              text-white/40
+            "
+          >
+            Select Size
+          </p>
+
           <div
             className="
               mt-10
@@ -77,54 +77,58 @@ export default function ProductAcquisition({
               gap-4
             "
           >
-            {inventory?.sizes.map(({size, stock}) => (
-              <button
-                key={size}
-                className="
-                  border
-                  border-white/10
-                  px-10
-                  py-4
-                  font-mono
-                  text-xs
-                  uppercase
-                  tracking-[0.45em]
-                  text-white/70
-                  transition-all
-                  duration-300
-                  hover:border-white/40
-                  hover:text-white
-                "
-              >
-                {size}
-              </button>
-            ))}
+            {(inventory?.sizes ?? product.sizes.map((size) => ({ size, stock: 1 }))).map(
+              ({ size, stock }) => (
+                <button
+                  key={size}
+                  disabled={stock === 0}
+                  className={`
+                    border
+                    px-10
+                    py-4
+                    font-mono
+                    text-xs
+                    uppercase
+                    tracking-[0.45em]
+                    transition-all
+                    duration-300
+                    ${
+                      stock === 0
+                        ? "cursor-not-allowed border-white/5 text-white/20"
+                        : "border-white/10 text-white/70 hover:border-white/40 hover:text-white"
+                    }
+                  `}
+                >
+                  {size}
+                </button>
+              )
+            )}
           </div>
 
           <button
-  className="
-    mt-20
-    inline-flex
-    items-center
-    gap-4
-    border-b
-    border-white/20
-    pb-3
-    font-mono
-    text-[11px]
-    uppercase
-    tracking-[0.45em]
-    text-white/80
-    transition-all
-    duration-300
-    hover:gap-6
-    hover:border-white/60
-    hover:text-white
-  "
->
-  Acquire Piece
-  <span aria-hidden>→</span>
-</button>
+            className="
+              mt-20
+              inline-flex
+              items-center
+              gap-4
+              border-b
+              border-white/20
+              pb-3
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[0.45em]
+              text-white/80
+              transition-all
+              duration-300
+              hover:gap-6
+              hover:border-white/60
+              hover:text-white
+            "
+          >
+            Acquire Piece
+            <span aria-hidden>→</span>
+          </button>
         </div>
       </Container>
     </Section>
