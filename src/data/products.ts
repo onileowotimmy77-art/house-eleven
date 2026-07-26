@@ -66,6 +66,7 @@ export const products: Product[] = [
       "The defining garment of Chapter I",
 
     price: "₦95,000",
+    priceValue: 95000,
 
     chapter: "CHAPTER I",
 
@@ -84,6 +85,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L", "XL"],
 
     heroImage: "/products/residence-polo/hero.jpg",
+    bag
 
     story:
   "Residence was never designed to compete for attention. It was created for those who understand that presence doesn't need permission. Every proportion, every material, and every decision reflects the belief that the pieces we return to most are the ones that quietly become part of our lives.",
