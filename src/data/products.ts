@@ -497,6 +497,7 @@ export const products: Product[] = [
     "A structured denim silhouette elevated through restrained embellishment, balancing craftsmanship with quiet expression.",
 
   price: "₦125,000",
+  priceValue: 125000,
 
   chapter: "CHAPTER I",
 
@@ -516,6 +517,7 @@ export const products: Product[] = [
 
   heroImage:
     "/products/residence-rhinestone-jorts/hero.jpg",
+  bagImage:  "/products/double-layered-sweatshirt/hero.jpg",
 
   story:
     "The Residence Rhinestone Jorts challenge the idea that embellishment must be excessive. Each stone is intentionally placed to catch light subtly, allowing craftsmanship rather than decoration to define the garment. Built as an expressive counterpart within the Residence collection, the silhouette remains grounded in House Eleven's philosophy of restraint.",
