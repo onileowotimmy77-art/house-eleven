@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import BagItem from "./BagItem";
 
-import CommerceEmpty from "@/src/features/commerce/CommerceEmpty";
+import CommerceEmpty from "../commerce/CommerceEmpty";
 
 import { useBag } from "@/src/lib/hooks/useBag";
 
