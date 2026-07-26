@@ -170,6 +170,7 @@ export const products: Product[] = [
     "An architectural sweatshirt built through layered construction, balancing structure, weight and quiet confidence.",
 
   price: "₦145,000",
+  priceValue: 145000,
 
   chapter: "CHAPTER I",
 
