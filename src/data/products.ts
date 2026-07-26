@@ -85,10 +85,10 @@ export const products: Product[] = [
     sizes: ["S", "M", "L", "XL"],
 
     heroImage: "/products/residence-polo/hero.jpg",
-    bag
+    bagImage: "/products/residence-polo/hero.jpg"
 
     story:
-  "Residence was never designed to compete for attention. It was created for those who understand that presence doesn't need permission. Every proportion, every material, and every decision reflects the belief that the pieces we return to most are the ones that quietly become part of our lives.",
+    "Residence was never designed to compete for attention. It was created for those who understand that presence doesn't need permission. Every proportion, every material, and every decision reflects the belief that the pieces we return to most are the ones that quietly become part of our lives.",
 
     craftsmanship: [
   {
