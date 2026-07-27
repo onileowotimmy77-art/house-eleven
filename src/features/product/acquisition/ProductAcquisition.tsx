@@ -40,13 +40,9 @@ export default function ProductAcquisition({
     inventory?.status !== "sold-out";
 
   function handleAcquire() {
-  console.log("Acquire clicked");
-
   if (!selectedSize) {
     return;
   }
-
-  console.log("Adding to bag...", selectedSize);
 
   addToBag({
     productSlug: product.slug,
