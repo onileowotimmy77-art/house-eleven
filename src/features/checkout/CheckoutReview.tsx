@@ -15,11 +15,12 @@ import {
 import ReviewItems from "./ReviewItems";
 import ReviewTotals from "./ReviewTotals";
 
-import { useBag } from "@/src/lib/hooks/useBag";
+import { useBagStore } from "@/src/lib/stores/useBagStore";
+
 import { getProduct } from "@/src/data/getProduct";
 
 export default function CheckoutReview() {
-  const { items } = useBag();
+  const items = useBagStore((state) => state.items);
 
   const reviewItems = useMemo(() => {
     return items
@@ -61,7 +62,10 @@ export default function CheckoutReview() {
         return total;
       }
 
-      return total + product.priceValue * item.quantity;
+      return (
+        total +
+        product.priceValue * item.quantity
+      );
     }, 0);
   }, [items]);
 
