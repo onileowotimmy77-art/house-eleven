@@ -160,17 +160,7 @@ export default function ProductAcquisition({
               );
             })}
           </div>
-            <p className="mt-10 text-red-500">
-  Selected: {String(selectedSize)}
-</p>
-
-<p className="text-red-500">
-  Status: {inventory?.status ?? "undefined"}
-</p>
-
-<p className="text-red-500">
-  Can Acquire: {String(canAcquire)}
-</p>
+            
           <button
             type="button"
             disabled={!canAcquire}
