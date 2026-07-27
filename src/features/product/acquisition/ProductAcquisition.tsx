@@ -21,7 +21,7 @@ export default function ProductAcquisition({
   product,
   inventory,
 }: ProductAcquisitionProps) {
-  const { addToBag } = useBagStore(
+  const addToBag = useBagStore(
     (state) => state.addToBag
   );
 
