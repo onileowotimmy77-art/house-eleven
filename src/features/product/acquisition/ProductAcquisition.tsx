@@ -22,7 +22,7 @@ export default function ProductAcquisition({
   inventory,
 }: ProductAcquisitionProps) {
   const { addToBag } = useBagStore(
-    (state) => 
+    (state) => state.addToBag
   );
 
   const [selectedSize, setSelectedSize] =
