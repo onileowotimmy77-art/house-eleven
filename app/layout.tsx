@@ -67,14 +67,15 @@ export default function RootLayout({
               <CursorProvider>
                 <AnimationProvider>
                   <EntranceProvider>
-                    <BagProvider></BagProvider>
-                    <Cursor />
+                    <BagProvider>
+                      <Cursor />
+                      
                     
-                  
-                    <LenisProvider>
-                      <Concierge />
-                      {children}
-                    </LenisProvider>
+                      <LenisProvider>
+                        <Concierge />
+                        {children}
+                      </LenisProvider>
+                    </BagProvider>
                   </EntranceProvider>
               
                 </AnimationProvider>
