@@ -40,16 +40,20 @@ export default function ProductAcquisition({
     inventory?.status !== "sold-out";
 
   function handleAcquire() {
-    if (!selectedSize) {
-      return;
-    }
+  console.log("Acquire clicked");
 
-    addToBag({
-      productSlug: product.slug,
-      size: selectedSize,
-      quantity: 1,
-    });
+  if (!selectedSize) {
+    return;
   }
+
+  console.log("Adding to bag...", selectedSize);
+
+  addToBag({
+    productSlug: product.slug,
+    size: selectedSize,
+    quantity: 1,
+  });
+}
 
   return (
     <Section customPadding="py-45">
