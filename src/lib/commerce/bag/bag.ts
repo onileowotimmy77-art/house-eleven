@@ -16,6 +16,8 @@ let initialized = false;
  * Loads the bag from localStorage.
  * Safe to call multiple times.
  */
+
+ 
 export function initializeBag(): void {
   if (initialized) {
     return;
