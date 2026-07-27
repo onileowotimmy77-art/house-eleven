@@ -7,7 +7,7 @@ import Section from "@/components/layout/Section";
 
 import CommerceSummary from "@/src/features/commerce/CommerceSummary";
 
-import { useBag } from "@/src/lib/hooks/useBag";
+import { useBagStore } from "@/src/lib/stores/useBagStore";
 
 import { getProduct } from "@/src/data/getProduct";
 
@@ -18,7 +18,7 @@ interface BagSummarySectionProps {
 export default function BagSummarySection({
   children,
 }: BagSummarySectionProps) {
-  const { items } = useBag();
+  const items = useBagStore((state) => state.items);
 
   const subtotal = useMemo(() => {
     return items.reduce((total, item) => {
