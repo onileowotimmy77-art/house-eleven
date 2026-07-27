@@ -7,6 +7,7 @@ interface Item {
   name: string;
   color: string;
   size: string;
+  quantity: number;
   price: string;
 }
 
@@ -19,17 +20,16 @@ export default function ReviewItems({
 }: ReviewItemsProps) {
   return (
     <section>
-
       {items.map((item) => (
         <ReviewItem
           key={item.id}
           name={item.name}
           color={item.color}
           size={item.size}
+          quantity={item.quantity}
           price={item.price}
         />
       ))}
-
     </section>
   );
 }
