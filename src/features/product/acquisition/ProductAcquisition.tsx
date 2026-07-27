@@ -124,6 +124,8 @@ export default function ProductAcquisition({
               const isDisabled =
                 stock === 0;
 
+                
+
               return (
                 <button
                   key={size}
