@@ -4,6 +4,7 @@ interface ReviewItemProps {
   name: string;
   color: string;
   size: string;
+  quantity: number;
   price: string;
 }
 
@@ -11,6 +12,7 @@ export default function ReviewItem({
   name,
   color,
   size,
+  quantity,
   price,
 }: ReviewItemProps) {
   return (
@@ -30,7 +32,6 @@ export default function ReviewItem({
         "
       >
         <div>
-
           <h3
             className="
               text-[1.4rem]
@@ -52,23 +53,31 @@ export default function ReviewItem({
             "
           >
             {color}
-            <span className="mx-3 text-white/20">•</span>
-            {size}
-          </p>
 
+            <span className="mx-3 text-white/20">
+              •
+            </span>
+
+            {size}
+
+            <span className="mx-3 text-white/20">
+              •
+            </span>
+
+            Qty {quantity}
+          </p>
         </div>
 
         <p
           className="
+            whitespace-nowrap
             text-lg
             font-medium
             tracking-[-0.02em]
-            whitespace-nowrap
           "
         >
           {price}
         </p>
-
       </div>
     </article>
   );
