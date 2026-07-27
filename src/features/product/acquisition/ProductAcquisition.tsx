@@ -5,9 +5,12 @@ import { useMemo, useState } from "react";
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
-import {  }
+import { useBagStore } from "@/src/lib/stores/useBagStore";
+
 import type { Product } from "@/src/data/products";
 import type { ProductInventory } from "@/src/data/inventory";
+
+
 
 interface ProductAcquisitionProps {
   product: Product;
@@ -18,7 +21,9 @@ export default function ProductAcquisition({
   product,
   inventory,
 }: ProductAcquisitionProps) {
-  const { addToBag } = useBag();
+  const { addToBag } = useBagStore(
+    (state) => 
+  );
 
   const [selectedSize, setSelectedSize] =
     useState<string | null>(null);
