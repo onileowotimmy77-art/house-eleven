@@ -1,16 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
+
+import AddToBagToast from "@/src/features/commerce/AddToBagToast";
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 
 import type { Product } from "@/src/data/products";
 import type { ProductInventory } from "@/src/data/inventory";
-
-
 
 interface ProductAcquisitionProps {
   product: Product;
@@ -28,6 +28,9 @@ export default function ProductAcquisition({
   const [selectedSize, setSelectedSize] =
     useState<string | null>(null);
 
+  const [showToast, setShowToast] =
+    useState(false);
+
   const sizes = useMemo(
     () =>
       inventory?.sizes ??
@@ -43,159 +46,178 @@ export default function ProductAcquisition({
     inventory?.status !== "coming-soon" &&
     inventory?.status !== "sold-out";
 
+  useEffect(() => {
+    if (!showToast) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setShowToast(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, [showToast]);
+
   function handleAcquire() {
-  if (!selectedSize) {
-    return;
+    if (!selectedSize) {
+      return;
+    }
+
+    addToBag({
+      productSlug: product.slug,
+      size: selectedSize,
+      quantity: 1,
+    });
+
+    setShowToast(true);
   }
 
-  addToBag({
-    productSlug: product.slug,
-    size: selectedSize,
-    quantity: 1,
-  });
-}
-
   return (
-    <Section customPadding="py-45">
-      <Container>
-        <div className="border-t border-white/10 pt-20">
-          <p
-            className="
-              mt-10
-              font-mono
-              text-[11px]
-              uppercase
-              tracking-[0.4em]
-              text-white/40
-            "
-          >
-            Current Edition
-          </p>
+    <>
+      <Section customPadding="py-45">
+        <Container>
+          <div className="border-t border-white/10 pt-20">
+            <p
+              className="
+                mt-10
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.4em]
+                text-white/40
+              "
+            >
+              Current Edition
+            </p>
 
-          <h2
-            className="
-              mt-6
-              text-[clamp(3rem,7vw,6rem)]
-              font-black
-              uppercase
-              leading-[0.9]
-              tracking-[-0.05em]
-            "
-          >
-            {product.name}
-          </h2>
+            <h2
+              className="
+                mt-6
+                text-[clamp(3rem,7vw,6rem)]
+                font-black
+                uppercase
+                leading-[0.9]
+                tracking-[-0.05em]
+              "
+            >
+              {product.name}
+            </h2>
 
-          <p
-            className="
-              my-10
-              text-xl
-              font-medium
-              text-white/65
-            "
-          >
-            {product.price}
-          </p>
+            <p
+              className="
+                my-10
+                text-xl
+                font-medium
+                text-white/65
+              "
+            >
+              {product.price}
+            </p>
 
-          <p
-            className="
-              my-6
-              font-mono
-              text-[11px]
-              uppercase
-              tracking-[0.4em]
-              text-white/40
-            "
-          >
-            Select Size
-          </p>
+            <p
+              className="
+                my-6
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.4em]
+                text-white/40
+              "
+            >
+              Select Size
+            </p>
 
-          <div
-            className="
-              mt-10
-              flex
-              flex-wrap
-              gap-4
-            "
-          >
-            {sizes.map(({ size, stock }) => {
-              const isSelected =
-                selectedSize === size;
+            <div
+              className="
+                mt-10
+                flex
+                flex-wrap
+                gap-4
+              "
+            >
+              {sizes.map(({ size, stock }) => {
+                const isSelected =
+                  selectedSize === size;
 
-              const isDisabled =
-                stock === 0;
+                const isDisabled =
+                  stock === 0;
 
-                
-
-              return (
-                
-                <button
-                  key={size}
-                  type="button"
-                  disabled={isDisabled}
-                  onClick={() =>
-                    setSelectedSize(size)
-                  }
-                  className={`
-                    border
-                    px-10
-                    py-4
-                    font-mono
-                    text-xs
-                    uppercase
-                    tracking-[0.45em]
-                    transition-all
-                    duration-300
-
-                    ${
-                      isDisabled
-                        ? "cursor-not-allowed border-white/5 text-white/20"
-                        : isSelected
-                        ? "border-white bg-white text-black"
-                        : "border-white/10 text-white/70 hover:border-white/40 hover:text-white"
+                return (
+                  <button
+                    key={size}
+                    type="button"
+                    disabled={isDisabled}
+                    onClick={() =>
+                      setSelectedSize(size)
                     }
-                  `}
-                >
-                  {size}
-                </button>
-              );
-            })}
+                    className={`
+                      border
+                      px-10
+                      py-4
+                      font-mono
+                      text-xs
+                      uppercase
+                      tracking-[0.45em]
+                      transition-all
+                      duration-300
+
+                      ${
+                        isDisabled
+                          ? "cursor-not-allowed border-white/5 text-white/20"
+                          : isSelected
+                          ? "border-white bg-white text-black"
+                          : "border-white/10 text-white/70 hover:border-white/40 hover:text-white"
+                      }
+                    `}
+                    >
+                    {size}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              disabled={!canAcquire}
+              onClick={handleAcquire}
+              className={`
+                mt-20
+                inline-flex
+                items-center
+                gap-4
+                border-b
+                pb-3
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.45em]
+                transition-all
+                duration-300
+
+                ${
+                  canAcquire
+                    ? "border-white/20 text-white/80 hover:gap-6 hover:border-white/60 hover:text-white"
+                    : "cursor-not-allowed border-white/10 text-white/25"
+                }
+              `}
+            >
+              {selectedSize
+                ? "Acquire Piece"
+                : "Select Size"}
+
+              {selectedSize && (
+                <span aria-hidden>→</span>
+              )}
+            </button>
           </div>
-            
-          <button
-            type="button"
-            disabled={!canAcquire}
-            onClick={handleAcquire}
-            className={`
-              mt-20
-              inline-flex
-              items-center
-              gap-4
-              border-b
-              pb-3
-              font-mono
-              text-[11px]
-              uppercase
-              tracking-[0.45em]
-              transition-all
-              duration-300
+        </Container>
+      </Section>
 
-              ${
-                canAcquire
-                ? "border-white/20 text-white/80 hover:gap-6 hover:border-white/60 hover:text-white"
-                  : "cursor-not-allowed border-white/10 text-white/25"
-              }
-            `}
-          >
-            {selectedSize
-              ? "Acquire Piece"
-              : "Select Size"}
-
-            {selectedSize && (
-              <span aria-hidden>→</span>
-            )}
-          </button>
-        </div>
-      </Container>
-    </Section>
+      <AddToBagToast
+        open={showToast}
+        productName={product.name}
+        size={selectedSize ?? ""}
+      />
+    </>
   );
 }
