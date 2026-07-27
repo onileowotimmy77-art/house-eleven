@@ -5,12 +5,13 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
 import {
-  initializeBag,
   getBag,
+  initializeBag,
   addToBag as addItem,
   removeFromBag as removeItem,
   updateBagQuantity as updateQuantity,
@@ -19,7 +20,7 @@ import {
 
 import type { BagItem } from "./types";
 
-interface BagContextValue {
+interface BagContextType {
   items: BagItem[];
 
   addToBag: (item: BagItem) => void;
@@ -39,7 +40,7 @@ interface BagContextValue {
 }
 
 const BagContext =
-  createContext<BagContextValue | null>(null);
+  createContext<BagContextType | null>(null);
 
 export function BagProvider({
   children,
@@ -98,27 +99,36 @@ export function BagProvider({
     refresh();
   }, [refresh]);
 
+  const value = useMemo(
+    () => ({
+      items,
+      addToBag,
+      removeFromBag,
+      updateBagQuantity,
+      clearBag,
+    }),
+    [
+      items,
+      addToBag,
+      removeFromBag,
+      updateBagQuantity,
+      clearBag,
+    ]
+  );
+
   return (
-    <BagContext.Provider
-      value={{
-        items,
-        addToBag,
-        removeFromBag,
-        updateBagQuantity,
-        clearBag,
-      }}
-    >
+    <BagContext.Provider value={value}>
       {children}
     </BagContext.Provider>
   );
 }
 
-export function useBagContext() {
+export function useBag() {
   const context = useContext(BagContext);
 
   if (!context) {
     throw new Error(
-      "useBagContext must be used inside BagProvider."
+      "useBag must be used inside BagProvider."
     );
   }
 
