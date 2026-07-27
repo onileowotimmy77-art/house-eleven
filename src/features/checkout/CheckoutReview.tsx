@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+
 import Reveal from "@/components/motion/Reveal";
 
 import CommerceButton from "@/src/features/commerce/CommerceButton";
@@ -13,12 +15,61 @@ import {
 import ReviewItems from "./ReviewItems";
 import ReviewTotals from "./ReviewTotals";
 
+import { useBag } from "@/src/lib/hooks/useBag";
+import { getProduct } from "@/src/data/getProduct";
+
 export default function CheckoutReview() {
+  const { items } = useBag();
+
+  const reviewItems = useMemo(() => {
+    return items
+      .map((item) => {
+        const product = getProduct(item.productSlug);
+
+        if (!product) {
+          return null;
+        }
+
+        return {
+          id: ${item.productSlug}-${item.size},
+          name: product.name,
+          color: product.color,
+          size: item.size,
+          quantity: item.quantity,
+          price: product.price,
+        };
+      })
+      .filter(
+        (
+          item
+        ): item is {
+          id: string;
+          name: string;
+          color: string;
+          size: string;
+          quantity: number;
+          price: string;
+        } => item !== null
+      );
+  }, [items]);
+
+  const subtotal = useMemo(() => {
+    return items.reduce((total, item) => {
+      const product = getProduct(item.productSlug);
+
+      if (!product) {
+        return total;
+      }
+
+      return total + product.priceValue * item.quantity;
+    }, 0);
+  }, [items]);
+
+  const total = subtotal;
+
   return (
     <section className="py-40">
-
       <Reveal>
-
         <Eyebrow>
           Chapter IV
         </Eyebrow>
@@ -35,34 +86,17 @@ export default function CheckoutReview() {
         >
           Take one final look before your order begins its journey.
         </Body>
-
       </Reveal>
 
       <div className="mt-24">
-
         <ReviewItems
-          items={[
-            {
-              id: "1",
-              name: "Residence Polo",
-              color: "Black",
-              size: "Medium",
-              price: "₦145,000",
-            },
-            {
-              id: "2",
-              name: "Residence Cap",
-              color: "Black",
-              size: "One Size",
-              price: "₦45,000",
-            },
-          ]}
+          items={reviewItems}
         />
 
         <ReviewTotals
-          subtotal="₦190,000"
+          subtotal={`₦${new Intl.NumberFormat("en-NG").format(subtotal)}`}
           shipping="Calculated at checkout"
-          total="₦190,000"
+          total={`₦${new Intl.NumberFormat("en-NG").format(total)}`}
         />
 
         <CommerceButton
@@ -71,9 +105,7 @@ export default function CheckoutReview() {
         >
           Confirm Order
         </CommerceButton>
-
       </div>
-
     </section>
   );
 }
