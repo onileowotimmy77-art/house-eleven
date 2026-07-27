@@ -162,38 +162,18 @@ export default function ProductAcquisition({
           </div>
             
           <button
-            type="button"
-            disabled={!canAcquire}
-            onClick={handleAcquire}
-            className={`
-              mt-20
-              inline-flex
-              items-center
-              gap-4
-              border-b
-              pb-3
-              font-mono
-              text-[11px]
-              uppercase
-              tracking-[0.45em]
-              transition-all
-              duration-300
-
-              ${
-                canAcquire
-                ? "border-white/20 text-white/80 hover:gap-6 hover:border-white/60 hover:text-white"
-                  : "cursor-not-allowed border-white/10 text-white/25"
-              }
-            `}
-          >
-            {selectedSize
-              ? "Acquire Piece"
-              : "Select Size"}
-
-            {selectedSize && (
-              <span aria-hidden>→</span>
-            )}
-          </button>
+  type="button"
+  onClick={() => alert("clicked")}
+  className="
+    mt-20
+    bg-red-600
+    px-8
+    py-4
+    text-white
+  "
+>
+  TEST BUTTON
+</button>
         </div>
       </Container>
     </Section>
