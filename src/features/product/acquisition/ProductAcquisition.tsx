@@ -5,8 +5,7 @@ import { useMemo, useState } from "react";
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
-import { useBag } from "@/src/lib/hooks/useBag";
-
+import {  }
 import type { Product } from "@/src/data/products";
 import type { ProductInventory } from "@/src/data/inventory";
 
