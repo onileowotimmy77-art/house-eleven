@@ -75,7 +75,7 @@ export default function RootLayout({
                         <Concierge />
                         {children}
                       </LenisProvider>
-                    </BagProvider>
+                    
                   </EntranceProvider>
               
                 </AnimationProvider>
