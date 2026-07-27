@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
-import AddToBagToast from "@/src/features/commerce/AddToBagToast";
+import AcquisitionCard from "@/src/features/commerce/AcquisitionCard";
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 
@@ -28,7 +32,7 @@ export default function ProductAcquisition({
   const [selectedSize, setSelectedSize] =
     useState<string | null>(null);
 
-  const [showToast, setShowToast] =
+  const [showCard, setShowCard] =
     useState(false);
 
   const sizes = useMemo(
@@ -47,16 +51,16 @@ export default function ProductAcquisition({
     inventory?.status !== "sold-out";
 
   useEffect(() => {
-    if (!showToast) {
+    if (!showCard) {
       return;
     }
 
     const timer = setTimeout(() => {
-      setShowToast(false);
-    }, 2500);
+      setShowCard(false);
+    }, 3000);
 
     return () => clearTimeout(timer);
-  }, [showToast]);
+  }, [showCard]);
 
   function handleAcquire() {
     if (!selectedSize) {
@@ -69,7 +73,7 @@ export default function ProductAcquisition({
       quantity: 1,
     });
 
-    setShowToast(true);
+    setShowCard(true);
   }
 
   return (
@@ -213,10 +217,12 @@ export default function ProductAcquisition({
         </Container>
       </Section>
 
-      <AddToBagToast
-        open={showToast}
-        productName={product.name}
+      <AcquisitionCard
+        open={showCard}
+        image={product.bagImage}
+        name={product.name}
         size={selectedSize ?? ""}
+        price={product.price}
       />
     </>
   );
