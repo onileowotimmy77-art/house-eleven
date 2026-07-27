@@ -4,16 +4,20 @@ import BagItem from "./BagItem";
 
 import CommerceEmpty from "@/src/features/commerce/CommerceEmpty";
 
-import { useBag } from "@/src/lib/hooks/useBag";
+import { useBagStore } from "@/src/lib/stores/useBagStore";
 
 import { getProduct } from "@/src/data/getProduct";
 
 export default function BagItems() {
-  const {
-    items,
-    removeFromBag,
-    updateBagQuantity,
-  } = useBag();
+  const items = useBagStore((state) => state.items);
+
+  const removeFromBag = useBagStore(
+    (state) => state.removeFromBag
+  );
+
+  const updateQuantity = useBagStore(
+    (state) => state.updateQuantity
+  );
 
   if (items.length === 0) {
     return (
@@ -47,14 +51,14 @@ export default function BagItems() {
             quantity={item.quantity}
             price={product.priceValue}
             onIncrease={() =>
-              updateBagQuantity(
+              updateQuantity(
                 item.productSlug,
                 item.size,
                 item.quantity + 1
               )
             }
             onDecrease={() =>
-              updateBagQuantity(
+              updateQuantity(
                 item.productSlug,
                 item.size,
                 item.quantity - 1
