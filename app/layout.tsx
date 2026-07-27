@@ -16,6 +16,7 @@ import {
 import { MenuProvider } from "@/components/navigation/MenuProvider";
 import Concierge from "@/components/navigation/Concierge";
 import { EntranceProvider } from "@/components/entrance/EntranceProvider";
+import { BagProvider } from "@/src/lib/commerce/bag/BagProvider";
 
 
 
@@ -66,6 +67,7 @@ export default function RootLayout({
               <CursorProvider>
                 <AnimationProvider>
                   <EntranceProvider>
+                    <BagProvider></BagProvider>
                     <Cursor />
                     
                   
