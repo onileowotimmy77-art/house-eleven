@@ -329,13 +329,38 @@ export default function ProductAcquisition({
         </Container>
       </Section>
 
-      <AcquisitionCard
-        open={notification === "acquired"}
-        image={product.bagImage}
-        name={product.name}
-        size={selectedSize ?? ""}
-        price={product.price}
-      />
+      <CommerceNotification
+  open={notification !== null}
+  image={product.bagImage}
+  name={product.name}
+  price={product.price}
+  size={
+    notification === "acquired"
+      ? selectedSize ?? ""
+      : undefined
+  }
+  eyebrow="House Eleven"
+  title={
+    notification === "acquired"
+      ? "Piece Acquired"
+      : "Piece Saved"
+  }
+  description={
+    notification === "acquired"
+      ? "This piece has entered your Residence."
+      : "This piece has been added to your personal archive."
+  }
+  ctaLabel={
+    notification === "acquired"
+      ? "View Bag"
+      : "View Saved Pieces"
+  }
+  ctaHref={
+    notification === "acquired"
+      ? "/bag"
+      : "/account/saved-pieces"
+  }
+/>
     </>
   );
 }
