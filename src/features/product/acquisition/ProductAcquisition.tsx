@@ -45,10 +45,15 @@ export default function ProductAcquisition({
   const [selectedSize, setSelectedSize] =
     useState<string | null>(null);
 
-  const [notification, setNotification] =
-    useState<
-      "acquired" | "saved" | null
-    >(null);
+  type CommerceNotificationType =
+  | "acquired"
+  | "saved"
+  | "removed"
+  | "restock"
+  | "checkout";
+
+const [notification, setNotification] =
+  useState<CommerceNotificationType | null>(null);
 
   const sizes = useMemo(
     () =>
