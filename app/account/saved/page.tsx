@@ -2,7 +2,7 @@
 
 import AccountLayout from "@/src/features/account/AccountLayout";
 import SavedPieceCard from "@/src/features/account/SavedPieceCard";
-import EmptySavedPieces from "@/src/features/account/EmptySavedPieces";
+import EmptySavedPieces from "@/src/features/account/EmptySavedPiece";
 
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
 
