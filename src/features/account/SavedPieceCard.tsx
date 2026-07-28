@@ -9,6 +9,9 @@ interface SavedPieceCardProps {
   collection: string;
   price: string;
   href: string;
+
+  onMoveToBag: () => void;
+  onRemove: () => void;
 }
 
 export default function SavedPieceCard({
@@ -17,39 +20,38 @@ export default function SavedPieceCard({
   collection,
   price,
   href,
+  onMoveToBag,
+  onRemove,
 }: SavedPieceCardProps) {
   return (
-    <Link
-      href={href}
-      className="group block"
-    >
-      {/* Image */}
-
-      <div
-        className="
-          relative
-          aspect-[4/5]
-          overflow-hidden
-          bg-white/[0.03]
-        "
+    <article>
+      <Link
+        href={href}
+        className="group block"
       >
-        <Image
-          src={image}
-          alt={name}
-          fill
+        <div
           className="
-            object-cover
-            transition-transform
-            duration-700
-            group-hover:scale-[1.02]
+            relative
+            aspect-[4/5]
+            overflow-hidden
+            bg-white/[0.03]
           "
-        />
-      </div>
-
-      {/* Information */}
+        >
+          <Image
+            src={image}
+            alt={name}
+            fill
+            className="
+              object-cover
+              transition-transform
+              duration-700
+              group-hover:scale-[1.02]
+            "
+          />
+        </div>
+      </Link>
 
       <div className="mt-8">
-
         <p
           className="
             font-mono
@@ -62,16 +64,21 @@ export default function SavedPieceCard({
           {collection}
         </p>
 
-        <h2
-          className="
-            mt-4
-            text-[1.4rem]
-            font-medium
-            tracking-[-0.03em]
-          "
-        >
-          {name}
-        </h2>
+        <Link href={href}>
+          <h2
+            className="
+              mt-4
+              text-[1.4rem]
+              font-medium
+              tracking-[-0.03em]
+              transition-colors
+              duration-300
+              hover:text-white/70
+            "
+          >
+            {name}
+          </h2>
+        </Link>
 
         <p
           className="
@@ -82,8 +89,49 @@ export default function SavedPieceCard({
           {price}
         </p>
 
-      </div>
+        <div
+          className="
+            mt-8
+            flex
+            items-center
+            gap-8
+          "
+        >
+          <button
+            type="button"
+            onClick={onMoveToBag}
+            className="
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[0.4em]
+              text-white/45
+              transition-colors
+              duration-300
+              hover:text-white
+            "
+          >
+            Move to Bag →
+          </button>
 
-    </Link>
+          <button
+            type="button"
+            onClick={onRemove}
+            className="
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[0.4em]
+              text-white/25
+              transition-colors
+              duration-300
+              hover:text-white/60
+            "
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    </article>
   );
 }
