@@ -9,7 +9,7 @@ import {
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
-import CommerceNotification from "../../commerce/CommerceNotification";
+import Commer
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
@@ -135,29 +135,6 @@ export default function ProductAcquisition({
 
     setNotification("acquired");
   }
-
-  const notificationConfig =
-  notification === "acquired"
-    ? {
-        eyebrow: "House Eleven",
-        title: product.name,
-        subtitle: Size ${selectedSize} • ${product.price},
-        message:
-          "This piece has entered your Residence.",
-        ctaLabel: "View Bag",
-        ctaHref: "/bag",
-      }
-    : notification === "saved"
-    ? {
-        eyebrow: "Saved",
-        title: product.name,
-        subtitle: product.collection,
-        message:
-          "Added to your personal archive.",
-        ctaLabel: "View Saved Pieces",
-        ctaHref: "/account/saved-pieces",
-      }
-    : null;
 
   return (
     <>
@@ -352,18 +329,13 @@ export default function ProductAcquisition({
         </Container>
       </Section>
 
-    {notificationConfig && (
-  <CommerceNotification
-    open
-    image={product.bagImage}
-    eyebrow={notificationConfig.eyebrow}
-    title={notificationConfig.title}
-    subtitle={notificationConfig.subtitle}
-    message={notificationConfig.message}
-    ctaLabel={notificationConfig.ctaLabel}
-    ctaHref={notificationConfig.ctaHref}
-  />
-)}
+      <AcquisitionCard
+        open={notification === "acquired"}
+        image={product.bagImage}
+        name={product.name}
+        size={selectedSize ?? ""}
+        price={product.price}
+      />
     </>
   );
 }
