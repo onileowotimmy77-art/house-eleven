@@ -18,7 +18,8 @@ import ReviewTotals from "./ReviewTotals";
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 
 import { getProduct } from "@/src/data/getProduct";
-
+import { useRouter } from "next/navigation";
+import { placeOrder } from "@/src/lib/commerce/placeOrder";
 
 
 
