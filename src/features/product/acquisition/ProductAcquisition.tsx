@@ -227,7 +227,12 @@ export default function ProductAcquisition({
 
             <button
               type="button"
-              disabled={!canAcquire}
+              disabled={
+  inventory?.status === "coming-soon" ||
+  inventory?.status === "sold-out"
+    ? false
+    : !canAcquire
+}
               onClick={handleAcquire}
               className={`
                 mt-20
