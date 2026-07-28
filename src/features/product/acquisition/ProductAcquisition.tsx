@@ -29,7 +29,17 @@ export default function ProductAcquisition({
     (state) => state.addToBag
   );
 
-  
+  const savePiece = useSavedPiecesStore(
+  (state) => state.savePiece
+);
+
+const removePiece = useSavedPiecesStore(
+  (state) => state.removePiece
+);
+
+const isSaved = useSavedPiecesStore((state) =>
+  state.isSaved(product.slug)
+);
 
   const [selectedSize, setSelectedSize] =
     useState<string | null>(null);
