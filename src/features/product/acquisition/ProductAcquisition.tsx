@@ -296,6 +296,30 @@ inventory?.status === "low-stock" ? (
   )
 ) : null}
             </button>
+            <button
+  type="button"
+  onClick={handleSavePiece}
+  className="
+    mt-8
+    block
+
+    font-mono
+    text-[11px]
+    uppercase
+    tracking-[0.45em]
+
+    text-white/40
+
+    transition-colors
+    duration-300
+
+    hover:text-white/70
+  "
+>
+  {isSaved
+    ? "Saved ✓"
+    : "Save Piece"}
+</button>
           </div>
         </Container>
       </Section>
