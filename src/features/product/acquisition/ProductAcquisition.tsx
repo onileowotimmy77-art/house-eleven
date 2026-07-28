@@ -152,6 +152,7 @@ export default function ProductAcquisition({
               {product.price}
             </p>
 
+
             <p
               className="
                 my-6
