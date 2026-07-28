@@ -8,13 +8,13 @@ import {
 
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
-
 import AcquisitionCard from "@/src/features/commerce/AcquisitionCard";
-
 import { useBagStore } from "@/src/lib/stores/useBagStore";
-
 import type { Product } from "@/src/data/products";
 import type { ProductInventory } from "@/src/data/inventory";
+import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
+
+
 
 interface ProductAcquisitionProps {
   product: Product;
