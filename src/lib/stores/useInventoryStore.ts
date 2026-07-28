@@ -1,13 +1,20 @@
 "use client";
 
 import { create } from "zustand";
-
 import {
-  inventory as initialInventory,
+  inventory as seedInventory,
   type ProductInventory,
 } from "@/src/data/inventory";
 
 import { getInventoryStatus } from "@/src/lib/commerce/getInventoryStatus";
+
+
+
+const initialInventory: ProductInventory[] =
+  seedInventory.map((product) => ({
+    ...product,
+    status: getInventoryStatus(product.sizes),
+  }));
 
 interface InventoryStore {
   inventory: ProductInventory[];
