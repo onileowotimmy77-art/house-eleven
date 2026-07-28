@@ -1,28 +1,20 @@
 "use client";
 
 import { useMemo } from "react";
-
 import Reveal from "@/components/motion/Reveal";
-
 import CommerceButton from "@/src/features/commerce/CommerceButton";
-
 import {
   Eyebrow,
   Display,
   Body,
 } from "@/components/ui/typography";
-
 import ReviewItems from "./ReviewItems";
 import ReviewTotals from "./ReviewTotals";
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
-
 import { getProduct } from "@/src/data/getProduct";
 import { useRouter } from "next/navigation";
 import { placeOrder } from "@/src/lib/commerce/placeOrder";
-
-
-
 
 
 
