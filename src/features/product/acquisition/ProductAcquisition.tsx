@@ -9,7 +9,7 @@ import {
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
-import AcquisitionCard from "@/src/features/commerce/AcquisitionCard";
+import CommerceNotification from "../../commerce/CommerceNotification";
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
