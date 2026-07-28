@@ -84,7 +84,7 @@ export default function SavedPieceCard({
                   object-cover
                   transition-transform
                   duration-700
-                  group-hover:scale-[1.02]
+                  group-hover:scale-[1.02]"
                 />
             </div>
           </Link>
