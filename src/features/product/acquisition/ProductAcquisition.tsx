@@ -155,7 +155,7 @@ export default function ProductAcquisition({
         message:
           "Added to your personal archive.",
         ctaLabel: "View Saved Pieces",
-        ctaHref: "/account/saved-pieces",
+        ctaHref: "/account/saved",
       }
     : null;
   return (
