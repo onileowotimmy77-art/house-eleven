@@ -29,6 +29,8 @@ export default function ProductAcquisition({
     (state) => state.addToBag
   );
 
+  
+
   const [selectedSize, setSelectedSize] =
     useState<string | null>(null);
 
