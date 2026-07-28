@@ -8,13 +8,14 @@ import {
 
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
+
 import AcquisitionCard from "@/src/features/commerce/AcquisitionCard";
+
 import { useBagStore } from "@/src/lib/stores/useBagStore";
-import type { Product } from "@/src/data/products";
-import type { ProductInventory } from "@/src/data/inventory";
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
 
-
+import type { Product } from "@/src/data/products";
+import type { ProductInventory } from "@/src/data/inventory";
 
 interface ProductAcquisitionProps {
   product: Product;
@@ -30,22 +31,24 @@ export default function ProductAcquisition({
   );
 
   const savePiece = useSavedPiecesStore(
-  (state) => state.savePiece
-);
+    (state) => state.savePiece
+  );
 
-const removePiece = useSavedPiecesStore(
-  (state) => state.removePiece
-);
+  const removePiece = useSavedPiecesStore(
+    (state) => state.removePiece
+  );
 
-const isSaved = useSavedPiecesStore((state) =>
-  state.isSaved(product.slug)
-);
+  const isSaved = useSavedPiecesStore((state) =>
+    state.isSaved(product.slug)
+  );
 
   const [selectedSize, setSelectedSize] =
     useState<string | null>(null);
 
-  const [showCard, setShowCard] =
-    useState(false);
+  const [notification, setNotification] =
+    useState<
+      "acquired" | "saved" | null
+    >(null);
 
   const sizes = useMemo(
     () =>
@@ -63,59 +66,61 @@ const isSaved = useSavedPiecesStore((state) =>
     inventory?.status !== "sold-out";
 
   useEffect(() => {
-    if (!showCard) {
+    if (!notification) {
       return;
     }
 
     const timer = setTimeout(() => {
-      setShowCard(false);
+      setNotification(null);
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [showCard]);
+  }, [notification]);
 
   const availability = useMemo(() => {
-  switch (inventory?.status) {
-    case "available":
-      return {
-        label: "Available",
-        className: "text-white/55",
-      };
+    switch (inventory?.status) {
+      case "available":
+        return {
+          label: "Available",
+          className: "text-white/55",
+        };
 
-    case "low-stock":
-      return {
-        label: "Only a few pieces remain.",
-        className: "text-white/70",
-      };
+      case "low-stock":
+        return {
+          label: "Only a few pieces remain.",
+          className: "text-white/70",
+        };
 
-    case "coming-soon":
-      return {
-        label: "Chapter I has not yet opened.",
-        className: "text-white/45",
-      };
+      case "coming-soon":
+        return {
+          label: "Chapter I has not yet opened.",
+          className: "text-white/45",
+        };
 
-    case "sold-out":
-      return {
-        label: "This edition has been fully acquired.",
-        className: "text-white/45",
-      };
+      case "sold-out":
+        return {
+          label: "This edition has been fully acquired.",
+          className: "text-white/45",
+        };
 
-    default:
-      return {
-        label: "",
-        className: "text-white/45",
-      };
+      default:
+        return {
+          label: "",
+          className: "text-white/45",
+        };
+    }
+  }, [inventory]);
+
+  function handleSavePiece() {
+    if (isSaved) {
+      removePiece(product.slug);
+      return;
+    }
+
+    savePiece(product.slug);
+
+    setNotification("saved");
   }
-}, [inventory]);
-
-function handleSavePiece() {
-  if (isSaved) {
-    removePiece(product.slug);
-    return;
-  }
-
-  savePiece(product.slug);
-}
 
   function handleAcquire() {
     if (!selectedSize) {
@@ -128,7 +133,7 @@ function handleSavePiece() {
       quantity: 1,
     });
 
-    setShowCard(true);
+    setNotification("acquired");
   }
 
   return (
@@ -173,19 +178,20 @@ function handleSavePiece() {
               {product.price}
             </p>
 
-<p
-  className={`
-    font-mono
-    text-[11px]
-    uppercase
-    tracking-[0.35em]
-    ${availability.className}
-  `}
->
-  {availability.label}
-</p>
             <p
-              className="
+              className={`
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.35em]
+                ${availability.className}
+              `}
+            >
+              {availability.label}
+            </p>
+
+            <p
+            className="
                 my-6
                 font-mono
                 text-[11px]
@@ -239,7 +245,7 @@ function handleSavePiece() {
                           : "border-white/10 text-white/70 hover:border-white/40 hover:text-white"
                       }
                     `}
-                    >
+                  >
                     {size}
                   </button>
                 );
@@ -249,11 +255,13 @@ function handleSavePiece() {
             <button
               type="button"
               disabled={
-  inventory?.status === "coming-soon" ||
-  inventory?.status === "sold-out"
-    ? false
-    : !canAcquire
-}
+                inventory?.status ===
+                  "coming-soon" ||
+                inventory?.status ===
+                  "sold-out"
+                  ? false
+                  : !canAcquire
+              }
               onClick={handleAcquire}
               className={`
                 mt-20
@@ -276,56 +284,53 @@ function handleSavePiece() {
                 }
               `}
             >
-              {
-  inventory?.status === "coming-soon"
-    ? "Coming Soon"
+              {inventory?.status ===
+              "coming-soon"
+                ? "Coming Soon"
+                : inventory?.status ===
+                  "sold-out"
+                ? "Notify Me"
+                : selectedSize
+                ? "Acquire Piece"
+                : "Select Size"}
 
-    : inventory?.status === "sold-out"
-    ? "Notify Me"
-
-    : selectedSize
-    ? "Acquire Piece"
-
-    : "Select Size"
-}
-
-              {inventory?.status === "available" ||
-inventory?.status === "low-stock" ? (
-  selectedSize && (
-    <span aria-hidden>→</span>
-  )
-) : null}
+              {(inventory?.status ===
+                "available" ||
+                inventory?.status ===
+                  "low-stock") &&
+                selectedSize && (
+                  <span aria-hidden>
+                    →
+                  </span>
+                )}
             </button>
+
             <button
-  type="button"
-  onClick={handleSavePiece}
-  className="
-    mt-8
-    block
-
-    font-mono
-    text-[11px]
-    uppercase
-    tracking-[0.45em]
-
-    text-white/40
-
-    transition-colors
-    duration-300
-
-    hover:text-white/70
-  "
->
-  {isSaved
-    ? "Saved ✓"
-    : "Save Piece"}
-</button>
+              type="button"
+              onClick={handleSavePiece}
+              className="
+                mt-8
+                block
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.45em]
+                text-white/40
+                transition-colors
+                duration-300
+                hover:text-white/70
+              "
+            >
+              {isSaved
+                ? "Saved ✓"
+                : "Save Piece"}
+            </button>
           </div>
         </Container>
       </Section>
 
       <AcquisitionCard
-        open={showCard}
+        open={notification === "acquired"}
         image={product.bagImage}
         name={product.name}
         size={selectedSize ?? ""}
