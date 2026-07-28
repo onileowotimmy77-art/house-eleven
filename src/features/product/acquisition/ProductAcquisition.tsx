@@ -108,7 +108,14 @@ const isSaved = useSavedPiecesStore((state) =>
   }
 }, [inventory]);
 
+function handleSavePiece() {
+  if (isSaved) {
+    removePiece(product.slug);
+    return;
+  }
 
+  savePiece(product.slug);
+}
 
   function handleAcquire() {
     if (!selectedSize) {
