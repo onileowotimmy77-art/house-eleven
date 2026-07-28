@@ -62,6 +62,40 @@ export default function ProductAcquisition({
     return () => clearTimeout(timer);
   }, [showCard]);
 
+  const availability = useMemo(() => {
+  switch (inventory?.status) {
+    case "available":
+      return {
+        label: "Available",
+        className: "text-white/55",
+      };
+
+    case "low-stock":
+      return {
+        label: "Only a few pieces remain.",
+        className: "text-white/70",
+      };
+
+    case "coming-soon":
+      return {
+        label: "Chapter I has not yet opened.",
+        className: "text-white/45",
+      };
+
+    case "sold-out":
+      return {
+        label: "This edition has been fully acquired.",
+        className: "text-white/45",
+      };
+
+    default:
+      return {
+        label: "",
+        className: "text-white/45",
+      };
+  }
+}, [inventory]);
+
   function handleAcquire() {
     if (!selectedSize) {
       return;
