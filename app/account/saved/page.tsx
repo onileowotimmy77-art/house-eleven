@@ -55,27 +55,36 @@ export default function SavedPiecesPage() {
             return null;
           }
 
+          const {
+            slug,
+            bagImage,
+            name,
+            collection,
+            price,
+            sizes,
+          } = product;
+
           function handleMoveToBag() {
             addToBag({
-              productSlug: product.slug,
-              size: product.sizes[0],
+              productSlug: slug,
+              size: sizes[0],
               quantity: 1,
             });
 
-            removePiece(product.slug);
+            removePiece(slug);
           }
 
           return (
             <SavedPieceCard
-              key={product.slug}
-              image={product.bagImage}
-              name={product.name}
-              collection={product.collection}
-              price={product.price}
-              href={`/products/${product.slug}`}
+              key={slug}
+              image={bagImage}
+              name={name}
+              collection={collection}
+              price={price}
+              href={`/products/${slug}`}
               onMoveToBag={handleMoveToBag}
               onRemove={() =>
-                removePiece(product.slug)
+                removePiece(slug)
               }
             />
           );
