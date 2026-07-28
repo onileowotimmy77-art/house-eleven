@@ -152,7 +152,17 @@ export default function ProductAcquisition({
               {product.price}
             </p>
 
-
+<p
+  className={`
+    font-mono
+    text-[11px]
+    uppercase
+    tracking-[0.35em]
+    ${availability.className}
+  `}
+>
+  {availability.label}
+</p>
             <p
               className="
                 my-6
