@@ -38,14 +38,21 @@ export default function SavedPiecesPage() {
       title="Saved Pieces"
       description="Pieces you've chosen to return to."
     >
-      <div
-        className="
-          grid
-          gap-12
-          md:grid-cols-2
-          xl:grid-cols-3
-        "
-      >
+      <motion.div
+  layout
+  transition={{
+    layout: {
+      duration: 0.55,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }}
+  className="
+    grid
+    gap-12
+    md:grid-cols-2
+    xl:grid-cols-3
+  "
+>
         {pieces.map((piece) => {
           const product = getProduct(
             piece.productSlug
@@ -89,7 +96,7 @@ export default function SavedPiecesPage() {
             />
           );
         })}
-      </div>
+      </motion.div>
     </AccountLayout>
   );
 }
