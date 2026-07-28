@@ -136,6 +136,29 @@ export default function ProductAcquisition({
     setNotification("acquired");
   }
 
+  const notificationConfig =
+  notification === "acquired"
+    ? {
+        eyebrow: "House Eleven",
+        title: product.name,
+        subtitle: Size ${selectedSize} • ${product.price},
+        message:
+          "This piece has entered your Residence.",
+        ctaLabel: "View Bag",
+        ctaHref: "/bag",
+      }
+    : notification === "saved"
+    ? {
+        eyebrow: "Saved",
+        title: product.name,
+        subtitle: product.collection,
+        message:
+          "Added to your personal archive.",
+        ctaLabel: "View Saved Pieces",
+        ctaHref: "/account/saved-pieces",
+      }
+    : null;
+    
   return (
     <>
       <Section customPadding="py-45">
