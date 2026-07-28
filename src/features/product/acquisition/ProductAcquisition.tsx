@@ -250,13 +250,25 @@ export default function ProductAcquisition({
                 }
               `}
             >
-              {selectedSize
-                ? "Acquire Piece"
-                : "Select Size"}
+              {
+  inventory?.status === "coming-soon"
+    ? "Coming Soon"
 
-              {selectedSize && (
-                <span aria-hidden>→</span>
-              )}
+    : inventory?.status === "sold-out"
+    ? "Notify Me"
+
+    : selectedSize
+    ? "Acquire Piece"
+
+    : "Select Size"
+}
+
+              {inventory?.status === "available" ||
+inventory?.status === "low-stock" ? (
+  selectedSize && (
+    <span aria-hidden>→</span>
+  )
+) : null}
             </button>
           </div>
         </Container>
