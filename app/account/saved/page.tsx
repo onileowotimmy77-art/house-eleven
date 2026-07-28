@@ -24,6 +24,7 @@ export default function SavedPiecesPage() {
     (state) => state.addToBag
   );
 
+  
   if (pieces.length === 0) {
     return (
       <AccountLayout
