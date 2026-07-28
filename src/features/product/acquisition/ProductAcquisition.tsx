@@ -158,7 +158,7 @@ export default function ProductAcquisition({
         ctaHref: "/account/saved-pieces",
       }
     : null;
-    
+
   return (
     <>
       <Section customPadding="py-45">
@@ -352,38 +352,18 @@ export default function ProductAcquisition({
         </Container>
       </Section>
 
-      <CommerceNotification
-  open={notification !== null}
-  image={product.bagImage}
-  name={product.name}
-  price={product.price}
-  size={
-    notification === "acquired"
-      ? selectedSize ?? ""
-      : undefined
-  }
-  eyebrow="House Eleven"
-  title={
-    notification === "acquired"
-      ? "Piece Acquired"
-      : "Piece Saved"
-  }
-  description={
-    notification === "acquired"
-      ? "This piece has entered your Residence."
-      : "This piece has been added to your personal archive."
-  }
-  ctaLabel={
-    notification === "acquired"
-      ? "View Bag"
-      : "View Saved Pieces"
-  }
-  ctaHref={
-    notification === "acquired"
-      ? "/bag"
-      : "/account/saved-pieces"
-  }
-/>
+    {notificationConfig && (
+  <CommerceNotification
+    open
+    image={product.bagImage}
+    eyebrow={notificationConfig.eyebrow}
+    title={notificationConfig.title}
+    subtitle={notificationConfig.subtitle}
+    message={notificationConfig.message}
+    ctaLabel={notificationConfig.ctaLabel}
+    ctaHref={notificationConfig.ctaHref}
+  />
+)}
     </>
   );
 }
