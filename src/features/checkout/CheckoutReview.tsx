@@ -19,6 +19,12 @@ import { useBagStore } from "@/src/lib/stores/useBagStore";
 
 import { getProduct } from "@/src/data/getProduct";
 
+
+
+
+
+
+
 export default function CheckoutReview() {
   const items = useBagStore((state) => state.items);
 
