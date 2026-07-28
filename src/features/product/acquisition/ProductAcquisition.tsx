@@ -108,6 +108,8 @@ const isSaved = useSavedPiecesStore((state) =>
   }
 }, [inventory]);
 
+
+
   function handleAcquire() {
     if (!selectedSize) {
       return;
