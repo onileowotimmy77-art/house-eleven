@@ -5,21 +5,12 @@ import SavedPieceCard from "@/src/features/account/SavedPieceCard";
 import EmptySavedPieces from "@/src/features/account/EmptySavedPiece";
 
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
-import { useBagStore } from "@/src/lib/stores/useBagStore";
 
 import { getProduct } from "@/src/data/getProduct";
 
 export default function SavedPiecesPage() {
   const pieces = useSavedPiecesStore(
     (state) => state.pieces
-  );
-
-  const removePiece = useSavedPiecesStore(
-    (state) => state.removePiece
-  );
-
-  const addToBag = useBagStore(
-    (state) => state.addToBag
   );
 
   if (pieces.length === 0) {
@@ -55,16 +46,6 @@ export default function SavedPiecesPage() {
             return null;
           }
 
-          function handleMoveToBag() {
-            addToBag({
-              productSlug: product.slug,
-              size: product.sizes[0],
-              quantity: 1,
-            });
-
-            removePiece(product.slug);
-          }
-
           return (
             <SavedPieceCard
               key={product.slug}
@@ -73,10 +54,6 @@ export default function SavedPiecesPage() {
               collection={product.collection}
               price={product.price}
               href={`/products/${product.slug}`}
-              onMoveToBag={handleMoveToBag}
-              onRemove={() =>
-                removePiece(product.slug)
-              }
             />
           );
         })}
