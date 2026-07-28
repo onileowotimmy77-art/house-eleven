@@ -1,10 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import Reveal from "@/components/motion/Reveal";
-"use client";
-
-import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 
 import Reveal from "@/components/motion/Reveal";
