@@ -7,6 +7,8 @@ import {
   type ProductInventory,
 } from "@/src/data/inventory";
 
+import { getInventoryStatus } from "@/src/lib/commerce/getInventoryStatus";
+
 interface InventoryStore {
   inventory: ProductInventory[];
 
@@ -37,31 +39,33 @@ export const useInventoryStore =
       quantity = 1
     ) =>
       set((state) => ({
-        inventory: state.inventory.map(
-          (product) => {
-            if (
-              product.productSlug !== productSlug
-            ) {
-              return product;
-            }
-
-            return {
-              ...product,
-
-              sizes: product.sizes.map(
-                (item) =>
-                  item.size === size
-                    ? {
-                        ...item,
-                        stock: Math.max(
-                          0,
-                          item.stock - quantity
-                        ),
-                      }
-                    : item
-              ),
-            };
+        inventory: state.inventory.map((product) => {
+          if (
+            product.productSlug !== productSlug
+          ) {
+            return product;
           }
-        ),
+
+          const updatedSizes = product.sizes.map(
+            (item) =>
+              item.size === size
+                ? {
+                    ...item,
+                    stock: Math.max(
+                      0,
+                      item.stock - quantity
+                    ),
+                  }
+                : item
+          );
+
+          return {
+            ...product,
+            status: getInventoryStatus(
+              updatedSizes
+            ),
+            sizes: updatedSizes,
+          };
+        }),
       })),
   }));
