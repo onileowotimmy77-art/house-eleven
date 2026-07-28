@@ -5,6 +5,7 @@ import SavedPieceCard from "@/src/features/account/SavedPieceCard";
 import EmptySavedPieces from "@/src/features/account/EmptySavedPiece";
 
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
+import { motion } from "framer-motion";
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 
 import { getProduct } from "@/src/data/getProduct";
