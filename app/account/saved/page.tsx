@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import AccountLayout from "@/src/features/account/AccountLayout";
 import SavedPieceCard from "@/src/features/account/SavedPieceCard";
-
 import EmptySavedPieces from "@/src/features/account/EmptySavedPiece";
+
 import CommerceNotification from "@/src/features/commerce/CommerceNotification";
 
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
@@ -13,9 +16,17 @@ import { useBagStore } from "@/src/lib/stores/useBagStore";
 
 import { getProduct } from "@/src/data/getProduct";
 
+interface RemovedPiece {
+  productSlug: string;
+}
+
 export default function SavedPiecesPage() {
   const pieces = useSavedPiecesStore(
     (state) => state.pieces
+  );
+
+  const savePiece = useSavedPiecesStore(
+    (state) => state.savePiece
   );
 
   const removePiece = useSavedPiecesStore(
@@ -26,26 +37,54 @@ export default function SavedPiecesPage() {
     (state) => state.addToBag
   );
 
-  const [notification, setNotification] =
-    useState(false);
+  const [
+    removedPiece,
+    setRemovedPiece,
+  ] = useState<RemovedPiece | null>(
+    null
+  );
 
-  const [movedProduct, setMovedProduct] =
-    useState<{
-      image: string;
-      name: string;
-      price: string;
-    } | null>(null);
+  useEffect(() => {
+    if (!removedPiece) {
+      return;
+    }
 
-  if (pieces.length === 0) {
-    return (
-      <AccountLayout
-        title="Saved Pieces"
-        description="Pieces you've chosen to return to."
-      >
-        <EmptySavedPieces />
-      </AccountLayout>
-    );
+    const timer = window.setTimeout(() => {
+      setRemovedPiece(null);
+    }, 3000);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [removedPiece]);
+
+  function handleRemove(
+    productSlug: string
+  ) {
+    removePiece(productSlug);
+
+    setRemovedPiece({
+      productSlug,
+    });
   }
+
+  function handleUndoRemove() {
+    if (!removedPiece) {
+      return;
+    }
+
+    savePiece(
+      removedPiece.productSlug
+    );
+
+    setRemovedPiece(null);
+  }
+
+  const removedProduct = removedPiece
+    ? getProduct(
+        removedPiece.productSlug
+      )
+    : null;
 
   return (
     <>
@@ -53,82 +92,95 @@ export default function SavedPiecesPage() {
         title="Saved Pieces"
         description="Pieces you've chosen to return to."
       >
-        <div
-          className="
-            grid
-            gap-12
-            md:grid-cols-2
-            xl:grid-cols-3
-          "
-        >
-          {pieces.map((piece) => {
-            const product = getProduct(
-              piece.productSlug
-            );
+        {pieces.length === 0 ? (
+          <EmptySavedPieces />
+        ) : (
+          <div
+            className="
+              grid
+              gap-12
 
-            if (!product) {
-              return null;
-            }
+              md:grid-cols-2
+              xl:grid-cols-3
+            "
+          >
+            {pieces.map((piece) => {
+              const product = getProduct(
+                piece.productSlug
+              );
 
-            const {
-              slug,
-              bagImage,
-              name,
-              collection,
-              price,
-              sizes,
-            } = product;
+              if (!product) {
+                return null;
+              }
 
-            function handleMoveToBag() {
-              addToBag({
-                productSlug: slug,
-                size: sizes[0],
-                quantity: 1,
-              });
+              function handleMoveToBag() {
+                addToBag({
+                  productSlug:
+                    product.slug,
+                  size:
+                    product.sizes[0],
+                  quantity: 1,
+                });
 
-              removePiece(slug);
+                removePiece(
+                  product.slug
+                );
+              }
 
-              setMovedProduct({
-                image: bagImage,
-                name,
-                price,
-              });
-
-              setNotification(true);
-
-              setTimeout(() => {
-                setNotification(false);
-              }, 3000);
-            }
-
-            return (
-              <SavedPieceCard
-                key={slug}
-                image={bagImage}
-                name={name}
-                collection={collection}
-                price={price}
-                href={`/products/${slug}`}
-                onMoveToBag={handleMoveToBag}
-                onRemove={() =>
-                  removePiece(slug)
-                }
-              />
-            );
-          })}
-        </div>
+              return (
+                <SavedPieceCard
+                  key={product.slug}
+                  image={
+                    product.bagImage
+                  }
+                  name={
+                    product.name
+                  }
+                  collection={
+                    product.collection
+                  }
+                  price={
+                    product.price
+                  }
+                  href={
+                    /products/${product.slug}
+                  }
+                  onMoveToBag={
+                    handleMoveToBag
+                  }
+                  onRemove={() =>
+                    handleRemove(
+                      product.slug
+                    )
+                  }
+                />
+              );
+            })}
+          </div>
+        )}
       </AccountLayout>
 
-      {movedProduct && (
+      {removedProduct && (
         <CommerceNotification
-          open={notification}
-          image={movedProduct.image}
-          eyebrow="Residence"
-          title={movedProduct.name}
-          subtitle={movedProduct.price}
-          message="Moved to your Residence."
-          ctaLabel="View Bag"
-          ctaHref="/bag"
+          open
+          image={
+            removedProduct.bagImage
+          }
+          eyebrow="Removed"
+          title={
+            removedProduct.name
+          }
+          subtitle={
+            removedProduct.collection
+          }
+          message="
+            This piece has been removed
+            from your personal archive.
+          "
+          actionLabel="Undo"
+          onAction={
+            handleUndoRemove
+          }
         />
       )}
     </>
