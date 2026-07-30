@@ -152,30 +152,59 @@ export default function CommerceNotification({
                   {message}
                 </p>
 
-                <Link
-                  href={ctaHref}
-                  className="
-                    mt-8
-                    inline-flex
-                    items-center
-                    gap-3
-                    border-b
-                    border-white/15
-                    pb-2
-                    font-mono
-                    text-[11px]
-                    uppercase
-                    tracking-[0.35em]
-                    text-white/75
-                    transition-all
-                    duration-300
-                    hover:gap-5
-                    hover:border-white/50
-                    hover:text-white
-                  "
-                  >
-                  {ctaLabel} →
-                </Link>
+                <div
+  className="
+    mt-8
+    flex
+    items-center
+    gap-8
+  "
+>
+  {ctaHref && ctaLabel && (
+    <Link
+      href={ctaHref}
+      className="
+        inline-flex
+        items-center
+        gap-3
+        border-b
+        border-white/15
+        pb-2
+        font-mono
+        text-[11px]
+        uppercase
+        tracking-[0.35em]
+        text-white/75
+        transition-all
+        duration-300
+        hover:gap-5
+        hover:border-white/50
+        hover:text-white
+      "
+    >
+      {ctaLabel} →
+    </Link>
+  )}
+
+  {actionLabel && onAction && (
+    <button
+      type="button"
+      onClick={onAction}
+      className="
+        font-mono
+        text-[11px]
+        uppercase
+        tracking-[0.35em]
+        text-white/40
+        transition-colors
+        duration-300
+        hover:text-white
+      "
+    >
+      {actionLabel}
+    </button>
+  )}
+</div>
               </div>
             </div>
           </motion.div>
