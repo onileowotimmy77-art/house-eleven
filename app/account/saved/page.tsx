@@ -179,7 +179,7 @@ export default function SavedPiecesPage() {
                   product.price
                 }
                 href={
-                  /products/${product.slug}
+                 `/products/${product.slug}`
                 }
                 onMoveToBag={() =>
                   handleMoveToBag(
