@@ -1,11 +1,21 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 import useCursorTarget from "@/components/cursor/useCursorTarget";
-import { CursorLabels } from "@/lib/cursor";
 
-import { useMenu } from "./MenuProvider";
+import {
+  CursorLabels,
+} from "@/lib/cursor";
+
+import {
+  useBagStore,
+} from "@/src/lib/stores/useBagStore";
+
+import {
+  useMenu,
+} from "./MenuProvider";
 
 const header = {
   hidden: {
@@ -38,7 +48,27 @@ const header = {
 export default function ConciergeHeader() {
   const { closeMenu } = useMenu();
 
-  const closeCursor = useCursorTarget(CursorLabels.CLOSE);
+  const closeCursor = useCursorTarget(
+    CursorLabels.CLOSE
+  );
+
+  const bagCursor = useCursorTarget(
+    CursorLabels.ENTER
+  );
+
+  const bagCount = useBagStore((state) =>
+    state.items.reduce(
+      (total, item) =>
+        total + item.quantity,
+      0
+    )
+  );
+
+  function handleBagClick() {
+    bagCursor.onClick();
+
+    closeMenu();
+  }
 
   return (
     <motion.header
@@ -62,38 +92,105 @@ export default function ConciergeHeader() {
         HOUSE ELEVEN
       </p>
 
-      <button
-        {...closeCursor}
-        onClick={closeMenu}
+      <div
         className="
           flex
           items-center
-          gap-3
-
-          text-[11px]
-          uppercase
-          tracking-[0.42em]
-
-          text-white/40
-          transition-colors
-          duration-300
-
-          hover:text-white
+          gap-8
         "
       >
-        <span>CLOSE</span>
+        <Link
+          href="/bag"
+          onClick={handleBagClick}
+          onMouseEnter={
+            bagCursor.onMouseEnter
+          }
+          onMouseLeave={
+            bagCursor.onMouseLeave
+          }
+          className="
+            group
+            flex
+            items-center
+            gap-3
+
+            text-[11px]
+            uppercase
+            tracking-[0.42em]
+
+            text-white/40
+
+            transition-colors
+            duration-300
+
+            hover:text-white
+          "
+        >
+          <span>BAG</span>
+
+          <span
+            className="
+              font-mono
+              text-[10px]
+              tracking-[0.25em]
+
+              text-white/25
+
+              transition-colors
+              duration-300
+
+              group-hover:text-white/50
+            "
+          >
+            {String(
+              bagCount
+            ).padStart(2, "0")}
+          </span>
+        </Link>
 
         <span
           className="
-            font-mono
-            text-[10px]
-            tracking-[0.25em]
-            text-white/25
+            h-4
+            w-px
+            bg-white/10
+          "
+          aria-hidden="true"
+        />
+
+        <button
+          {...closeCursor}
+          onClick={closeMenu}
+          className="
+            flex
+            items-center
+            gap-3
+
+            text-[11px]
+            uppercase
+            tracking-[0.42em]
+
+            text-white/40
+
+            transition-colors
+            duration-300
+
+            hover:text-white
           "
         >
-          ESC
-        </span>
-      </button>
+          <span>CLOSE</span>
+
+          <span
+            className="
+              font-mono
+              text-[10px]
+              tracking-[0.25em]
+              text-white/25
+            "
+          >
+            ESC
+          </span>
+        </button>
+      </div>
     </motion.header>
   );
 }
