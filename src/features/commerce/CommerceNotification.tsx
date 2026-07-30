@@ -25,6 +25,8 @@ export default function CommerceNotification({
   message,
   ctaLabel,
   ctaHref,
+  actionLabel,
+  onAction,
 }: CommerceNotificationProps) {
   return (
     <AnimatePresence>
