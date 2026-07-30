@@ -33,6 +33,12 @@ export default function ConciergeNavigation() {
     )
   );
 
+  function handleBagClick() {
+    bagCursor.onClick();
+
+    closeMenu();
+  }
+
   return (
     <div
       className="
@@ -72,8 +78,13 @@ export default function ConciergeNavigation() {
 
         <Link
           href="/bag"
-          onClick={closeMenu}
-          {...bagCursor}
+          onClick={handleBagClick}
+          onMouseEnter={
+            bagCursor.onMouseEnter
+          }
+          onMouseLeave={
+            bagCursor.onMouseLeave
+          }
           className="
             group
             flex
