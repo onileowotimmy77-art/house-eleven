@@ -1,24 +1,43 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
+
+import {
+  Space_Grotesk,
+  Inter,
+  IBM_Plex_Mono,
+} from "next/font/google";
+
 import "./globals.css";
+
 import { CursorProvider } from "@/components/cursor/CursorProvider";
-import { AnimationProvider } from "@/lib/animation/AnimationProvider";
 import Cursor from "@/components/cursor/Cursor";
+
+import {
+  AnimationProvider,
+} from "@/lib/animation/AnimationProvider";
+
 import LenisProvider from "@/components/providers/LenisProvider";
+
 import {
   AppTransitionProvider,
 } from "@/components/providers/AppTransitionProvider";
+
 import {
   geist,
   mono,
   editorial,
 } from "./fonts";
-import { MenuProvider } from "@/components/navigation/MenuProvider";
+
+import {
+  MenuProvider,
+} from "@/components/navigation/MenuProvider";
+
+import Navbar from "@/components/navigation/Navbar";
+
 import Concierge from "@/components/navigation/Concierge";
-import { EntranceProvider } from "@/components/entrance/EntranceProvider";
 
-
-
+import {
+  EntranceProvider,
+} from "@/components/entrance/EntranceProvider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -49,42 +68,39 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} ${ibmMono.variable}
+        className={`
+          ${spaceGrotesk.variable}
+          ${inter.variable}
+          ${ibmMono.variable}
+
           ${geist.variable}
           ${mono.variable}
           ${editorial.variable}
+
           bg-black
           text-white
           antialiased
         `}
       >
+        <MenuProvider>
+          <AppTransitionProvider>
+            <CursorProvider>
+              <AnimationProvider>
+                <EntranceProvider>
+                  <Cursor />
 
-      
-      
-          
-          <MenuProvider>
-            <AppTransitionProvider>
-              <CursorProvider>
-                <AnimationProvider>
-                  <EntranceProvider>
-                    
-                      <Cursor />
-                      
-                    
-                      <LenisProvider>
-                        <Concierge />
-                        {children}
-                      </LenisProvider>
-                    
-                  </EntranceProvider>
-              
-                </AnimationProvider>
-              </CursorProvider>
-            </AppTransitionProvider>
-          </MenuProvider>
-         
-       
+                  <LenisProvider>
+                    <Navbar />
 
+                    <Concierge />
+
+                    {children}
+                  </LenisProvider>
+                </EntranceProvider>
+              </AnimationProvider>
+            </CursorProvider>
+          </AppTransitionProvider>
+        </MenuProvider>
       </body>
     </html>
   );
