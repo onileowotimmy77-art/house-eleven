@@ -6,19 +6,13 @@ import Image from "next/image";
 
 interface CommerceNotificationProps {
   open: boolean;
-
   image: string;
-
   eyebrow: string;
-
   title: string;
-
   subtitle: string;
-
   message: string;
 
   ctaLabel: string;
-
   ctaHref: string;
 }
 
