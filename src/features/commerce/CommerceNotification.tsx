@@ -276,5 +276,6 @@ backdrop-blur-[2px]
     </>
   )}
 </AnimatePresence>
+)
 );
 }
