@@ -23,8 +23,8 @@ export default function BagItems() {
     (state) => state.items
   );
 
-  const addToBag = useBagStore(
-    (state) => state.addToBag
+  const restoreToBag = useBagStore(
+    (state) => state.restoreToBag
   );
 
   const removeFromBag = useBagStore(
