@@ -52,7 +52,7 @@ export default function CommerceNotification({
       event: KeyboardEvent
     ) {
       if (event.key === "Escape") {
-        onDismiss();
+        onDismiss?.();
       }
     }
 
