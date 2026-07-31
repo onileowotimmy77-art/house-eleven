@@ -15,6 +15,7 @@ interface RemovedBagItem {
   productSlug: string;
   size: string;
   quantity: number;
+  index: number;
 }
 
 export default function BagItems() {
@@ -54,7 +55,8 @@ export default function BagItems() {
   function handleRemove(
     productSlug: string,
     size: string,
-    quantity: number
+    quantity: number,
+    index: number
   ) {
     removeFromBag(
       productSlug,
@@ -65,6 +67,7 @@ export default function BagItems() {
       productSlug,
       size,
       quantity,
+      index,
     });
   }
 
@@ -103,7 +106,7 @@ export default function BagItems() {
         />
       ) : (
         <div>
-          {items.map((item) => {
+          {items.map((item, index) => {
             const product = getProduct(
               item.productSlug
             );
@@ -140,7 +143,8 @@ export default function BagItems() {
                   handleRemove(
                     item.productSlug,
                     item.size,
-                    item.quantity
+                    item.quantity,
+                    index
                   )
                 }
               />
