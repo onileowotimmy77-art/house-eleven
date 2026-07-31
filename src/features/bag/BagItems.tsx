@@ -76,7 +76,7 @@ export default function BagItems() {
       return;
     }
 
-    addToBag({
+    restoreToBag({
       productSlug:
         removedItem.productSlug,
       size:
