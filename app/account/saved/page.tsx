@@ -188,5 +188,72 @@ export default function SavedPiecesPage() {
                     product.collection
                   }
                   price={product.price}
-                  href={
-                    
+                  href={`
+                    /products/${product.slug}`
+                  }
+                  onMoveToBag={() =>
+                    handleMoveToBag(
+                      product.slug,
+                      firstAvailableSize
+                    )
+                  }
+                  onRemove={() =>
+                    handleRemovePiece(
+                      product.slug
+                    )
+                  }
+                />
+              );
+            })}
+          </div>
+        )}
+      </AccountLayout>
+
+      {notificationProduct &&
+        notificationContent && (
+          <CommerceNotification
+            open
+            image={
+              notificationProduct.bagImage
+            }
+            eyebrow={
+              notificationContent.eyebrow
+            }
+            title={
+              notificationContent.title
+            }
+            subtitle={
+              notificationContent.subtitle
+            }
+            message={
+              notificationContent.message
+            }
+            ctaLabel={
+              "ctaLabel" in
+              notificationContent
+                ? notificationContent.ctaLabel
+                : undefined
+            }
+            ctaHref={
+              "ctaHref" in
+              notificationContent
+                ? notificationContent.ctaHref
+                : undefined
+            }
+            actionLabel={
+              "actionLabel" in
+              notificationContent
+                ? notificationContent.actionLabel
+                : undefined
+            }
+            onAction={
+              notification?.type ===
+              "removed"
+                ? handleUndoRemove
+                : undefined
+            }
+          />
+        )}
+    </>
+  );
+}
