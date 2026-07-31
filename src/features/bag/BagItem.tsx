@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 import CommerceDivider from "@/src/features/commerce/CommerceDivider";
@@ -32,15 +34,63 @@ export default function BagItem({
   onDecrease,
   onRemove,
 }: BagItemProps) {
+  const [isLeaving, setIsLeaving] =
+    useState(false);
+
+  function handleRemove() {
+    if (isLeaving) {
+      return;
+    }
+
+    setIsLeaving(true);
+  }
+
   return (
-    <article>
-
-      <div className="grid gap-10 md:grid-cols-[220px_minmax(0,1fr)]">
-
+    <motion.article
+      layout
+      initial={false}
+      animate={
+        isLeaving
+          ? {
+              opacity: 0,
+              y: 20,
+              scale: 0.985,
+              filter: "blur(8px)",
+            }
+          : {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              filter: "blur(0px)",
+            }
+      }
+      transition={{
+        duration: 0.35,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      onAnimationComplete={() => {
+        if (isLeaving) {
+          onRemove();
+        }
+      }}
+    >
+      <div
+        className="
+          grid
+          gap-10
+          md:grid-cols-[220px_minmax(0,1fr)]
+        "
+      >
         {/* Image */}
 
-        <div className="relative aspect-[4/5] overflow-hidden bg-white/[0.03]">
-
+        <div
+          className="
+            relative
+            aspect-[4/5]
+            overflow-hidden
+            bg-white/[0.03]
+          "
+        >
           <Image
             src={image}
             alt={name}
@@ -48,15 +98,18 @@ export default function BagItem({
             className="object-cover"
             sizes="220px"
           />
-
         </div>
 
         {/* Content */}
 
-        <div className="flex flex-col justify-between">
-
+        <div
+          className="
+            flex
+            flex-col
+            justify-between
+          "
+        >
           <div>
-
             <p
               className="
                 font-mono
@@ -81,9 +134,7 @@ export default function BagItem({
             </h2>
 
             <div className="mt-10 space-y-4">
-
               <div className="flex justify-between">
-
                 <span className="text-white/50">
                   Colour
                 </span>
@@ -91,11 +142,9 @@ export default function BagItem({
                 <span>
                   {colour}
                 </span>
-
               </div>
 
               <div className="flex justify-between">
-
                 <span className="text-white/50">
                   Size
                 </span>
@@ -103,15 +152,20 @@ export default function BagItem({
                 <span>
                   {size}
                 </span>
-
               </div>
-
             </div>
-
           </div>
 
-          <div className="mt-12 flex flex-wrap items-center justify-between gap-8">
-
+          <div
+            className="
+              mt-12
+              flex
+              flex-wrap
+              items-center
+              justify-between
+              gap-8
+            "
+          >
             <CommerceQuantity
               quantity={quantity}
               onIncrease={onIncrease}
@@ -122,12 +176,12 @@ export default function BagItem({
               price={price}
               size="md"
             />
-
           </div>
 
           <button
             type="button"
-            onClick={onRemove}
+            onClick={handleRemove}
+            disabled={isLeaving}
             className="
               mt-10
               w-fit
@@ -142,17 +196,19 @@ export default function BagItem({
               duration-300
 
               hover:text-white
-            "
+
+              disabled:cursor-default
+              disabled:text-white/20
+              "
           >
-            Remove
+            {isLeaving
+              ? "Removing"
+              : "Remove"}
           </button>
-
         </div>
-
       </div>
 
       <CommerceDivider className="my-16" />
-
-    </article>
+    </motion.article>
   );
 }
