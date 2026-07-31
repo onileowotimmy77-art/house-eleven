@@ -174,4 +174,33 @@ export const useBagStore =
                       )
                   )
                 : state.items.map(
-                  
+                  (item) =>
+                      item.productSlug ===
+                        productSlug &&
+                      item.size === size
+                        ? {
+                            ...item,
+                            quantity,
+                          }
+                        : item
+                  ),
+          })),
+
+        clearBag: () =>
+          set({
+            items: [],
+          }),
+
+        totalItems: () =>
+          get().items.reduce(
+            (total, item) =>
+              total +
+              item.quantity,
+            0
+          ),
+      }),
+      {
+        name: "house-eleven-bag",
+      }
+    )
+  );
