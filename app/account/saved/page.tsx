@@ -252,6 +252,7 @@ export default function SavedPiecesPage() {
                 ? handleUndoRemove
                 : undefined
             }
+            
           />
         )}
     </>
