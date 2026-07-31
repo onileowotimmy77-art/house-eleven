@@ -157,18 +157,18 @@ export default function BagItems() {
 
       {removedProduct && (
         <CommerceNotification
-          open
-          image={removedProduct.bagImage}
-          eyebrow="Selection"
-          title={removedProduct.name}
-          subtitle={`Size ${removedItem?.size}`}
-          message="This piece has been removed from your selection."
-          actionLabel="Undo"
-          onAction={handleUndoRemove}
-          onDismisss={() =>
-            setRemovedItem(null)
-          }
-        />
+  open
+  image={removedProduct.bagImage}
+  eyebrow="Selection"
+  title={removedProduct.name}
+  subtitle={`Size ${removedItem?.size}`}
+  message="This piece has been removed from your selection."
+  actionLabel="Undo"
+  onAction={handleUndoRemove}
+  onDismiss={() => {
+    setRemovedItem(null);
+  }}
+/>
       )}
     </>
   );
