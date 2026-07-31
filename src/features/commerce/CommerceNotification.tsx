@@ -1,6 +1,12 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
+
+import {
+  AnimatePresence,
+  motion,
+} from "framer-motion";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,6 +24,8 @@ interface CommerceNotificationProps {
 
   actionLabel?: string;
   onAction?: () => void;
+
+  onDismiss?: () => void;
 }
 
 export default function CommerceNotification({
@@ -31,12 +39,42 @@ export default function CommerceNotification({
   ctaHref,
   actionLabel,
   onAction,
+  onDismiss,
 }: CommerceNotificationProps) {
+  useEffect(() => {
+    if (!open || !onDismiss) {
+      return;
+    }
+
+    function handleKeyDown(
+      event: KeyboardEvent
+    ) {
+      if (event.key === "Escape") {
+        onDismiss();
+      }
+    }
+
+    window.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+    };
+  }, [open, onDismiss]);
+
   return (
     <AnimatePresence>
       {open && (
         <>
-          <motion.div
+          <motion.button
+            type="button"
+            aria-label="Dismiss notification"
+            onClick={onDismiss}
             initial={{
               opacity: 0,
             }}
@@ -53,12 +91,16 @@ export default function CommerceNotification({
               fixed
               inset-0
               z-[190]
+              cursor-default
               bg-black/30
               backdrop-blur-[2px]
             "
           />
 
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label={title}
             initial={{
               opacity: 0,
               y: 16,
@@ -108,11 +150,18 @@ export default function CommerceNotification({
                   alt={title}
                   fill
                   sizes="96px"
-                  className="object-cover"
+                  className="
+                    object-cover
+                  "
                 />
               </div>
 
-              <div className="min-w-0 flex-1">
+              <div
+                className="
+                  min-w-0
+                  flex-1
+                "
+              >
                 <p
                   className="
                     font-mono
@@ -156,8 +205,10 @@ export default function CommerceNotification({
                   {message}
                 </p>
 
-                {((ctaLabel && ctaHref) ||
-                  (actionLabel && onAction)) && (
+                {((ctaLabel &&
+                  ctaHref) ||
+                  (actionLabel &&
+                    onAction)) && (
                   <div
                     className="
                       mt-8
@@ -167,54 +218,58 @@ export default function CommerceNotification({
                       gap-8
                     "
                   >
-                    {ctaLabel && ctaHref && (
-                      <Link
-                        href={ctaHref}
-                        className="
-                          inline-flex
-                          items-center
-                          gap-3
-                          border-b
-                          border-white/15
-                          pb-2
-                          font-mono
-                          text-[11px]
-                          uppercase
-                          tracking-[0.35em]
-                          text-white/75
-                          transition-all
-                          duration-300
-                          hover:gap-5
-                          hover:border-white/50
-                          hover:text-white
-                        "
-                      >
-                        {ctaLabel}
+                    {ctaLabel &&
+                      ctaHref && (
+                        <Link
+                          href={ctaHref}
+                          className="
+                            inline-flex
+                            items-center
+                            gap-3
+                            border-b
+                            border-white/15
+                            pb-2
+                            font-mono
+                            text-[11px]
+                            uppercase
+                            tracking-[0.35em]
+                            text-white/75
+                            transition-all
+                            duration-300
+                            hover:gap-5
+                            hover:border-white/50
+                            hover:text-white
+                          "
+                        >
+                          {ctaLabel}
 
-                        <span aria-hidden>
-                          →
-                        </span>
-                      </Link>
-                    )}
+                          <span
+                            aria-hidden
+                          >
+                            →
+                          </span>
+                        </Link>
+                      )}
 
-                    {actionLabel && onAction && (
-                      <button
-                        type="button"
-                        onClick={onAction}
-                        className="
-                          font-mono
-                          text-[11px]
-                          uppercase
-                          tracking-[0.35em]
-                          text-white/40
-                          transition-colors
-                          duration-300
-                          hover:text-white
-                        "
-                      >
-                        {actionLabel}
-                      </button>
-                    )}
+                    {actionLabel &&
+                      onAction && (
+                        <button
+                          type="button"
+                          onClick={onAction}
+                          className="
+                            font-mono
+                            text-[11px]
+                            uppercase
+                            tracking-[0.35em]
+                            text-white/40
+                            transition-colors
+                            duration-300
+                            hover:text-white
+                          "
+                        >
+                          {actionLabel}
+                        </button>
+                      )}
                   </div>
                 )}
               </div>
