@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import {
+  useEffect,
+} from "react";
 
 import {
   AnimatePresence,
@@ -74,7 +76,9 @@ export default function CommerceNotification({
           <motion.button
             type="button"
             aria-label="Dismiss notification"
-            onClick={onDismiss}
+            onClick={() =>
+              onDismiss?.()
+            }
             initial={{
               opacity: 0,
             }}
@@ -191,7 +195,7 @@ export default function CommerceNotification({
                     text-sm
                     text-white/50
                   "
-                >
+                  >
                   {subtitle}
                 </p>
 
