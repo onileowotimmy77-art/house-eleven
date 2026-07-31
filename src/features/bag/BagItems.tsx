@@ -165,6 +165,7 @@ export default function BagItems() {
           message="This piece has been removed from your selection."
           actionLabel="Undo"
           onAction={handleUndoRemove}
+          
         />
       )}
     </>
