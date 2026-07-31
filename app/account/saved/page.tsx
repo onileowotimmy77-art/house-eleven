@@ -247,13 +247,15 @@ export default function SavedPiecesPage() {
                 : undefined
             }
             onAction={
-              notification?.type ===
-              "removed"
-                ? handleUndoRemove
-                : undefined
-            }
-            
-          />
+  notification?.type ===
+  "removed"
+    ? handleUndoRemove
+    : undefined
+}
+onDismiss={() =>
+  setNotification(null)
+}
+/>
         )}
     </>
   );
