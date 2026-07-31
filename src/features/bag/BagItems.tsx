@@ -83,7 +83,9 @@ export default function BagItems() {
         removedItem.size,
       quantity:
         removedItem.quantity,
-    });
+    },
+    removedItem.index
+  );
 
     setRemovedItem(null);
   }
