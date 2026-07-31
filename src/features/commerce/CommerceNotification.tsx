@@ -77,8 +77,8 @@ export default function CommerceNotification({
             type="button"
             aria-label="Dismiss notification"
             onClick={() =>
-              onDismiss?.()
-            }
+              onDismiss?.();
+            }}
             initial={{
               opacity: 0,
             }}
