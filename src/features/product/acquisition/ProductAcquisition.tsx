@@ -366,6 +366,9 @@ const [notification, setNotification] =
     message={notificationConfig.message}
     ctaLabel={notificationConfig.ctaLabel}
     ctaHref={notificationConfig.ctaHref}
+    onDismiss={() =>
+      setNotification(null)
+    }
   />
 )}
     </>
