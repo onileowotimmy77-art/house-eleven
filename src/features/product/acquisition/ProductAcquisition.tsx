@@ -347,7 +347,12 @@ const [notification, setNotification] =
                   ? false
                   : !canAcquire
               }
-              onClick={handleAcquire}
+              onClick={
+  inventory?.status ===
+  "sold-out"
+    ? handleRestockRequest
+    : handleAcquire
+}
               className={`
                 mt-20
                 inline-flex
