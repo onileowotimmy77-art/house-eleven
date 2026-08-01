@@ -13,9 +13,59 @@ export interface BagItem {
 interface BagStore {
   items: BagItem[];
 
-  addToBag: (
-    item: BagItem
-  ) => void;
+  addToBag: (item) =>
+  set((state) => {
+    const existing =
+      state.items.find(
+        (bagItem) =>
+          bagItem.productSlug ===
+            item.productSlug &&
+          bagItem.size ===
+            item.size
+      );
+
+    const nextQuantity =
+      existing
+        ? existing.quantity +
+          item.quantity
+        : item.quantity;
+
+    if (
+      !canAcquireQuantity(
+        item.productSlug,
+        item.size,
+        nextQuantity
+      )
+    ) {
+      return state;
+    }
+
+    if (existing) {
+      return {
+        items:
+          state.items.map(
+            (bagItem) =>
+              bagItem.productSlug ===
+                item.productSlug &&
+              bagItem.size ===
+                item.size
+                ? {
+                    ...bagItem,
+                    quantity:
+                      nextQuantity,
+                  }
+                : bagItem
+          ),
+      };
+    }
+
+    return {
+      items: [
+        ...state.items,
+        item,
+      ],
+    };
+  }),
 
   restoreToBag: (
     item: BagItem,
