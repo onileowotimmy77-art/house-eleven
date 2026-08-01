@@ -18,7 +18,7 @@ import ReviewTotals from "./ReviewTotals";
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 import { placeOrder } from "@/src/lib/commerce/placeOrder";
-
+import { validateBagInventory } from "@/src/lib/commerce/validateBagInventory";
 
 import { getProduct } from "@/src/data/getProduct";
 
