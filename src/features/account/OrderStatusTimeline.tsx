@@ -1,99 +1,69 @@
-"use client";
+import type { Order } from "@/src/lib/stores/useOrderStore";
 
-interface TimelineStep {
+export interface OrderTimelineStep {
   title: string;
   description: string;
+
   complete: boolean;
+
+  current: boolean;
 }
 
-interface OrderStatusTimelineProps {
-  steps: TimelineStep[];
-}
+const timeline = [
+  {
+    status: "Order Confirmed",
+    title: "Order Confirmed",
+    description:
+      "Your order has been received and reserved.",
+  },
+  {
+    status: "Preparing Garments",
+    title: "Preparing Garments",
+    description:
+      "Every piece is being prepared for inspection.",
+  },
+  {
+    status: "Quality Inspection",
+    title: "Quality Inspection",
+    description:
+      "Each garment is undergoing final inspection.",
+  },
+  {
+    status: "Dispatch",
+    title: "Dispatch",
+    description:
+      "Your Residence is being prepared for its journey.",
+  },
+  {
+    status: "Delivered",
+    title: "Delivered",
+    description:
+      "Your Residence has arrived. Welcome home.",
+  },
+] as const;
 
-export default function OrderStatusTimeline({
-  steps,
-}: OrderStatusTimelineProps) {
-  return (
-    <section className="mt-20">
+export function getOrderTimeline(
+  order: Order
+): OrderTimelineStep[] {
+  const currentStepIndex =
+    timeline.findIndex(
+      (step) =>
+        step.status === order.status
+    );
 
-      <div className="space-y-12">
+  return timeline.map(
+    (step, index) => ({
+      title: step.title,
 
-        {steps.map((step, index) => (
-          <div
-            key={step.title}
-            className="flex gap-8"
-          >
-            {/* Progress */}
+      description:
+        step.description,
 
-            <div className="flex flex-col items-center">
+      complete:
+        currentStepIndex >= 0 &&
+        index < currentStepIndex,
 
-              <div
-                className={`
-                  h-3
-                  w-3
-                  rounded-full
-                  transition-colors
-                  duration-500
-
-                  ${
-                    step.complete
-                      ? "bg-white"
-                      : "bg-white/15"
-                  }
-                `}
-              />
-
-              {index < steps.length - 1 && (
-                <div
-                  className={`
-                    mt-4
-                    w-px
-                    flex-1
-                    min-h-16
-
-                    ${
-                      step.complete
-                        ? "bg-white/25"
-                        : "bg-white/10"
-                    }
-                  `}
-                />
-              )}
-
-            </div>
-
-            {/* Content */}
-
-            <div className="pb-10">
-
-              <h3
-                className="
-                  text-lg
-                  font-medium
-                  tracking-[-0.02em]
-                "
-              >
-                {step.title}
-              </h3>
-
-              <p
-                className="
-                  mt-3
-                  max-w-xl
-                  leading-7
-                  text-white/50
-                "
-              >
-                {step.description}
-              </p>
-
-            </div>
-
-          </div>
-        ))}
-
-      </div>
-
-    </section>
+      current:
+        index === currentStepIndex,
+    })
   );
 }
