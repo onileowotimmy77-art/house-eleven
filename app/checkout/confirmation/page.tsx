@@ -40,11 +40,15 @@ useEffect(() => {
     (state) => state.latestOrder
   );
 
-  if (!latestOrder) {
-    router.replace("/bag");
+  if (!hasHydrated) {
+  return null;
+}
 
-    return null;
-  }
+if (!latestOrder) {
+  router.replace("/bag");
+
+  return null;
+}
 
   const formattedTotal =
     new Intl.NumberFormat(
