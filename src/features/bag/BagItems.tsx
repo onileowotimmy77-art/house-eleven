@@ -199,17 +199,25 @@ export default function BagItems() {
                     product.priceValue
                   }
                   onIncrease={() => {
-                    if (!canIncrease) {
-                      return;
-                    }
+  const nextQuantity =
+    item.quantity + 1;
 
-                    updateQuantity(
-                      item.
-                      productSlug,
-                      item.size,
-                      item.quantity + 1
-                    );
-                  }}
+  if (
+    !canAcquireQuantity(
+      item.productSlug,
+      item.size,
+      nextQuantity
+    )
+  ) {
+    return;
+  }
+
+  updateQuantity(
+    item.productSlug,
+    item.size,
+    nextQuantity
+  );
+}}
                   onDecrease={() =>
                     updateQuantity(
                       item.productSlug,
