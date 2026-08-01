@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Reveal from "@/components/motion/Reveal";
@@ -18,6 +18,7 @@ import ReviewTotals from "./ReviewTotals";
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 import { placeOrder } from "@/src/lib/commerce/placeOrder";
+
 
 import { getProduct } from "@/src/data/getProduct";
 
