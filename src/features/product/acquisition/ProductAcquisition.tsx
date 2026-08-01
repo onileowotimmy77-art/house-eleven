@@ -31,6 +31,17 @@ export default function ProductAcquisition({
     (state) => state.addToBag
   );
 
+  const requestRestock = useRestockStore(
+  (state) => state.requestRestock
+);
+
+const hasRequestedRestock =
+  useRestockStore((state) =>
+    state.hasRequestedRestock(
+      product.slug
+    )
+  );
+
   const savePiece = useSavedPiecesStore(
     (state) => state.savePiece
   );
@@ -127,6 +138,14 @@ const [notification, setNotification] =
 
     setNotification("saved");
   }
+
+  function handleRestockRequest() {
+  requestRestock(
+    product.slug
+  );
+
+  setNotification("restock");
+}
 
   function handleAcquire() {
   if (
