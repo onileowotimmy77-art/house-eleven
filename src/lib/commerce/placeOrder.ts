@@ -22,7 +22,7 @@ function createOrderNumber() {
       .slice(0, 8)
       .toUpperCase();
 
-  return `HE-${year}-${reference}`;
+  return HE-${year}-${reference};
 }
 
 export function placeOrder() {
@@ -78,6 +78,9 @@ export function placeOrder() {
     subtotal,
 
     total: subtotal,
+
+    status:
+      "Preparing Garments",
 
     paymentMethod:
       "Debit / Credit Card",
