@@ -369,7 +369,10 @@ function handleEarlyAccessRequest() {
               }
               onClick={
   inventory?.status ===
-  "sold-out"
+  "coming-soon"
+    ? handleEarlyAccessRequest
+    : inventory?.status ===
+      "sold-out"
     ? handleRestockRequest
     : handleAcquire
 }
