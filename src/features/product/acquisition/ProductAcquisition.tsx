@@ -43,6 +43,19 @@ const hasRequestedRestock =
     )
   );
 
+  const requestEarlyAccess =
+  useEarlyAccessStore(
+    (state) =>
+      state.requestEarlyAccess
+  );
+
+const hasRequestedEarlyAccess =
+  useEarlyAccessStore((state) =>
+    state.hasRequestedEarlyAccess(
+      product.slug
+    )
+  );
+
   const savePiece = useSavedPiecesStore(
     (state) => state.savePiece
   );
