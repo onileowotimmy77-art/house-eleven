@@ -164,7 +164,7 @@ const [notification, setNotification] =
   ) {
     return;
   }
-  
+
   const selectedSizeInventory =
     sizes.find(
       (inventorySize) =>
@@ -193,10 +193,7 @@ const [notification, setNotification] =
     ? {
         eyebrow: "House Eleven",
         title: product.name,
-        subtitle: `Size ${selectedSize} • ${product.price}`,
-        message:
-          "This piece has entered your Residence.",
-        ctaLabel: "View Bag",
+      ctaLabel: "View Bag",
         ctaHref: "/bag",
       }
     : notification === "saved"
@@ -209,7 +206,12 @@ const [notification, setNotification] =
         ctaLabel: "View Saved Pieces",
         ctaHref: "/account/saved",
       }
-    : null;
+    : null;     subtitle: `Size ${selectedSize} • ${product.price}`,
+        message:
+          "This piece has entered your Residence.",
+     
+
+
   return (
     <>
       <Section customPadding="py-45">
