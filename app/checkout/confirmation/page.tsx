@@ -18,6 +18,23 @@ import { useOrderStore } from "@/src/lib/stores/useOrderStore";
 
 export default function ConfirmationPage() {
   const router = useRouter();
+const [hasHydrated, setHasHydrated] =
+  useState(false);
+
+useEffect(() => {
+  setHasHydrated(
+    useOrderStore.persist.hasHydrated()
+  );
+
+  const unsubscribe =
+    useOrderStore.persist.onFinishHydration(
+      () => {
+        setHasHydrated(true);
+      }
+    );
+
+  return unsubscribe;
+}, []);
 
   const latestOrder = useOrderStore(
     (state) => state.latestOrder
