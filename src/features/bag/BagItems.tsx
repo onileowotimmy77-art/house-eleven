@@ -17,8 +17,8 @@ import {
 } from "@/src/data/getProduct";
 
 import {
-  canAcquire
-}
+  canAcquireQuantity,
+} from "@/src/lib/commerce/inventory";
 
 import {
   inventory,
