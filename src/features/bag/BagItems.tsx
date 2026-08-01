@@ -171,7 +171,7 @@ export default function BagItems() {
               return (
                 <BagItem
                   key={
-                    ${item.productSlug}-${item.size}
+                    `${item.productSlug}-${item.size}`
                   }
                   image={
                     product.bagImage
