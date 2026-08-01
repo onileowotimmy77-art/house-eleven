@@ -48,19 +48,23 @@ export default function ConfirmationPage() {
           <ConfirmationHero />
 
           <ConfirmationSummary
-            orderNumber={
-              latestOrder.orderNumber
-            }
-            paymentMethod={
-              latestOrder.paymentMethod
-            }
-            estimatedDelivery={
-              latestOrder.estimatedDelivery
-            }
-            total={`₦${formattedTotal}`}
-          />
+  orderNumber={
+    latestOrder.orderNumber
+  }
+  paymentMethod={
+    latestOrder.paymentMethod
+  }
+  estimatedDelivery={
+    latestOrder.estimatedDelivery
+  }
+  total={`₦${formattedTotal}`}
+/>
 
-          <ConfirmationTimeline />
+<ConfirmationItems
+  items={latestOrder.items}
+/>
+
+<ConfirmationTimeline />
 
           <ConfirmationActions />
         </Container>
