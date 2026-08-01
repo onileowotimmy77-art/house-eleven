@@ -193,7 +193,10 @@ const [notification, setNotification] =
     ? {
         eyebrow: "House Eleven",
         title: product.name,
-      ctaLabel: "View Bag",
+        subtitle: `Size ${selectedSize} • ${product.price}`,
+        message:
+          "This piece has entered your Residence.",
+        ctaLabel: "View Bag",
         ctaHref: "/bag",
       }
     : notification === "saved"
@@ -206,12 +209,18 @@ const [notification, setNotification] =
         ctaLabel: "View Saved Pieces",
         ctaHref: "/account/saved",
       }
-    : null;     subtitle: `Size ${selectedSize} • ${product.price}`,
+    : notification === "restock"
+    ? {
+        eyebrow: "Restock",
+        title: product.name,
+        subtitle: product.collection,
         message:
-          "This piece has entered your Residence.",
-     
-
-
+          hasRequestedRestock
+            ? "You will be notified when this piece returns."
+            : "Restock interest has been recorded.",
+      }
+    : null;
+    
   return (
     <>
       <Section customPadding="py-45">
