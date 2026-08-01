@@ -99,62 +99,79 @@ export const useBagStore =
   }),
 
         restoreToBag: (
-          item,
-          index
-        ) =>
-          set((state) => {
-            const existingIndex =
-              state.items.findIndex(
-                (bagItem) =>
-                  bagItem.productSlug ===
-                    item.productSlug &&
-                  bagItem.size ===
-                    item.size
-              );
+  item,
+  index
+) =>
+  set((state) => {
+    const existingIndex =
+      state.items.findIndex(
+        (bagItem) =>
+          bagItem.productSlug ===
+            item.productSlug &&
+          bagItem.size ===
+            item.size
+      );
 
-            if (existingIndex !== -1) {
-              return {
-                items:
-                  state.items.map(
-                    (bagItem) =>
-                      bagItem.productSlug ===
-                        item.productSlug &&
-                      bagItem.size ===
-                        item.size
-                        ? {
-                            ...bagItem,
-                            quantity:
-                              bagItem.quantity +
-                              item.quantity,
-                          }
-                        : bagItem
-                  ),
-              };
-            }
+    const nextQuantity =
+      existingIndex !== -1
+        ? state.items[
+            existingIndex
+          ].quantity +
+          item.quantity
+        : item.quantity;
 
-            const restoredItems = [
-              ...state.items,
-            ];
+    if (
+      !canAcquireQuantity(
+        item.productSlug,
+        item.size,
+        nextQuantity
+      )
+    ) {
+      return state;
+    }
 
-            const safeIndex =
-              Math.max(
-                0,
-                Math.min(
-                  index,
-                  restoredItems.length
-                )
-              );
+    if (existingIndex !== -1) {
+      return {
+        items:
+          state.items.map(
+            (bagItem) =>
+              bagItem.productSlug ===
+                item.productSlug &&
+              bagItem.size ===
+                item.size
+                ? {
+                    ...bagItem,
+                    quantity:
+                      nextQuantity,
+                  }
+                : bagItem
+          ),
+      };
+    }
 
-            restoredItems.splice(
-              safeIndex,
-              0,
-              item
-            );
+    const restoredItems = [
+      ...state.items,
+    ];
 
-            return {
-              items: restoredItems,
-            };
-          }),
+    const safeIndex =
+      Math.max(
+        0,
+        Math.min(
+          index,
+          restoredItems.length
+        )
+      );
+
+    restoredItems.splice(
+      safeIndex,
+      0,
+      item
+    );
+
+    return {
+      items: restoredItems,
+    };
+  }),
 
         removeFromBag: (
           productSlug,
