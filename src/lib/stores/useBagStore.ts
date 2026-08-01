@@ -172,35 +172,51 @@ export const useBagStore =
               ),
           })),
 
-        updateQuantity: (
-          productSlug,
-          size,
-          quantity
-        ) =>
-          set((state) => ({
-            items:
-              quantity <= 0
-                ? state.items.filter(
-                    (item) =>
-                      !(
-                        item.productSlug ===
-                          productSlug &&
-                        item.size ===
-                          size
-                      )
-                  )
-                : state.items.map(
-                  (item) =>
-                      item.productSlug ===
-                        productSlug &&
-                      item.size === size
-                        ? {
-                            ...item,
-                            quantity,
-                          }
-                        : item
-                  ),
-          })),
+       updateQuantity: (
+  productSlug,
+  size,
+  quantity
+) =>
+  set((state) => {
+    if (quantity <= 0) {
+      return {
+        items:
+          state.items.filter(
+            (item) =>
+              !(
+                item.productSlug ===
+                  productSlug &&
+                item.size === size
+              )
+          ),
+      };
+    }
+
+    if (
+      !canAcquireQuantity(
+        productSlug,
+        size,
+        quantity
+      )
+    ) {
+      return state;
+    }
+
+    return {
+      items:
+        state.items.map(
+          (item) =>
+            item.productSlug ===
+              productSlug &&
+            item.size === size
+              ? {
+                  ...item,
+                  quantity,
+                }
+              : item
+        ),
+    };
+  }),
 
         clearBag: () =>
           set({
