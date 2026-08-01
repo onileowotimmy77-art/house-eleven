@@ -149,15 +149,22 @@ const [notification, setNotification] =
 
   function handleAcquire() {
   if (
-    !selectedSize ||
     inventory?.status ===
-      "coming-soon" ||
-    inventory?.status ===
-      "sold-out"
+    "sold-out"
   ) {
+    handleRestockRequest();
+
     return;
   }
 
+  if (
+    !selectedSize ||
+    inventory?.status ===
+      "coming-soon"
+  ) {
+    return;
+  }
+  
   const selectedSizeInventory =
     sizes.find(
       (inventorySize) =>
