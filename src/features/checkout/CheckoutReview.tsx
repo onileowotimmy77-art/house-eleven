@@ -134,12 +134,77 @@ export default function CheckoutReview() {
           total={`₦${new Intl.NumberFormat("en-NG").format(total)}`}
         />
 
-        <CommerceButton
-          onClick={handleConfirmOrder}
-          className="mt-20 w-full"
-        >
-          Confirm Order
-        </CommerceButton>
+        {inventoryError && (
+  <div
+    className="
+      mt-16
+      border
+      border-white/10
+      bg-white/[0.03]
+      px-6
+      py-5
+    "
+  >
+    <p
+      className="
+        font-mono
+        text-[10px]
+        uppercase
+        tracking-[0.35em]
+        text-white/45
+      "
+    >
+      Selection Updated
+    </p>
+
+    <p
+      className="
+        mt-3
+        text-sm
+        leading-relaxed
+        text-white/70
+      "
+    >
+      One or more pieces in your
+      selection are no longer
+      available in the requested
+      quantity. Return to your Bag
+      to review the current
+      availability.
+    </p>
+
+    <button
+      type="button"
+      onClick={() =>
+        router.push("/bag")
+      }
+      className="
+        mt-6
+        border-b
+        border-white/15
+        pb-2
+        font-mono
+        text-[10px]
+        uppercase
+        tracking-[0.35em]
+        text-white/65
+        transition-colors
+        duration-300
+        hover:border-white/50
+        hover:text-white
+      "
+    >
+      Return to Bag
+    </button>
+  </div>
+)}
+
+<CommerceButton
+  onClick={handleConfirmOrder}
+  className="mt-20 w-full"
+>
+  Confirm Order
+</CommerceButton>
       </div>
     </section>
   );
