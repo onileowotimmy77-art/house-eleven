@@ -293,7 +293,7 @@ export const products: Product[] = [
   sizes: ["S", "M", "L", "XL"],
 
   heroImage: "/products/residence-tee/hero.jpg",
-  bagImage: "/products/double-layered-sweatshirt/hero.jpg",
+  bagImage: "/products/residence-tee/hero.jpg",
 
   story:
     "The Residence Tee represents the purest expression of House Eleven. Free from unnecessary detail, every decision focuses on proportion, weight and longevity. Designed to become the garment reached for instinctively, season after season.",
@@ -408,7 +408,8 @@ export const products: Product[] = [
 
   heroImage:
     "/products/house11-reflective-tank-top/hero.jpg",
-  bagImage:  "/products/double-layered-sweatshirt/hero.jpg",
+  bagImage: 
+    "/products/house11-reflective-tank-top/hero.jpg",
 
   story:
     "The House 11 Reflective Tank Top explores the balance between utility and luxury. Designed to remain understated by day while revealing subtle reflective detailing under light, it reflects the House Eleven philosophy that identity never needs to shout.",
