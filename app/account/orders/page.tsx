@@ -84,10 +84,10 @@ export default function OrdersPage() {
                   order.status
                 }
                 total={
-                  ₦${formattedTotal}
+                  `₦${formattedTotal}`
                 }
                 href={
-                  /account/orders/${order.orderNumber}
+                  
                 }
               />
             );
