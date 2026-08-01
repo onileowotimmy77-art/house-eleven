@@ -322,7 +322,7 @@ export default function OrderDetailPage() {
       </section>
 
       <OrderStatusTimeline
-        steps={steps}
+        steps={getOrderTimeline(order)}
       />
     </AccountLayout>
   );
