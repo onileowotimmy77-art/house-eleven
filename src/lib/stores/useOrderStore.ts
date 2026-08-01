@@ -3,7 +3,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-
+export type OrderStatus =
+  | "Order Confirmed"
+  | "Preparing Garments"
+  | "Quality Inspection"
+  | "Dispatch"
+  | "Delivered";
 
 export interface OrderItem {
   productSlug: string;
@@ -20,7 +25,7 @@ export interface Order {
 
   total: number;
 
-  status: string;
+  status: OrderStatus;
 
   paymentMethod: string;
 
