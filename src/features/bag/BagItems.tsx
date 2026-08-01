@@ -17,6 +17,10 @@ import {
 } from "@/src/data/getProduct";
 
 import {
+  canAcquire
+}
+
+import {
   inventory,
 } from "@/src/data/products";
 
