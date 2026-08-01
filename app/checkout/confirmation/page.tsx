@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
@@ -10,7 +12,28 @@ import ConfirmationSummary from "@/src/features/confirmation/ConfirmationSummary
 import ConfirmationTimeline from "@/src/features/confirmation/ConfirmationTimeline";
 import ConfirmationActions from "@/src/features/confirmation/ConfirmationActions";
 
+import { useOrderStore } from "@/src/lib/stores/useOrderStore";
+
 export default function ConfirmationPage() {
+  const router = useRouter();
+
+  const latestOrder = useOrderStore(
+    (state) => state.latestOrder
+  );
+
+  if (!latestOrder) {
+    router.replace("/bag");
+
+    return null;
+  }
+
+  const formattedTotal =
+    new Intl.NumberFormat(
+      "en-NG"
+    ).format(
+      latestOrder.total
+    );
+
   return (
     <>
       <CommerceHeader
@@ -20,24 +43,26 @@ export default function ConfirmationPage() {
       />
 
       <Section customPadding="py-20">
-
         <Container className="max-w-5xl">
-
           <ConfirmationHero />
 
           <ConfirmationSummary
-            orderNumber="#HE-2026-001284"
-            paymentMethod="Debit / Credit Card"
-            estimatedDelivery="3–5 Business Days"
-            total="₦190,000"
+            orderNumber={
+              latestOrder.orderNumber
+            }
+            paymentMethod={
+              latestOrder.paymentMethod
+            }
+            estimatedDelivery={
+              latestOrder.estimatedDelivery
+            }
+            total={`₦${formattedTotal}`}
           />
 
           <ConfirmationTimeline />
 
           <ConfirmationActions />
-
         </Container>
-
       </Section>
     </>
   );
