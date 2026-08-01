@@ -166,7 +166,7 @@ function handleEarlyAccessRequest() {
     product.slug
   );
 
-  setNotification("checkout");
+  setNotification("early-access");
 }
 
   function handleAcquire() {
@@ -232,7 +232,7 @@ function handleEarlyAccessRequest() {
         ctaHref: "/account/saved",
       }
 
-      : notification === "checkout"
+      : notification === "early-access"
 ? {
     eyebrow: "Early Access",
     title: product.name,
