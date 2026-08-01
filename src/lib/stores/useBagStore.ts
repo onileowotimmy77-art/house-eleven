@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { canAcquireQuantity } from "../commerce/inventory";
 
 export interface BagItem {
   productSlug: string;
