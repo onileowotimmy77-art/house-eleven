@@ -101,7 +101,13 @@ export default function CheckoutReview() {
 
   setInventoryError(false);
 
-  placeOrder();
+  const order = placeOrder();
+
+  if (!order) {
+    setInventoryError(true);
+
+    return;
+  }
 
   router.push(
     "/checkout/confirmation"
