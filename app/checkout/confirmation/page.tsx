@@ -9,6 +9,7 @@ import CommerceHeader from "@/src/features/commerce/CommerceHeader";
 
 import ConfirmationHero from "@/src/features/confirmation/ConfirmationHero";
 import ConfirmationSummary from "@/src/features/confirmation/ConfirmationSummary";
+import ConfirmationItems from "@/src/features/confirmation/ConfirmationItems";
 import ConfirmationTimeline from "@/src/features/confirmation/ConfirmationTimeline";
 import ConfirmationActions from "@/src/features/confirmation/ConfirmationActions";
 
