@@ -232,7 +232,14 @@ function handleEarlyAccessRequest() {
         ctaHref: "/account/saved",
       }
 
-      
+      : notification === "checkout"
+? {
+    eyebrow: "Early Access",
+    title: product.name,
+    subtitle: product.collection,
+    message:
+      "Your request has been received. The House will contact you before this edition opens.",
+  }
 
     : notification === "restock"
 ? {
