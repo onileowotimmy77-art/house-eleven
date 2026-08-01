@@ -3,7 +3,10 @@ import type { Order } from "@/src/lib/stores/useOrderStore";
 export interface OrderTimelineStep {
   title: string;
   description: string;
+
   complete: boolean;
+
+  current: boolean;
 }
 
 const timeline = [
@@ -51,11 +54,16 @@ export function getOrderTimeline(
   return timeline.map(
     (step, index) => ({
       title: step.title,
+
       description:
         step.description,
+
       complete:
         currentStepIndex >= 0 &&
-        index <= currentStepIndex,
+        index < currentStepIndex,
+
+      current:
+        index === currentStepIndex,
     })
   );
 }
