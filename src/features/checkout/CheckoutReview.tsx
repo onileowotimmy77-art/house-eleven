@@ -82,10 +82,25 @@ export default function CheckoutReview() {
   const total = subtotal;
 
   function handleConfirmOrder() {
-    placeOrder();
+  const validation =
+    validateBagInventory(
+      items
+    );
 
-    router.push("/checkout/confirmation");
+  if (!validation.valid) {
+    setInventoryError(true);
+
+    return;
   }
+
+  setInventoryError(false);
+
+  placeOrder();
+
+  router.push(
+    "/checkout/confirmation"
+  );
+}
 
   return (
     <section className="py-40">
