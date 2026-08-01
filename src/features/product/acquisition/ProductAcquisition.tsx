@@ -210,16 +210,14 @@ const [notification, setNotification] =
         ctaHref: "/account/saved",
       }
     : notification === "restock"
-    ? {
-        eyebrow: "Restock",
-        title: product.name,
-        subtitle: product.collection,
-        message:
-          hasRequestedRestock
-            ? "You will be notified when this piece returns."
-            : "Restock interest has been recorded.",
-      }
-    : null;
+? {
+    eyebrow: "Restock Requested",
+    title: product.name,
+    subtitle: product.collection,
+    message:
+      "You will be notified when this piece returns to the House.",
+  }
+: null;
     
   return (
     <>
