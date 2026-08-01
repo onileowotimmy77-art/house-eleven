@@ -45,43 +45,58 @@ export const useBagStore =
         items: [],
 
         addToBag: (item) =>
-          set((state) => {
-            const existing =
-              state.items.find(
-                (bagItem) =>
-                  bagItem.productSlug ===
-                    item.productSlug &&
-                  bagItem.size ===
-                    item.size
-              );
+  set((state) => {
+    const existing =
+      state.items.find(
+        (bagItem) =>
+          bagItem.productSlug ===
+            item.productSlug &&
+          bagItem.size ===
+            item.size
+      );
 
-            if (existing) {
-              return {
-                items:
-                  state.items.map(
-                    (bagItem) =>
-                      bagItem.productSlug ===
-                        item.productSlug &&
-                      bagItem.size ===
-                        item.size
-                        ? {
-                            ...bagItem,
-                            quantity:
-                              bagItem.quantity +
-                              item.quantity,
-                          }
-                        : bagItem
-                  ),
-              };
-            }
+    const nextQuantity =
+      existing
+        ? existing.quantity +
+          item.quantity
+        : item.quantity;
 
-            return {
-              items: [
-                ...state.items,
-                item,
-              ],
-            };
-          }),
+    if (
+      !canAcquireQuantity(
+        item.productSlug,
+        item.size,
+        nextQuantity
+      )
+    ) {
+      return state;
+    }
+
+    if (existing) {
+      return {
+        items:
+          state.items.map(
+            (bagItem) =>
+              bagItem.productSlug ===
+                item.productSlug &&
+              bagItem.size ===
+                item.size
+                ? {
+                    ...bagItem,
+                    quantity:
+                      nextQuantity,
+                  }
+                : bagItem
+          ),
+      };
+    }
+
+    return {
+      items: [
+        ...state.items,
+        item,
+      ],
+    };
+  }),
 
         restoreToBag: (
           item,
