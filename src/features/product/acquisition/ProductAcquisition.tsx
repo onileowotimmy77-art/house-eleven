@@ -128,18 +128,38 @@ const [notification, setNotification] =
   }
 
   function handleAcquire() {
-    if (!selectedSize) {
-      return;
-    }
-
-    addToBag({
-      productSlug: product.slug,
-      size: selectedSize,
-      quantity: 1,
-    });
-
-    setNotification("acquired");
+  if (
+    !selectedSize ||
+    inventory?.status ===
+      "coming-soon" ||
+    inventory?.status ===
+      "sold-out"
+  ) {
+    return;
   }
+
+  const selectedSizeInventory =
+    sizes.find(
+      (inventorySize) =>
+        inventorySize.size ===
+        selectedSize
+    );
+
+  if (
+    !selectedSizeInventory ||
+    selectedSizeInventory.stock <= 0
+  ) {
+    return;
+  }
+
+  addToBag({
+    productSlug: product.slug,
+    size: selectedSize,
+    quantity: 1,
+  });
+
+  setNotification("acquired");
+}
 
   const notificationConfig =
   notification === "acquired"
