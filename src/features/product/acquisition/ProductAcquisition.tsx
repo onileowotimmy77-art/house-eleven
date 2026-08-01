@@ -231,6 +231,9 @@ function handleEarlyAccessRequest() {
         ctaLabel: "View Saved Pieces",
         ctaHref: "/account/saved",
       }
+
+      
+
     : notification === "restock"
 ? {
     eyebrow: "Restock Requested",
