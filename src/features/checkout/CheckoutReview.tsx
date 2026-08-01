@@ -82,6 +82,12 @@ export default function CheckoutReview() {
   const total = subtotal;
 
   function handleConfirmOrder() {
+  if (items.length === 0) {
+    router.push("/bag");
+
+    return;
+  }
+
   const validation =
     validateBagInventory(
       items
