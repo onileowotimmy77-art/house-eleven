@@ -161,6 +161,14 @@ const [notification, setNotification] =
   setNotification("restock");
 }
 
+function handleEarlyAccessRequest() {
+  requestEarlyAccess(
+    product.slug
+  );
+
+  setNotification("checkout");
+}
+
   function handleAcquire() {
   if (
     inventory?.status ===
