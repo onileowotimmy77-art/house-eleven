@@ -87,7 +87,7 @@ export default function OrdersPage() {
                   `₦${formattedTotal}`
                 }
                 href={
-                  
+                  `/account/orders/${order.orderNumber}`
                 }
               />
             );
