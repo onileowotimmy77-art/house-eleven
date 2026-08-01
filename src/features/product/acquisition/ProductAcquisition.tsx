@@ -398,16 +398,18 @@ function handleEarlyAccessRequest() {
               `}
             >
               {inventory?.status ===
-              "coming-soon"
-                ? "Coming Soon"
-                : inventory?.status ===
-                  "sold-out"
-                ? hasRequestedRestock
-                  ? "Restock Requested"
-                  : "Notify Me"
-                : selectedSize
-                ? "Acquire Piece"
-                : "Select Size"}
+"coming-soon"
+  ? hasRequestedEarlyAccess
+    ? "Early Access Requested"
+    : "Request Early Access"
+  : inventory?.status ===
+    "sold-out"
+  ? hasRequestedRestock
+    ? "Restock Requested"
+    : "Notify Me"
+  : selectedSize
+  ? "Acquire Piece"
+  : "Select Size"}
 
               {(inventory?.status ===
                 "available" ||
