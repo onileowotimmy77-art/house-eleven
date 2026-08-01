@@ -16,9 +16,9 @@ export interface Order {
 
   items: OrderItem[];
 
-  subtotal: number;
-
   total: number;
+
+  status: string;
 
   paymentMethod: string;
 
@@ -28,35 +28,46 @@ export interface Order {
 }
 
 interface OrderStore {
+  orders: Order[];
+
   latestOrder: Order | null;
 
   createOrder: (
     order: Order
   ) => void;
 
-  clearLatestOrder: () => void;
+  getOrder: (
+    orderNumber: string
+  ) => Order | undefined;
 }
 
 export const useOrderStore =
   create<OrderStore>()(
     persist(
-      (set) => ({
+      (set, get) => ({
+        orders: [],
+
         latestOrder: null,
 
-        createOrder: (
-          order
-        ) =>
-          set({
-            latestOrder: order,
-          }),
+        createOrder: (order) =>
+          set((state) => ({
+            orders: [
+              order,
+              ...state.orders,
+            ],
 
-        clearLatestOrder: () =>
-          set({
-            latestOrder: null,
-          }),
+            latestOrder: order,
+          })),
+
+        getOrder: (orderNumber) =>
+          get().orders.find(
+            (order) =>
+              order.orderNumber ===
+              orderNumber
+          ),
       }),
       {
-        name: "house-eleven-order",
+        name: "house-eleven-orders",
       }
     )
   );
