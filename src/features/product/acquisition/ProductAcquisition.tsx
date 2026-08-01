@@ -14,7 +14,7 @@ import CommerceNotification from "../../commerce/CommerceNotification";
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
 import { useRestockStore } from "@/src/lib/stores/useRestockStore";
-import { useRe }
+import { useEarlyAccessStore } from "@/src/lib/stores/useEarlyAccessStore";
 
 import type { Product } from "@/src/data/products";
 import type { ProductInventory } from "@/src/data/inventory";
