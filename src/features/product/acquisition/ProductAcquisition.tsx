@@ -380,7 +380,8 @@ const [notification, setNotification] =
                 : inventory?.status ===
                   "sold-out"
                 ? hasRequestedRestock
-                ? "Notify Me"
+                  ? "Restock Requested"
+                  : "Notify Me"
                 : selectedSize
                 ? "Acquire Piece"
                 : "Select Size"}
