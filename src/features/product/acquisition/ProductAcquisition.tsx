@@ -379,6 +379,7 @@ const [notification, setNotification] =
                 ? "Coming Soon"
                 : inventory?.status ===
                   "sold-out"
+                ? hasRequestedRestock
                 ? "Notify Me"
                 : selectedSize
                 ? "Acquire Piece"
