@@ -27,6 +27,11 @@ export default function CheckoutReview() {
 
   const items = useBagStore((state) => state.items);
 
+  const [
+  inventoryError,
+  setInventoryError,
+] = useState(false);
+
   const reviewItems = useMemo(() => {
     return items
       .map((item) => {
