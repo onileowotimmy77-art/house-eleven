@@ -239,7 +239,7 @@ export default function BagItems() {
             removedProduct.name
           }
           subtitle={
-            Size ${removedItem?.size}``
+            `Size ${removedItem?.size}`
           }
           message="
             This piece has been removed
