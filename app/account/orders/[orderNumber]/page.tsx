@@ -207,3 +207,121 @@ export default function OrderDetailPage() {
           {order.items.map(
             (item) => {
               const product =
+              getProduct(
+                  item.productSlug
+                );
+
+              if (!product) {
+                return null;
+              }
+
+              return (
+                <div
+                  key={`${item.productSlug}-${item.size}`}
+                  className="
+                    flex
+                    flex-col
+                    gap-4
+                    py-8
+
+                    md:flex-row
+                    md:items-center
+                    md:justify-between
+                  "
+                >
+                  <div>
+                    <h2
+                      className="
+                        text-xl
+                        font-medium
+                        tracking-[-0.03em]
+                      "
+                    >
+                      {product.name}
+                    </h2>
+
+                    <p
+                      className="
+                        mt-2
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[0.3em]
+                        text-white/40
+                      "
+                    >
+                      {product.color}
+                      {" · "}
+                      Size {item.size}
+                      {" · "}
+                      Quantity {item.quantity}
+                    </p>
+                  </div>
+
+                  <p
+                    className="
+                      text-lg
+                      tracking-[-0.02em]
+                    "
+                  >
+                    ₦
+                    {new Intl.NumberFormat(
+                      "en-NG"
+                    ).format(
+                      product.priceValue *
+                        item.quantity
+                    )}
+                  </p>
+                </div>
+              );
+            }
+          )}
+        </div>
+      </section>
+
+      <section
+        className="
+          mt-8
+          flex
+          flex-col
+          gap-4
+
+          border-t
+          border-white/10
+
+          py-8
+
+          md:flex-row
+          md:items-center
+          md:justify-between
+        "
+      >
+        <span
+          className="
+            font-mono
+            text-[11px]
+            uppercase
+            tracking-[0.35em]
+            text-white/40
+          "
+        >
+          Total
+        </span>
+
+        <span
+          className="
+            text-[1.5rem]
+            font-medium
+            tracking-[-0.04em]
+          "
+        >
+          ₦{formattedTotal}
+        </span>
+      </section>
+
+      <OrderStatusTimeline
+        steps={steps}
+      />
+    </AccountLayout>
+  );
+}
