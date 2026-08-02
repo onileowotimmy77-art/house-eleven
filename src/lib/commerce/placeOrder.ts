@@ -84,7 +84,7 @@ export function placeOrder() {
     total: subtotal,
 
     status:
-      "Preparing Garments",
+      "Preparing Garments" as OrderStatus,
 
     paymentMethod:
       "Debit / Credit Card",
