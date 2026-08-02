@@ -201,13 +201,25 @@ function handleEarlyAccessRequest() {
     return;
   }
 
-  addToBag({
-    productSlug: product.slug,
-    size: selectedSize,
-    quantity: 1,
-  });
+  const wasAdded =
+    addToBag({
+      productSlug:
+        product.slug,
 
-  setNotification("acquired");
+      size:
+        selectedSize,
+
+      quantity:
+        1,
+    });
+
+  if (!wasAdded) {
+    return;
+  }
+
+  setNotification(
+    "acquired"
+  );
 }
 
   const notificationConfig =
