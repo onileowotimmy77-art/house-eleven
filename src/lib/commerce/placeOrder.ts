@@ -12,6 +12,10 @@ import {
   useOrderStore,
 } from "@/src/lib/stores/useOrderStore";
 
+import type {
+  OrderStatus,
+} from "@/src/lib/stores/useOrderStore";
+
 function createOrderNumber() {
   const year =
     new Date().getFullYear();
