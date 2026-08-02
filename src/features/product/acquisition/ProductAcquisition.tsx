@@ -76,7 +76,7 @@ const hasRequestedEarlyAccess =
   | "saved"
   | "removed"
   | "restock"
-  | "early-access";
+  | "early-access"
   | "unavailable";
 
 const [notification, setNotification] =
