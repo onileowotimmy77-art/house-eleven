@@ -224,9 +224,12 @@ export default function CheckoutReview() {
 
 <CommerceButton
   onClick={handleConfirmOrder}
+  disabled={isSubmitting}
   className="mt-20 w-full"
 >
-  Confirm Order
+  {isSubmitting
+    ? "Confirming Order"
+    : "Confirm Order"}
 </CommerceButton>
       </div>
     </section>
