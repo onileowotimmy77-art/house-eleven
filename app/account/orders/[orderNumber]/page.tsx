@@ -107,58 +107,6 @@ export default function OrderDetailPage() {
       )
     );
 
-  const steps = [
-    {
-      title: "Order Confirmed",
-      description:
-        "Your order has been received and reserved.",
-      complete: true,
-    },
-    {
-      title: "Preparing Garments",
-      description:
-        "Every selected piece is being prepared.",
-      complete:
-        order.status ===
-          "Preparing Garments" ||
-        order.status ===
-          "Quality Inspection" ||
-        order.status ===
-          "Dispatch" ||
-        order.status ===
-          "Delivered",
-    },
-    {
-      title: "Quality Inspection",
-      description:
-        "Each garment undergoes final inspection.",
-      complete:
-        order.status ===
-          "Quality Inspection" ||
-        order.status ===
-          "Dispatch" ||
-        order.status ===
-          "Delivered",
-    },
-    {
-      title: "Dispatch",
-      description:
-        "Your Residence begins its journey.",
-      complete:
-        order.status ===
-          "Dispatch" ||
-        order.status ===
-          "Delivered",
-    },
-    {
-      title: "Delivered",
-      description:
-        "Your Residence has arrived.",
-      complete:
-        order.status ===
-        "Delivered",
-    },
-  ];
 
   return (
     <AccountLayout
