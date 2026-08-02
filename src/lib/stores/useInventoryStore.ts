@@ -1,23 +1,40 @@
 "use client";
 
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
 import {
   inventory as seedInventory,
   type ProductInventory,
 } from "@/src/data/inventory";
 
-import { getInventoryStatus } from "@/src/lib/commerce/getInventoryStatus";
+import {
+  getInventoryStatus,
+} from "@/src/lib/commerce/getInventoryStatus";
 
+const initialInventory:
+  ProductInventory[] =
+  seedInventory.map(
+    (product) => ({
+      ...product,
 
+      sizes:
+        product.sizes.map(
+          (size) => ({
+            ...size,
+          })
+        ),
 
-const initialInventory: ProductInventory[] =
-  seedInventory.map((product) => ({
-    ...product,
-    status: getInventoryStatus(product.sizes),
-  }));
+      status:
+        getInventoryStatus(
+          product.sizes
+        ),
+    })
+  );
 
 interface InventoryStore {
-  inventory: ProductInventory[];
+  inventory:
+    ProductInventory[];
 
   decreaseStock: (
     productSlug: string,
@@ -27,52 +44,81 @@ interface InventoryStore {
 
   getInventory: (
     productSlug: string
-  ) => ProductInventory | undefined;
+  ) =>
+    | ProductInventory
+    | undefined;
 }
 
 export const useInventoryStore =
-  create<InventoryStore>((set, get) => ({
-    inventory: initialInventory,
+  create<InventoryStore>()(
+    persist(
+      (set, get) => ({
+        inventory:
+          initialInventory,
 
-    getInventory: (productSlug) =>
-      get().inventory.find(
-        (product) =>
-          product.productSlug === productSlug
-      ),
-
-    decreaseStock: (
-      productSlug,
-      size,
-      quantity = 1
-    ) =>
-      set((state) => ({
-        inventory: state.inventory.map((product) => {
-          if (
-            product.productSlug !== productSlug
-          ) {
-            return product;
-          }
-
-          const updatedSizes = product.sizes.map(
-            (item) =>
-              item.size === size
-                ? {
-                    ...item,
-                    stock: Math.max(
-                      0,
-                      item.stock - quantity
-                    ),
-                  }
-                : item
-          );
-
-          return {
-            ...product,
-            status: getInventoryStatus(
-              updatedSizes
+        getInventory: (
+          productSlug
+        ) =>
+          get()
+            .inventory
+            .find(
+              (product) =>
+                product.productSlug ===
+                productSlug
             ),
-            sizes: updatedSizes,
-          };
-        }),
-      })),
-  }));
+
+        decreaseStock: (
+          productSlug,
+          size,
+          quantity = 1
+        ) =>
+          set((state) => ({
+            inventory:
+              state.inventory.map(
+                (product) => {
+                  if (
+                    product.productSlug !==
+                    productSlug
+                  ) {
+                    return product;
+                  }
+
+                  const updatedSizes =
+                    product.sizes.map(
+                      (item) =>
+                        item.size ===
+                        size
+                          ? {
+                              ...item,
+
+                              stock:
+                                Math.max(
+                                  0,
+                                  item.stock -
+                                    quantity
+                                ),
+                            }
+                          : item
+                    );
+
+                  return {
+                    ...product,
+
+                    status:
+                      getInventoryStatus(
+                        updatedSizes
+                      ),
+
+                    sizes:
+                      updatedSizes,
+                  };
+                }
+              ),
+          })),
+      }),
+      {
+        name:
+          "house-eleven-inventory",
+      }
+    )
+  );
