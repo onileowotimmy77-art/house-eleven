@@ -90,7 +90,7 @@ export function placeOrder() {
       "Debit / Credit Card",
 
     estimatedDelivery:
-      "3–5 Business Days",
+      "3-5 Business Days",
 
     createdAt:
       new Date().toISOString(),
