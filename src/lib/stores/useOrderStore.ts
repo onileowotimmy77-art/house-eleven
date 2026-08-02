@@ -43,6 +43,11 @@ interface OrderStore {
     order: Order
   ) => void;
 
+  updateOrderStatus: (
+    orderNumber: string,
+    status: OrderStatus
+  ) => void;
+
   getOrder: (
     orderNumber: string
   ) => Order | undefined;
@@ -66,6 +71,43 @@ export const useOrderStore =
             latestOrder: order,
           })),
 
+        updateOrderStatus: (
+          orderNumber,
+          status
+        ) =>
+          set((state) => {
+            const updatedOrders =
+              state.orders.map(
+                (order) =>
+                  order.orderNumber ===
+                  orderNumber
+                    ? {
+                        ...order,
+                        status,
+                      }
+                    : order
+              );
+
+            const updatedLatestOrder =
+              state.latestOrder &&
+              state.latestOrder
+                .orderNumber ===
+                orderNumber
+                ? {
+                    ...state.latestOrder,
+                    status,
+                  }
+                : state.latestOrder;
+
+            return {
+              orders:
+                updatedOrders,
+
+              latestOrder:
+                updatedLatestOrder,
+            };
+          }),
+
         getOrder: (orderNumber) =>
           get().orders.find(
             (order) =>
@@ -74,7 +116,8 @@ export const useOrderStore =
           ),
       }),
       {
-        name: "house-eleven-orders",
+        name:
+          "house-eleven-orders",
       }
     )
   );
