@@ -32,7 +32,10 @@ export default function CheckoutReview() {
   setInventoryError,
 ] = useState(false);
 
-
+  const [
+  isSubmitting,
+  setIsSubmitting,
+] = useState(false);
 
   const reviewItems = useMemo(() => {
     return items
