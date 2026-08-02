@@ -1,16 +1,13 @@
 import {
-  inventory,
-  type ProductInventory,
-} from "@/src/data/inventory";
+  useInventoryStore,
+} from "@/src/lib/stores/useInventoryStore";
 
 export function getProductInventory(
   productSlug: string
-): ProductInventory | undefined {
-  return inventory.find(
-    (product) =>
-      product.productSlug ===
-      productSlug
-  );
+) {
+  return useInventoryStore
+    .getState()
+    .getInventory(productSlug);
 }
 
 export function getSizeStock(
@@ -32,7 +29,9 @@ export function getSizeStock(
         item.size === size
     );
 
-  return sizeInventory?.stock ?? 0;
+  return (
+    sizeInventory?.stock ?? 0
+  );
 }
 
 export function isProductAvailable(
@@ -68,10 +67,11 @@ export function canAcquireQuantity(
     return false;
   }
 
-  const stock = getSizeStock(
-    productSlug,
-    size
-  );
+  const stock =
+    getSizeStock(
+      productSlug,
+      size
+    );
 
   return (
     quantity > 0 &&
