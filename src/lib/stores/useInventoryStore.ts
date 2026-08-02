@@ -68,82 +68,84 @@ export const useInventoryStore =
             ),
 
         decreaseStock: (
-  productSlug,
-  size,
-  quantity = 1
-) =>
-  set((state) => {
-    if (quantity <= 0) {
-      return state;
-    }
-
-    const product =
-      state.inventory.find(
-        (item) =>
-          item.productSlug ===
-          productSlug
-      );
-
-    if (!product) {
-      return state;
-    }
-
-    const sizeInventory =
-      product.sizes.find(
-        (item) =>
-          item.size === size
-      );
-
-    if (
-      !sizeInventory ||
-      quantity >
-        sizeInventory.stock
-    ) {
-      return state;
-    }
-
-    return {
-      inventory:
-        state.inventory.map(
-          (item) => {
-            if (
-              item.productSlug !==
-              productSlug
-            ) {
-              return item;
+          productSlug,
+          size,
+          quantity = 1
+        ) =>
+          set((state) => {
+            if (quantity <= 0) {
+              return state;
             }
 
-            const updatedSizes =
-              item.sizes.map(
-                (inventorySize) =>
-                  inventorySize.size ===
-                  size
-                    ? {
-                        ...inventorySize,
-
-                        stock:
-                          inventorySize.stock -
-                          quantity,
-                      }
-                    : inventorySize
+            const product =
+              state.inventory.find(
+                (item) =>
+                  item.productSlug ===
+                  productSlug
               );
 
+            if (!product) {
+              return state;
+            }
+
+            const sizeInventory =
+              product.sizes.find(
+                (item) =>
+                  item.size === size
+              );
+
+            if (
+              !sizeInventory ||
+              quantity >
+                sizeInventory.stock
+            ) {
+              return state;
+            }
+
             return {
-              ...item,
+              inventory:
+                state.inventory.map(
+                  (item) => {
+                    if (
+                      item.productSlug !==
+                      productSlug
+                    ) {
+                      return item;
+                    }
 
-              status:
-                getInventoryStatus(
-                  updatedSizes
+                    const updatedSizes =
+                      item.sizes.map(
+                        (
+                          inventorySize
+                        ) =>
+                          inventorySize.size ===
+                          size
+                            ? {
+                                ...inventorySize,
+
+                                stock:
+                                  inventorySize.stock -
+                                  quantity,
+                              }
+                            : inventorySize
+                      );
+
+                    return {
+                      ...item,
+
+                      status:
+                        getInventoryStatus(
+                          updatedSizes
+                        ),
+
+                      sizes:
+                        updatedSizes,
+                    };
+                  }
                 ),
-
-              sizes:
-                updatedSizes,
             };
-          }
-        ),
-  };
-  }),
-
+          }),
+      }),
       {
         name:
           "house-eleven-inventory",
