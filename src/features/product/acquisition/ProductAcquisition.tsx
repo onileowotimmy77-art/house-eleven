@@ -258,7 +258,7 @@ function handleEarlyAccessRequest() {
       "Your request has been received. The House will contact you before this edition opens.",
   }
 
-    : notification === "restock"
+: notification === "restock"
 ? {
     eyebrow: "Restock Requested",
     title: product.name,
@@ -266,6 +266,19 @@ function handleEarlyAccessRequest() {
     message:
       "You will be notified when this piece returns to the House.",
   }
+
+: notification === "unavailable"
+? {
+    eyebrow: "Selection Updated",
+    title: product.name,
+    subtitle:
+      selectedSize
+        ? `Size ${selectedSize}`
+        : product.collection,
+    message:
+      "This size is no longer available in the requested quantity. Please review the current availability.",
+  }
+
 : null;
     
   return (
