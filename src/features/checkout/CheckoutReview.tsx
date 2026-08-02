@@ -32,6 +32,8 @@ export default function CheckoutReview() {
   setInventoryError,
 ] = useState(false);
 
+
+
   const reviewItems = useMemo(() => {
     return items
       .map((item) => {
