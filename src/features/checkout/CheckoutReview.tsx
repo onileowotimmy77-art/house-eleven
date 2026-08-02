@@ -110,6 +110,8 @@ export default function CheckoutReview() {
 
   setInventoryError(false);
 
+  setIsSubmitting(true);
+
   const order = placeOrder();
 
   if (!order) {
