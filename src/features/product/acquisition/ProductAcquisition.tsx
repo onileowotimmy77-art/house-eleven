@@ -77,6 +77,7 @@ const hasRequestedEarlyAccess =
   | "removed"
   | "restock"
   | "early-access";
+  | "unavailable";
 
 const [notification, setNotification] =
   useState<CommerceNotificationType | null>(null);
