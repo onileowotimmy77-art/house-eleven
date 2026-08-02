@@ -141,8 +141,8 @@ export const useInventoryStore =
             };
           }
         ),
-    };
-  })),
+  };
+  }),
 
       {
         name:
