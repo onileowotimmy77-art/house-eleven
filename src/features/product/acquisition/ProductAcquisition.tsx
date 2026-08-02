@@ -215,8 +215,12 @@ function handleEarlyAccessRequest() {
     });
 
   if (!wasAdded) {
-    return;
-  }
+  setNotification(
+    "unavailable"
+  );
+
+  return;
+}
 
   setNotification(
     "acquired"
