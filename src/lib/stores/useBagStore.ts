@@ -2,7 +2,10 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { canAcquireQuantity } from "../commerce/inventory";
+
+import {
+  canAcquireQuantity,
+} from "../commerce/inventory";
 
 export interface BagItem {
   productSlug: string;
@@ -15,7 +18,7 @@ interface BagStore {
 
   addToBag: (
     item: BagItem
-  ) => void;
+  ) => boolean;
 
   restoreToBag: (
     item: BagItem,
@@ -44,134 +47,145 @@ export const useBagStore =
       (set, get) => ({
         items: [],
 
-        addToBag: (item) =>
-  set((state) => {
-    const existing =
-      state.items.find(
-        (bagItem) =>
-          bagItem.productSlug ===
-            item.productSlug &&
-          bagItem.size ===
-            item.size
-      );
+        addToBag: (
+          item
+        ) => {
+          const state =
+            get();
 
-    const nextQuantity =
-      existing
-        ? existing.quantity +
-          item.quantity
-        : item.quantity;
+          const existing =
+            state.items.find(
+              (bagItem) =>
+                bagItem.productSlug ===
+                  item.productSlug &&
+                bagItem.size ===
+                  item.size
+            );
 
-    if (
-      !canAcquireQuantity(
-        item.productSlug,
-        item.size,
-        nextQuantity
-      )
-    ) {
-      return state;
-    }
+          const nextQuantity =
+            existing
+              ? existing.quantity +
+                item.quantity
+              : item.quantity;
 
-    if (existing) {
-      return {
-        items:
-          state.items.map(
-            (bagItem) =>
-              bagItem.productSlug ===
-                item.productSlug &&
-              bagItem.size ===
-                item.size
-                ? {
-                    ...bagItem,
-                    quantity:
-                      nextQuantity,
-                  }
-                : bagItem
-          ),
-      };
-    }
+          if (
+            !canAcquireQuantity(
+              item.productSlug,
+              item.size,
+              nextQuantity
+            )
+          ) {
+            return false;
+          }
 
-    return {
-      items: [
-        ...state.items,
-        item,
-      ],
-    };
-  }),
+          set((currentState) => {
+            if (existing) {
+              return {
+                items:
+                  currentState.items.map(
+                    (bagItem) =>
+                      bagItem.productSlug ===
+                        item.productSlug &&
+                      bagItem.size ===
+                        item.size
+                        ? {
+                            ...bagItem,
+                            quantity:
+                              nextQuantity,
+                          }
+                        : bagItem
+                  ),
+              };
+            }
+
+            return {
+              items: [
+                ...currentState.items,
+                item,
+              ],
+            };
+          });
+
+          return true;
+        },
 
         restoreToBag: (
-  item,
-  index
-) =>
-  set((state) => {
-    const existingIndex =
-      state.items.findIndex(
-        (bagItem) =>
-          bagItem.productSlug ===
-            item.productSlug &&
-          bagItem.size ===
-            item.size
-      );
+          item,
+          index
+        ) =>
+          set((state) => {
+            const existingIndex =
+              state.items.findIndex(
+                (bagItem) =>
+                  bagItem.productSlug ===
+                    item.productSlug &&
+                  bagItem.size ===
+                    item.size
+              );
 
-    const nextQuantity =
-      existingIndex !== -1
-        ? state.items[
-            existingIndex
-          ].quantity +
-          item.quantity
-        : item.quantity;
+            const nextQuantity =
+              existingIndex !== -1
+                ? state.items[
+                    existingIndex
+                  ].quantity +
+                  item.quantity
+                : item.quantity;
 
-    if (
-      !canAcquireQuantity(
-        item.productSlug,
-        item.size,
-        nextQuantity
-      )
-    ) {
-      return state;
-    }
+            if (
+              !canAcquireQuantity(
+                item.productSlug,
+                item.size,
+                nextQuantity
+              )
+            ) {
+              return state;
+            }
 
-    if (existingIndex !== -1) {
-      return {
-        items:
-          state.items.map(
-            (bagItem) =>
-              bagItem.productSlug ===
-                item.productSlug &&
-              bagItem.size ===
-                item.size
-                ? {
-                    ...bagItem,
-                    quantity:
-                      nextQuantity,
-                  }
-                : bagItem
-          ),
-      };
-    }
+            if (
+              existingIndex !== -1
+            ) {
+              return {
+                items:
+                  state.items.map(
+                    (bagItem) =>
+                      bagItem.productSlug ===
+                        item.productSlug &&
+                      bagItem.size ===
+                        item.size
+                        ? {
+                            ...bagItem,
+                            quantity:
+                              nextQuantity,
+                          }
+                        : bagItem
+                  ),
+              };
+            }
 
-    const restoredItems = [
-      ...state.items,
-    ];
+            const restoredItems = [
+              ...state.items,
+            ];
 
-    const safeIndex =
-      Math.max(
-        0,
-        Math.min(
-          index,
-          restoredItems.length
-        )
-      );
+            const safeIndex =
+              Math.max(
+                0,
+                Math.min(
+                  index,
+                  restoredItems.length
+                )
+              );
 
-    restoredItems.splice(
-      safeIndex,
-      0,
-      item
-    );
+            restoredItems.splice(
+              safeIndex,
+              0,
+              item
+            );
 
-    return {
-      items: restoredItems,
-    };
-  }),
+            return {
+              items:
+              restoredItems,
+            };
+          }),
 
         removeFromBag: (
           productSlug,
@@ -184,56 +198,61 @@ export const useBagStore =
                   !(
                     item.productSlug ===
                       productSlug &&
-                    item.size === size
+                    item.size ===
+                      size
                   )
               ),
           })),
 
-       updateQuantity: (
-  productSlug,
-  size,
-  quantity
-) =>
-  set((state) => {
-    if (quantity <= 0) {
-      return {
-        items:
-          state.items.filter(
-            (item) =>
-              !(
-                item.productSlug ===
-                  productSlug &&
-                item.size === size
+        updateQuantity: (
+          productSlug,
+          size,
+          quantity
+        ) =>
+          set((state) => {
+            if (
+              quantity <= 0
+            ) {
+              return {
+                items:
+                  state.items.filter(
+                    (item) =>
+                      !(
+                        item.productSlug ===
+                          productSlug &&
+                        item.size ===
+                          size
+                      )
+                  ),
+              };
+            }
+
+            if (
+              !canAcquireQuantity(
+                productSlug,
+                size,
+                quantity
               )
-          ),
-      };
-    }
+            ) {
+              return state;
+            }
 
-    if (
-      !canAcquireQuantity(
-        productSlug,
-        size,
-        quantity
-      )
-    ) {
-      return state;
-    }
-
-    return {
-      items:
-        state.items.map(
-          (item) =>
-            item.productSlug ===
-              productSlug &&
-            item.size === size
-              ? {
-                  ...item,
-                  quantity,
-                }
-              : item
-        ),
-    };
-  }),
+            return {
+              items:
+                state.items.map(
+                  (item) =>
+                    item.productSlug ===
+                      productSlug &&
+                    item.size ===
+                      size
+                      ? {
+                          ...item,
+                          quantity,
+                        }
+                      : item
+                ),
+            };
+          }),
 
         clearBag: () =>
           set({
@@ -241,15 +260,21 @@ export const useBagStore =
           }),
 
         totalItems: () =>
-          get().items.reduce(
-            (total, item) =>
-              total +
-              item.quantity,
-            0
-          ),
+          get()
+            .items
+            .reduce(
+              (
+                total,
+                item
+              ) =>
+                total +
+                item.quantity,
+              0
+            ),
       }),
       {
-        name: "house-eleven-bag",
+        name:
+          "house-eleven-bag",
       }
     )
   );
