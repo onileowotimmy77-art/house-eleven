@@ -83,7 +83,7 @@ export const useRestockStore =
       {
         name:
           "house-eleven-restock",
-          
+        skipHydration: true,  
       }
     )
   );
