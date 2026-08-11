@@ -16,10 +16,6 @@ import type {
   OrderStatus,
 } from "@/src/lib/stores/useOrderStore";
 
-import {
-  validateBagInventory,
-} from "@/src/lib/commerce/validateBagInventory";
-
 function createOrderNumber() {
   const year =
     new Date().getFullYear();
@@ -30,18 +26,12 @@ function createOrderNumber() {
       .slice(0, 8)
       .toUpperCase();
 
-  return `HE-${year}-${reference}`;
+  return HE-${year}-${reference};
 }
 
-export function placeOrder() {
+export async function placeOrder() {
   const bag =
     useBagStore.getState();
-
-  const inventory =
-    useInventoryStore.getState();
-
-  const orderStore =
-    useOrderStore.getState();
 
   /*
    * Never create an order
@@ -52,24 +42,8 @@ export function placeOrder() {
   }
 
   /*
-   * Final inventory validation.
-   *
-   * placeOrder() must protect
-   * itself even if called from
-   * somewhere other than checkout.
-   */
-  const validation =
-    validateBagInventory(
-      bag.items
-    );
-
-  if (!validation.valid) {
-    return null;
-  }
-
-  /*
-   * Resolve every product before
-   * changing inventory.
+   * Resolve products before
+   * attempting the inventory claim.
    */
   const products =
     bag.items.map((item) => ({
@@ -106,72 +80,103 @@ export function placeOrder() {
     );
 
   /*
-   * Decrease inventory only after
-   * the complete bag has passed
-   * validation.
+   * Web Locks gives every House Eleven
+   * tab on the same origin an exclusive
+   * inventory-claim section.
+   *
+   * This prevents two tabs from both
+   * claiming the final piece at the
+   * same time.
    */
-  for (
-    const item of bag.items
+  if (
+    typeof navigator ===
+      "undefined" ||
+    !("locks" in navigator)
   ) {
-    inventory.decreaseStock(
-      item.productSlug,
-      item.size,
-      item.quantity
-    );
+    return null;
   }
 
-  /*
-   * Create the order only after
-   * inventory has been successfully
-   * processed.
-   */
-  const order = {
-    id:
-      crypto.randomUUID(),
+  return navigator.locks.request(
+    "house-eleven-inventory-claim",
+    async () => {
+      const inventory =
+        useInventoryStore.getState();
 
-    orderNumber:
-      createOrderNumber(),
+      /*
+       * Re-check and claim the ENTIRE
+       * bag while holding the lock.
+       *
+       * If even one item is unavailable,
+       * claimInventory() changes nothing.
+       */
+      const claimed =
+        inventory.claimInventory(
+          bag.items
+        );
 
-    items:
-      bag.items.map(
-        (item) => ({
-          productSlug:
-            item.productSlug,
+      if (!claimed) {
+        return null;
+      }
 
-          size:
-            item.size,
+      /*
+       * Inventory has now been claimed
+       * successfully.
+       *
+       * Only after that do we create
+       * the order.
+       */
+      const orderStore =
+        useOrderStore.getState();
 
-          quantity:
-            item.quantity,
-        })
-      ),
+      const order = {
+        id:
+          crypto.randomUUID(),
 
-    subtotal,
+        orderNumber:
+          createOrderNumber(),
 
-    total: subtotal,
+        items:
+          bag.items.map(
+            (item) => ({
+              productSlug:
+                item.productSlug,
 
-    status:
-      "Preparing Garments" as OrderStatus,
+              size:
+                item.size,
 
-    paymentMethod:
-      "Debit / Credit Card",
+              quantity:
+                item.quantity,
+            })
+          ),
 
-    estimatedDelivery:
-      "3-5 Business Days",
+        subtotal,
 
-    createdAt:
-      new Date().toISOString(),
-  };
+        total: subtotal,
 
-  orderStore.createOrder(
-    order
+        status:
+          "Preparing Garments" as OrderStatus,
+
+        paymentMethod:
+          "Debit / Credit Card",
+
+        estimatedDelivery:
+          "3-5 Business Days",
+
+        createdAt:
+          new Date().toISOString(),
+      };
+
+      orderStore.createOrder(
+        order
+      );
+
+      /*
+       * Clear the bag only after
+       * the order exists.
+       */
+      bag.clearBag();
+
+      return order;
+    }
   );
-
-  /*
-   * Clear the bag only after
-   * the order has been created.
-   */
-  bag.clearBag();
-
-  return order;
 }
