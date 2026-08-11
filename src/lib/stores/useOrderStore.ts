@@ -118,6 +118,7 @@ export const useOrderStore =
       {
         name:
           "house-eleven-orders",
+        skipHydration
       }
     )
   );
