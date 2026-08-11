@@ -113,7 +113,7 @@ export default function CheckoutReview() {
   router.push(
     `/checkout/confirmation?order=${encodeURIComponent(
       order.orderNumber
-    )}
+    )}`
   );
 }
 
