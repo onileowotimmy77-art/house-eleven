@@ -83,6 +83,7 @@ export const useEarlyAccessStore =
       {
         name:
           "house-eleven-early-access",
+        skipHydration
       }
     )
   );
