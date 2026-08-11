@@ -394,4 +394,263 @@ export default function ProductAcquisition({
           title: product.name,
           subtitle:
             selectedSize
-            
+            ? Size ${selectedSize}
+              : product.collection,
+          message:
+            "This size is no longer available in the requested quantity. Please review the current availability.",
+        }
+      : null;
+
+  return (
+    <>
+      <Section customPadding="py-45">
+        <Container>
+          <div className="border-t border-white/10 pt-20">
+            <p
+              className="
+                mt-10
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.4em]
+                text-white/40
+              "
+            >
+              Current Edition
+            </p>
+
+            <h2
+              className="
+                mt-6
+                text-[clamp(3rem,7vw,6rem)]
+                font-black
+                uppercase
+                leading-[0.9]
+                tracking-[-0.05em]
+              "
+            >
+              {product.name}
+            </h2>
+
+            <p
+              className="
+                my-10
+                text-xl
+                font-medium
+                text-white/65
+              "
+            >
+              {product.price}
+            </p>
+
+            <p
+              className={`
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.35em]
+                ${availability.className}
+              `}
+            >
+              {availability.label}
+            </p>
+
+            <p
+              className="
+                my-6
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.4em]
+                text-white/40
+              "
+            >
+              Select Size
+            </p>
+
+            <div
+              className="
+                mt-10
+                flex
+                flex-wrap
+                gap-4
+              "
+            >
+              {sizes.map(
+                ({
+                  size,
+                  stock,
+                }) => {
+                  const isSelected =
+                    selectedSize ===
+                    size;
+
+                  const isDisabled =
+                    stock === 0 ||
+                    inventoryStatus ===
+                      "coming-soon" ||
+                    inventoryStatus ===
+                      "sold-out";
+
+                  return (
+                    <button
+                      key={size}
+                      type="button"
+                      disabled={
+                        isDisabled
+                      }
+                      onClick={() =>
+                        setSelectedSize(
+                          size
+                        )
+                      }
+                      className={`
+                        border
+                        px-10
+                        py-4
+                        font-mono
+                        text-xs
+                        uppercase
+                        tracking-[0.45em]
+                        transition-all
+                        duration-300
+
+                        ${
+                          isDisabled
+                            ? "cursor-not-allowed border-white/5 text-white/20"
+                            : isSelected
+                            ? "border-white bg-white text-black"
+                            : "border-white/10 text-white/70 hover:border-white/40 hover:text-white"
+                        }
+                      `}
+                    >
+                      {size}
+                    </button>
+                  );
+                }
+              )}
+            </div>
+
+            <button
+              type="button"
+              disabled={
+                inventoryStatus ===
+                  "coming-soon" ||
+                inventoryStatus ===
+                  "sold-out"
+                  ? false
+                  : !canAcquire
+              }
+              onClick={
+                inventoryStatus ===
+                "coming-soon"
+                  ? handleEarlyAccessRequest
+                  : inventoryStatus ===
+                  "sold-out"
+                  ? handleRestockRequest
+                  : handleAcquire
+              }
+              className={`
+                mt-20
+                inline-flex
+                items-center
+                gap-4
+                border-b
+                pb-3
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.45em]
+                transition-all
+                duration-300
+
+                ${
+                  canAcquire
+                    ? "border-white/20 text-white/80 hover:gap-6 hover:border-white/60 hover:text-white"
+                    : "cursor-not-allowed border-white/10 text-white/25"
+                }
+              `}
+            >
+              {inventoryStatus ===
+              "coming-soon"
+                ? hasRequestedEarlyAccess
+                  ? "Early Access Requested"
+                  : "Request Early Access"
+                : inventoryStatus ===
+                  "sold-out"
+                ? hasRequestedRestock
+                  ? "Restock Requested"
+                  : "Notify Me"
+                : selectedSize
+                ? "Acquire Piece"
+                : "Select Size"}
+
+              {(inventoryStatus ===
+                "available" ||
+                inventoryStatus ===
+                  "low-stock") &&
+                selectedSize && (
+                  <span aria-hidden>
+                    →
+                  </span>
+                )}
+            </button>
+
+            <button
+              type="button"
+              onClick={
+                handleSavePiece
+              }
+              className="
+                mt-8
+                block
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.45em]
+                text-white/40
+                transition-colors
+                duration-300
+                hover:text-white/70
+              "
+            >
+              {isSaved
+                ? "Saved ✓"
+                : "Save Piece"}
+            </button>
+          </div>
+        </Container>
+      </Section>
+
+      {notificationConfig && (
+        <CommerceNotification
+          open
+          image={
+            product.bagImage
+          }
+          eyebrow={
+            notificationConfig.eyebrow
+          }
+          title={
+            notificationConfig.title
+          }
+          subtitle={
+            notificationConfig.subtitle
+          }
+          message={
+            notificationConfig.message
+          }
+          ctaLabel={
+            notificationConfig.ctaLabel
+          }
+          ctaHref={
+            notificationConfig.ctaHref
+          }
+          onDismiss={() =>
+            setNotification(null)
+          }
+        />
+      )}
+    </>
+  );
+}
