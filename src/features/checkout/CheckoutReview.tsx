@@ -111,7 +111,9 @@ export default function CheckoutReview() {
   }
 
   router.push(
-    "/checkout/confirmation"
+    `/checkout/confirmation?order=${encodeURIComponent(
+      order.orderNumber
+    )}
   );
 }
 
