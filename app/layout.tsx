@@ -84,6 +84,7 @@ export default function RootLayout({
           antialiased
         `}
       >
+        <StoreSyncProvider>
         <MenuProvider>
           <AppTransitionProvider>
             <CursorProvider>
