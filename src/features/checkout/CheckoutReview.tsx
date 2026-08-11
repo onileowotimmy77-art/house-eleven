@@ -92,29 +92,21 @@ export default function CheckoutReview() {
 
   if (items.length === 0) {
     router.push("/bag");
-
     return;
   }
 
-  
-
   setInventoryError(false);
-
   setIsSubmitting(true);
 
   const order = await placeOrder();
 
   if (!order) {
     setInventoryError(true);
-
+    setIsSubmitting(false);
     return;
   }
 
-  router.push(
-    `/checkout/confirmation?order=${encodeURIComponent(
-      order.orderNumber
-    )}`
-  );
+  router.push("/checkout/confirmation");
 }
 
   return (
