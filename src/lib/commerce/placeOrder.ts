@@ -16,6 +16,10 @@ import type {
   OrderStatus,
 } from "@/src/lib/stores/useOrderStore";
 
+import {
+  validateBagInventory,
+} from "@/src/lib/commerce/validateBagInventory";
+
 function createOrderNumber() {
   const year =
     new Date().getFullYear();
@@ -39,45 +43,108 @@ export function placeOrder() {
   const orderStore =
     useOrderStore.getState();
 
+  /*
+   * Never create an order
+   * from an empty bag.
+   */
+  if (bag.items.length === 0) {
+    return null;
+  }
+
+  /*
+   * Final inventory validation.
+   *
+   * placeOrder() must protect
+   * itself even if called from
+   * somewhere other than checkout.
+   */
+  const validation =
+    validateBagInventory(
+      bag.items
+    );
+
+  if (!validation.valid) {
+    return null;
+  }
+
+  /*
+   * Resolve every product before
+   * changing inventory.
+   */
+  const products =
+    bag.items.map((item) => ({
+      item,
+      product:
+        getProduct(
+          item.productSlug
+        ),
+    }));
+
+  if (
+    products.some(
+      ({ product }) =>
+        !product
+    )
+  ) {
+    return null;
+  }
+
+  /*
+   * Calculate the authoritative
+   * order total from product data.
+   */
   const subtotal =
-    bag.items.reduce(
-      (total, item) => {
-        const product =
-          getProduct(
-            item.productSlug
-          );
-
-        if (!product) {
-          return total;
-        }
-
-        return (
-          total +
-          product.priceValue *
-            item.quantity
-        );
-      },
+    products.reduce(
+      (
+        total,
+        { item, product }
+      ) =>
+        total +
+        product!.priceValue *
+          item.quantity,
       0
     );
 
+  /*
+   * Decrease inventory only after
+   * the complete bag has passed
+   * validation.
+   */
+  for (
+    const item of bag.items
+  ) {
+    inventory.decreaseStock(
+      item.productSlug,
+      item.size,
+      item.quantity
+    );
+  }
+
+  /*
+   * Create the order only after
+   * inventory has been successfully
+   * processed.
+   */
   const order = {
-    id: crypto.randomUUID(),
+    id:
+      crypto.randomUUID(),
 
     orderNumber:
       createOrderNumber(),
 
-    items: bag.items.map(
-      (item) => ({
-        productSlug:
-          item.productSlug,
+    items:
+      bag.items.map(
+        (item) => ({
+          productSlug:
+            item.productSlug,
 
-        size:
-          item.size,
+          size:
+            item.size,
 
-        quantity:
-          item.quantity,
-      })
-    ),
+          quantity:
+            item.quantity,
+        })
+      ),
 
     subtotal,
 
@@ -100,16 +167,10 @@ export function placeOrder() {
     order
   );
 
-  for (
-    const item of bag.items
-  ) {
-    inventory.decreaseStock(
-      item.productSlug,
-      item.size,
-      item.quantity
-    );
-  }
-
+  /*
+   * Clear the bag only after
+   * the order has been created.
+   */
   bag.clearBag();
 
   return order;

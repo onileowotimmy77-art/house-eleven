@@ -21,8 +21,8 @@ import {
 } from "@/src/lib/commerce/inventory";
 
 import {
-  inventory,
-} from "@/src/data/products";
+  useInventoryStore,
+} from "@/src/lib/stores/useInventoryStore";
 
 interface RemovedBagItem {
   productSlug: string;
@@ -42,6 +42,10 @@ export default function BagItems() {
 
   const removeFromBag = useBagStore(
     (state) => state.removeFromBag
+  );
+
+  const inventoryItems = useInventoryStore(
+    (state) => state.inventory
   );
 
   const updateQuantity = useBagStore(
@@ -113,7 +117,7 @@ export default function BagItems() {
     size: string
   ) {
     const productInventory =
-      inventory.find(
+      inventoryItems.find(
         (item) =>
           item.productSlug ===
           productSlug
