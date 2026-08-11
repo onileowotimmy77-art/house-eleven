@@ -181,3 +181,128 @@ export const useInventoryStore =
              * inventory check.
              */
             const requested =
+            new Map<
+                string,
+                number
+              >();
+
+            for (const item of items) {
+              const key =
+                `${item.productSlug}::${item.size}`;
+
+              requested.set(
+                key,
+                (requested.get(key) ?? 0) +
+                  item.quantity
+              );
+            }
+
+            /*
+             * Validate the entire request
+             * against the current state.
+             */
+            for (
+              const [
+                key,
+                quantity,
+              ] of requested
+            ) {
+              const [
+                productSlug,
+                size,
+              ] = key.split("::");
+
+              const product =
+                state.inventory.find(
+                  (item) =>
+                    item.productSlug ===
+                    productSlug
+                );
+
+              if (!product) {
+                return state;
+              }
+
+              const sizeInventory =
+                product.sizes.find(
+                  (item) =>
+                    item.size === size
+                );
+
+              if (
+                !sizeInventory ||
+                sizeInventory.stock <
+                  quantity
+              ) {
+                return state;
+              }
+            }
+
+            /*
+             * Everything is available.
+             *
+             * Only now mutate inventory.
+             */
+            const updatedInventory =
+              state.inventory.map(
+                (product) => {
+                  const updatedSizes =
+                    product.sizes.map(
+                      (sizeInventory) => {
+                        const key =
+                          ${product.productSlug}::${sizeInventory.size};
+
+                        const quantity =
+                          requested.get(
+                            key
+                          ) ?? 0;
+
+                        if (
+                          quantity <= 0
+                        ) {
+                          return sizeInventory;
+                        }
+
+                        return {
+                          ...sizeInventory,
+
+                          stock:
+                            sizeInventory.stock -
+                            quantity,
+                        };
+                      }
+                    );
+
+                  return {
+                    ...product,
+
+                    sizes:
+                      updatedSizes,
+
+                    status:
+                      getInventoryStatus(
+                        updatedSizes
+                      ),
+                  };
+                }
+              );
+
+            claimed = true;
+
+            return {
+              inventory:
+                updatedInventory,
+            };
+          });
+
+          return claimed;
+        },
+      }),
+      {
+        name:
+          "house-eleven-inventory",
+
+        skipHydration: true,
+      }
+    )
+  );
