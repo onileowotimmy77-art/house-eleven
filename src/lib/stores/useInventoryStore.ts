@@ -149,6 +149,7 @@ export const useInventoryStore =
       {
         name:
           "house-eleven-inventory",
+        skipHydrat
       }
     )
   );
