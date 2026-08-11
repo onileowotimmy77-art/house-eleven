@@ -250,7 +250,7 @@ export const useInventoryStore =
                     product.sizes.map(
                       (sizeInventory) => {
                         const key =
-                          ${product.productSlug}::${sizeInventory.size};
+                          `${product.productSlug}::${sizeInventory.size}`;
 
                         const quantity =
                           requested.get(
