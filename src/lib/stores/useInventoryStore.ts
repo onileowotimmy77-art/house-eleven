@@ -12,8 +12,11 @@ import {
   getInventoryStatus,
 } from "@/src/lib/commerce/getInventoryStatus";
 
-const initialInventory:
-  ProductInventory[] =
+import type {
+  BagItem,
+} from "@/src/lib/stores/useBagStore";
+
+const initialInventory: ProductInventory[] =
   seedInventory.map(
     (product) => ({
       ...product,
@@ -33,14 +36,17 @@ const initialInventory:
   );
 
 interface InventoryStore {
-  inventory:
-    ProductInventory[];
+  inventory: ProductInventory[];
 
   decreaseStock: (
     productSlug: string,
     size: string,
     quantity?: number
   ) => void;
+
+  claimInventory: (
+    items: BagItem[]
+  ) => boolean;
 
   getInventory: (
     productSlug: string
@@ -67,6 +73,14 @@ export const useInventoryStore =
                 productSlug
             ),
 
+        /*
+         * Legacy single-item inventory
+         * mutation.
+         *
+         * Kept for existing callers,
+         * but order placement should
+         * use claimInventory().
+         */
         decreaseStock: (
           productSlug,
           size,
@@ -122,7 +136,6 @@ export const useInventoryStore =
                           size
                             ? {
                                 ...inventorySize,
-
                                 stock:
                                   inventorySize.stock -
                                   quantity,
@@ -145,11 +158,26 @@ export const useInventoryStore =
                 ),
             };
           }),
-      }),
-      {
-        name:
-          "house-eleven-inventory",
-        skipHydration: true,
-      }
-    )
-  );
+
+        /*
+         * Atomically claim every item
+         * required by an order.
+         *
+         * The complete bag must be
+         * available before ANY stock
+         * is changed.
+         */
+        claimInventory: (
+          items
+        ) => {
+          let claimed = false;
+
+          set((state) => {
+            /*
+             * Aggregate quantities first.
+             *
+             * This prevents duplicate bag
+             * entries from bypassing the
+             * inventory check.
+             */
+            const requested =
