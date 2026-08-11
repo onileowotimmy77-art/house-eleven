@@ -106,5 +106,6 @@ export default function RootLayout({
               </MenuProvider>
             </StoreSyncProvider>
           </body>
+    </html>
   );
 }
