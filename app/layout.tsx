@@ -84,27 +84,27 @@ export default function RootLayout({
           antialiased
         `}
       >
-      <StoreSyncProvider>
-        <MenuProvider>
-          <AppTransitionProvider>
-            <CursorProvider>
-              <AnimationProvider>
-                <EntranceProvider>
-                  <Cursor />
+            <StoreSyncProvider>
+              <MenuProvider>
+                <AppTransitionProvider>
+                  <CursorProvider>
+                    <AnimationProvider>
+                      <EntranceProvider>
+                        <Cursor />
 
-                  <LenisProvider>
-                    <Navbar />
+                        <LenisProvider>
+                          <Navbar />
 
-                    <Concierge />
+                          <Concierge />
 
-                    {children}
-                  </LenisProvider>
-                </EntranceProvider>
-              </AnimationProvider>
-            </CursorProvider>
-          </AppTransitionProvider>
-        </MenuProvider>
-      </StoreSyncProvider>
-    </body>
+                          {children}
+                        </LenisProvider>
+                      </EntranceProvider>
+                    </AnimationProvider>
+                  </CursorProvider>
+                </AppTransitionProvider>
+              </MenuProvider>
+            </StoreSyncProvider>
+          </body>
   );
 }
