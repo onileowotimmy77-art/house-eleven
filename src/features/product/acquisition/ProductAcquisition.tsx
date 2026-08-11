@@ -454,7 +454,149 @@ export default function ProductAcquisition({
             >
               {availability.label}
             </p>
+<div
+  className="
+    mt-8
+    border
+    border-white/10
+    bg-white/[0.02]
+    px-5
+    py-4
+  "
+>
+  <div
+    className="
+      flex
+      items-center
+      justify-between
+      gap-6
+    "
+  >
+    <span
+      className="
+        font-mono
+        text-[9px]
+        uppercase
+        tracking-[0.35em]
+        text-white/35
+      "
+    >
+      Live Inventory
+    </span>
 
+    <span
+      className="
+        font-mono
+        text-[9px]
+        uppercase
+        tracking-[0.25em]
+        text-white/35
+      "
+    >
+      Synchronized
+    </span>
+  </div>
+
+  <div
+    className="
+      mt-5
+      grid
+      grid-cols-2
+      gap-x-8
+      gap-y-3
+      sm:grid-cols-4
+    "
+  >
+    {sizes.map(
+      ({
+        size,
+        stock,
+      }) => (
+        <div
+          key={`live-stock-${size}`}
+          className="
+            flex
+            items-center
+            justify-between
+            border-b
+            border-white/5
+            pb-2
+          "
+        >
+          <span
+            className="
+              font-mono
+              text-[10px]
+              uppercase
+              tracking-[0.3em]
+              text-white/45
+            "
+          >
+            {size}
+          </span>
+
+          <span
+            className={`
+              font-mono
+              text-[10px]
+              tracking-[0.2em]
+              ${
+                stock > 0
+                  ? "text-white/70"
+                  : "text-white/20"
+              }
+            `}
+          >
+            {stock}
+          </span>
+        </div>
+      )
+    )}
+  </div>
+
+  {selectedSize && (
+    <div
+      className="
+        mt-5
+        border-t
+        border-white/5
+        pt-4
+      "
+    >
+      <p
+        className="
+          font-mono
+          text-[9px]
+          uppercase
+          tracking-[0.3em]
+          text-white/30
+        "
+      >
+        Selected Size
+      </p>
+
+      <p
+        className="
+          mt-2
+          font-mono
+          text-[11px]
+          uppercase
+          tracking-[0.3em]
+          text-white/65
+        "
+      >
+        {selectedSize}
+        {" · "}
+        {sizes.find(
+          (item) =>
+            item.size ===
+            selectedSize
+        )?.stock ?? 0}
+        {" Remaining"}
+      </p>
+    </div>
+  )}
+</div>
             <p
               className="
                 my-6
