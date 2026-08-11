@@ -275,6 +275,7 @@ export const useBagStore =
       {
         name:
           "house-eleven-bag",
+          
       }
     )
   );
