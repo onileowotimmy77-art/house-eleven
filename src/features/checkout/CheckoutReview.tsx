@@ -102,7 +102,7 @@ export default function CheckoutReview() {
 
   setIsSubmitting(true);
 
-  const order = placeOrder();
+  const order = await placeOrder();
 
   if (!order) {
     setInventoryError(true);
