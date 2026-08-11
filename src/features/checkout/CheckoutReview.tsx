@@ -85,7 +85,7 @@ export default function CheckoutReview() {
 
   const total = subtotal;
 
-  function handleConfirmOrder() {
+  async function handleConfirmOrder() {
   if (isSubmitting) {
     return;
   }
