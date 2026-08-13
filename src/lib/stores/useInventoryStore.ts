@@ -348,4 +348,318 @@ export const useInventoryStore =
                           size.size ===
                           row.size
                             ? {
-                              
+                              ...size,
+                                stock: 0,
+                              }
+                            : size
+                      );
+
+                    const updatedProduct =
+                      {
+                        ...product,
+
+                        sizes:
+                          updatedSizes,
+
+                        status:
+                          getInventoryStatus(
+                            updatedSizes
+                          ),
+                      };
+
+                    const updatedInventory =
+                      [
+                        ...state.inventory,
+                      ];
+
+                    updatedInventory[
+                      productIndex
+                    ] =
+                      updatedProduct;
+
+                    return {
+                      inventory:
+                        updatedInventory,
+                    };
+                  });
+                }
+              }
+            )
+            .subscribe((status) => {
+              if (
+                status ===
+                "SUBSCRIBED"
+              ) {
+                console.log(
+                  "House Eleven inventory Realtime connected."
+                );
+              }
+
+              if (
+                status ===
+                "CHANNEL_ERROR"
+              ) {
+                console.error(
+                  "House Eleven inventory Realtime connection failed."
+                );
+
+                inventoryRealtimeStarted =
+                  false;
+              }
+
+              if (
+                status ===
+                "TIMED_OUT"
+              ) {
+                console.error(
+                  "House Eleven inventory Realtime connection timed out."
+                );
+
+                inventoryRealtimeStarted =
+                  false;
+              }
+            });
+        },
+
+      getInventory:
+        (productSlug) =>
+          get()
+            .inventory
+            .find(
+              (product) =>
+                product.productSlug ===
+                productSlug
+            ),
+
+      /*
+       * Temporary local mutation.
+       *
+       * The production checkout flow
+       * will eventually use an atomic
+       * Supabase inventory claim instead.
+       */
+      decreaseStock:
+        (
+          productSlug,
+          size,
+          quantity = 1
+        ) =>
+          set((state) => {
+            if (
+              quantity <= 0
+            ) {
+              return state;
+            }
+
+            const product =
+              state.inventory.find(
+                (item) =>
+                  item.productSlug ===
+                  productSlug
+              );
+
+            if (!product) {
+              return state;
+            }
+
+            const sizeInventory =
+              product.sizes.find(
+                (item) =>
+                  item.size ===
+                  size
+              );
+
+            if (
+              !sizeInventory ||
+              quantity >
+                sizeInventory.stock
+            ) {
+              return state;
+            }
+
+            return {
+              inventory:
+                state.inventory.map(
+                  (item) => {
+                    if (
+                      item.productSlug !==
+                      productSlug
+                    ) {
+                      return item;
+                    }
+
+                    const updatedSizes =
+                      item.sizes.map(
+                        (
+                          inventorySize
+                        ) =>
+                          inventorySize.size ===
+                          size
+                            ? {
+                                ...inventorySize,
+
+                                stock:
+                                  inventorySize.stock -
+                                  quantity,
+                              }
+                            : inventorySize
+                      );
+
+                    return {
+                      ...item,
+
+                      sizes:
+                      updatedSizes,
+
+                      status:
+                        getInventoryStatus(
+                          updatedSizes
+                        ),
+                    };
+                  }
+                ),
+            };
+          }),
+
+      /*
+       * Temporary client-side claim.
+       *
+       * This remains here so existing
+       * callers continue compiling.
+       *
+       * We will replace the actual
+       * checkout authority with a
+       * Supabase atomic operation.
+       */
+      claimInventory:
+        (items) => {
+          let claimed = false;
+
+          set((state) => {
+            const requested =
+              new Map<
+                string,
+                number
+              >();
+
+            for (
+              const item of items
+            ) {
+              const key =
+                `${item.productSlug}::${item.size}`;
+
+              requested.set(
+                key,
+                (requested.get(
+                  key
+                ) ?? 0) +
+                  item.quantity
+              );
+            }
+
+            for (
+              const [
+                key,
+                quantity,
+              ] of requested
+            ) {
+              const [
+                productSlug,
+                size,
+              ] = key.split("::");
+
+              const product =
+                state.inventory.find(
+                  (item) =>
+                    item.productSlug ===
+                    productSlug
+                );
+
+              if (!product) {
+                return state;
+              }
+
+              const sizeInventory =
+                product.sizes.find(
+                  (item) =>
+                    item.size ===
+                    size
+                );
+
+              if (
+                !sizeInventory ||
+                sizeInventory.stock <
+                  quantity
+              ) {
+                return state;
+              }
+            }
+
+            const updatedInventory =
+              state.inventory.map(
+                (product) => {
+                  const updatedSizes =
+                    product.sizes.map(
+                      (
+                        sizeInventory
+                      ) => {
+                        const key =
+                          `${product.productSlug}::${sizeInventory.size}`;
+
+                        const quantity =
+                          requested.get(
+                            key
+                          ) ?? 0;
+
+                        if (
+                          quantity <= 0
+                        ) {
+                          return sizeInventory;
+                        }
+
+                        return {
+                          ...sizeInventory,
+
+                          stock:
+                            sizeInventory.stock -
+                            quantity,
+                        };
+                      }
+                    );
+
+                  return {
+                    ...product,
+
+                    sizes:
+                      updatedSizes,
+
+                    status:
+                      getInventoryStatus(
+                        updatedSizes
+                      ),
+                  };
+                }
+              );
+
+            claimed = true;
+
+            return {
+              inventory:
+                updatedInventory,
+            };
+          });
+
+          return claimed;
+        },
+    })
+  );
+
+/*
+ * Module-level subscription guard.
+ *
+ * Zustand is a module singleton, so this
+ * prevents multiple product pages/components
+ * from creating duplicate Realtime channels.
+ */
+let inventoryRealtimeStarted =
+  false;
