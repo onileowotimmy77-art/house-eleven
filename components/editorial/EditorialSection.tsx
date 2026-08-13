@@ -5,16 +5,18 @@ import { ReactNode } from "react";
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
+import type { SectionSpacingKey } from "@/src/lib/spacing";
+
 interface EditorialSectionProps {
   children: ReactNode;
   className?: string;
-  padding?: string;
+  padding?: SectionSpacingKey;
 }
 
 export default function EditorialSection({
   children,
   className = "",
-  padding = "py-48",
+  padding = "lg",
 }: EditorialSectionProps) {
   return (
     <Section
