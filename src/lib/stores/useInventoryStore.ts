@@ -347,7 +347,7 @@ export const useInventoryStore =
                         sizeInventory
                       ) => {
                         const key =
-                          ${product.productSlug}::${sizeInventory.size};
+                          `${product.productSlug}::${sizeInventory.size}`;
 
                         const quantity =
                           requested.get(
