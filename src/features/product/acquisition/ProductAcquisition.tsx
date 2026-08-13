@@ -81,7 +81,12 @@ export default function ProductAcquisition({
       state.isSaved(product.slug)
   );
 
-  const hydrateInve
+  const hydrateInventory = 
+    useInventoryStore(
+      (state) => 
+        state.hydrateInventory
+    );
+
   /*
    * Live inventory.
    *
@@ -100,6 +105,7 @@ export default function ProductAcquisition({
       )
     );
 
+    
   const [selectedSize, setSelectedSize] =
     useState<string | null>(null);
 
