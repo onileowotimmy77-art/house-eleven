@@ -16,6 +16,8 @@ import {
   type SupabaseInventoryRow,
 } from "@/src/lib/supabase/inventory";
 
+import { supabase } from "@/src/lib/supabase/client";
+
 import type {
   BagItem,
 } from "@/src/lib/stores/useBagStore";
@@ -28,6 +30,8 @@ interface InventoryStore {
   hasLoaded: boolean;
 
   hydrateInventory: () => Promise<void>;
+
+  subscribeToInventory: () => void;
 
   decreaseStock: (
     productSlug: string,
@@ -131,6 +135,17 @@ export const useInventoryStore =
             return;
           }
 
+          /*
+           * Start Realtime before fetching
+           * the initial inventory.
+           *
+           * This minimizes the window where
+           * a database update could happen
+           * between the initial fetch and the
+           * Realtime subscription.
+           */
+          get().subscribeToInventory();
+
           set({
             isLoading: true,
           });
@@ -164,234 +179,173 @@ export const useInventoryStore =
           }
         },
 
-      getInventory:
-        (productSlug) =>
-          get()
-            .inventory
-            .find(
-              (product) =>
-                product.productSlug ===
-                productSlug
-            ),
+      subscribeToInventory:
+        () => {
+          /*
+           * Prevent multiple Realtime
+           * subscriptions from being
+           * created by multiple components.
+           */
+          if (
+            get().hasLoaded
+          ) {
+            /*
+             * The subscription may already
+             * exist, but hasLoaded alone is
+             * not enough to determine that.
+             *
+             * We intentionally use a module-level
+             * guard below instead.
+             */
+          }
 
-      /*
-       * Temporary local mutation.
-       *
-       * The production checkout flow
-       * will eventually use an atomic
-       * Supabase inventory claim instead.
-       */
-      decreaseStock:
-        (
-          productSlug,
-          size,
-          quantity = 1
-        ) =>
-          set((state) => {
-            if (
-              quantity <= 0
-            ) {
-              return state;
-            }
+          if (
+            inventoryRealtimeStarted
+          ) {
+            return;
+          }
 
-            const product =
-              state.inventory.find(
-                (item) =>
-                  item.productSlug ===
-                  productSlug
-              );
+          inventoryRealtimeStarted =
+            true;
 
-            if (!product) {
-              return state;
-            }
+          supabase
+            .channel(
+              "house-eleven-inventory-realtime"
+            )
+            .on(
+              "postgres_changes",
+              {
+                event: "*",
+                schema: "public",
+                table: "inventory",
+              },
+              (payload) => {
+                /*
+                 * INSERT and UPDATE events
+                 * contain the new database row.
+                 */
+                if (
+                  payload.eventType ===
+                    "INSERT" ||
+                  payload.eventType ===
+                    "UPDATE"
+                ) {
+                  const row =
+                    payload.new as SupabaseInventoryRow;
 
-            const sizeInventory =
-              product.sizes.find(
-                (item) =>
-                  item.size ===
-                  size
-              );
-
-            if (
-              !sizeInventory ||
-              quantity >
-                sizeInventory.stock
-            ) {
-              return state;
-            }
-
-            return {
-              inventory:
-                state.inventory.map(
-                  (item) => {
-                    if (
-                      item.productSlug !==
-                      productSlug
-                    ) {
-                      return item;
-                    }
-
-                    const updatedSizes =
-                      item.sizes.map(
-                        (
-                          inventorySize
-                        ) =>
-                          inventorySize.size ===
-                          size
-                            ? {
-                                ...inventorySize,
-
-                                stock:
-                                  inventorySize.stock -
-                                  quantity,
-                              }
-                            : inventorySize
+                  set((state) => {
+                    const productIndex =
+                      state.inventory.findIndex(
+                        (product) =>
+                          product.productSlug ===
+                          row.product_slug
                       );
 
+                    if (
+                      productIndex ===
+                      -1
+                    ) {
+                      return state;
+                    }
+
+                    const product =
+                      state.inventory[
+                        productIndex
+                      ];
+
+                    const updatedSizes =
+                      product.sizes.map(
+                        (size) =>
+                          size.size ===
+                          row.size
+                            ? {
+                                ...size,
+                                stock:
+                                  row.stock,
+                              }
+                            : size
+                      );
+
+                    const updatedProduct =
+                      {
+                        ...product,
+
+                        sizes:
+                          updatedSizes,
+
+                        status:
+                          getInventoryStatus(
+                            updatedSizes
+                          ),
+                      };
+
+                    const updatedInventory =
+                      [
+                        ...state.inventory,
+                      ];
+
+                    updatedInventory[
+                      productIndex
+                    ] =
+                      updatedProduct;
+
                     return {
-                      ...item,
-
-                      sizes:
-                        updatedSizes,
-
-                      status:
-                        getInventoryStatus(
-                          updatedSizes
-                        ),
+                      inventory:
+                        updatedInventory,
                     };
-                  }
-                ),
-            };
-          }),
+                  });
 
-      /*
-       * Temporary client-side claim.
-       *
-       * This remains here so existing
-       * callers continue compiling.
-       *
-       * We will replace the actual
-       * checkout authority with a
-       * Supabase atomic operation.
-       */
-      claimInventory:
-        (items) => {
-          let claimed = false;
-
-          set((state) => {
-            const requested =
-              new Map<
-                string,
-                number
-              >();
-
-            for (
-              const item of items
-            ) {
-              const key =
-                `${item.productSlug}::${item.size}`;
-
-              requested.set(
-                key,
-                (requested.get(
-                  key
-                ) ?? 0) +
-                  item.quantity
-              );
-            }
-
-            for (
-              const [
-                key,
-                quantity,
-              ] of requested
-            ) {
-              const [
-                productSlug,
-                size,
-              ] = key.split("::");
-
-              const product =
-                state.inventory.find(
-                  (item) =>
-                    item.productSlug ===
-                    productSlug
-                );
-
-              if (!product) {
-                return state;
-              }
-
-              const sizeInventory =
-                product.sizes.find(
-                  (item) =>
-                    item.size ===
-                    size
-                );
-
-              if (
-                !sizeInventory ||
-                sizeInventory.stock <
-                  quantity
-              ) {
-                return state;
-              }
-            }
-
-            const updatedInventory =
-              state.inventory.map(
-                (product) => {
-                  const updatedSizes =
-                    product.sizes.map(
-                      (
-                        sizeInventory
-                      ) => {
-                        const key =
-                          `${product.productSlug}::${sizeInventory.size}`;
-
-                        const quantity =
-                          requested.get(
-                            key
-                          ) ?? 0;
-
-                        if (
-                          quantity <= 0
-                        ) {
-                          return sizeInventory;
-                        }
-
-                        return {
-                          ...sizeInventory,
-
-                          stock:
-                            sizeInventory.stock -
-                            quantity,
-                        };
-                      }
-                    );
-
-                  return {
-                    ...product,
-
-                    sizes:
-                      updatedSizes,
-                      status:
-                      getInventoryStatus(
-                        updatedSizes
-                      ),
-                  };
+                  return;
                 }
-              );
 
-            claimed = true;
+                /*
+                 * DELETE events remove the
+                 * corresponding size from the
+                 * live representation.
+                 *
+                 * Our current inventory is
+                 * seeded by known product sizes,
+                 * so a deleted database row
+                 * becomes stock 0.
+                 */
+                if (
+                  payload.eventType ===
+                  "DELETE"
+                ) {
+                  const row =
+                    payload.old as Partial<SupabaseInventoryRow>;
 
-            return {
-              inventory:
-                updatedInventory,
-            };
-          });
+                  if (
+                    !row.product_slug ||
+                    !row.size
+                  ) {
+                    return;
+                  }
 
-          return claimed;
-        },
-    })
-  );
+                  set((state) => {
+                    const productIndex =
+                      state.inventory.findIndex(
+                        (product) =>
+                          product.productSlug ===
+                          row.product_slug
+                      );
+
+                    if (
+                      productIndex ===
+                      -1
+                    ) {
+                      return state;
+                    }
+
+                    const product =
+                      state.inventory[
+                        productIndex
+                      ];
+
+                    const updatedSizes =
+                      product.sizes.map(
+                        (size) =>
+                          size.size ===
+                          row.size
+                            ? {
+                              
