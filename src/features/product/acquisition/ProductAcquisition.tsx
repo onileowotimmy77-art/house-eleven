@@ -81,6 +81,7 @@ export default function ProductAcquisition({
       state.isSaved(product.slug)
   );
 
+  const hydrateInve
   /*
    * Live inventory.
    *
