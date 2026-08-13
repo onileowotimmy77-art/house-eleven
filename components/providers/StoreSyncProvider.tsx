@@ -6,7 +6,6 @@ import {
 } from "react";
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
-import { useInventoryStore } from "@/src/lib/stores/useInventoryStore";
 import { useOrderStore } from "@/src/lib/stores/useOrderStore";
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
 import { useRestockStore } from "@/src/lib/stores/useRestockStore";
@@ -18,7 +17,6 @@ interface StoreSyncProviderProps {
 
 const stores = [
   useBagStore,
-  useInventoryStore,
   useOrderStore,
   useSavedPiecesStore,
   useRestockStore,
@@ -29,10 +27,6 @@ const storageKeys = new Map<string, typeof stores[number]>([
   [
     "house-eleven-bag",
     useBagStore,
-  ],
-  [
-    "house-eleven-inventory",
-    useInventoryStore,
   ],
   [
     "house-eleven-orders",
@@ -57,11 +51,11 @@ export default function StoreSyncProvider({
 }: StoreSyncProviderProps) {
   useEffect(() => {
     /*
-     * Initial hydration.
+     * Initial hydration for stores that
+     * intentionally use browser persistence.
      *
-     * This intentionally happens after the first
-     * client render so the server and client render
-     * the same initial Zustand state.
+     * Inventory is excluded because Supabase
+     * is now its source of truth.
      */
     stores.forEach((store) => {
       if (!store.persist.hasHydrated()) {
@@ -70,12 +64,14 @@ export default function StoreSyncProvider({
     });
 
     /*
-     * Cross-tab synchronization.
+     * Cross-tab synchronization for
+     * browser-persisted stores.
      *
-     * The browser fires a storage event in every
-     * other tab when localStorage changes.
+     * Inventory no longer participates here.
      */
-    function handleStorage(event: StorageEvent) {
+    function handleStorage(
+      event: StorageEvent
+    ) {
       if (!event.key) {
         stores.forEach((store) => {
           void store.persist.rehydrate();
@@ -84,7 +80,8 @@ export default function StoreSyncProvider({
         return;
       }
 
-      const store = storageKeys.get(event.key);
+      const store =
+        storageKeys.get(event.key);
 
       if (!store) {
         return;
