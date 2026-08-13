@@ -22,23 +22,24 @@ export async function getLiveInventory() {
   return data as SupabaseInventoryRow[];
 }
 
-export async function claimInventory(
-  productSlug: string,
-  size: string,
-  quantity: number
+export interface InventoryClaimItem {
+  productSlug: string;
+  size: string;
+  quantity: number;
+}
+
+export async function claimOrderInventory(
+  items: InventoryClaimItem[]
 ): Promise<boolean> {
+  if (items.length === 0) {
+    return false;
+  }
+
   const { data, error } =
     await supabase.rpc(
-      "claim_inventory",
+      "claim_order_inventory",
       {
-        p_product_slug:
-          productSlug,
-
-        p_size:
-          size,
-
-        p_quantity:
-          quantity,
+        p_items: items,
       }
     );
 
