@@ -105,7 +105,7 @@ export default function ProductAcquisition({
       )
     );
   useEffect(() => {
-    void hydrateInventory());
+    void hydrateInventory();
   }, [hydrateInventory]);
 
   const [selectedSize, setSelectedSize] =
