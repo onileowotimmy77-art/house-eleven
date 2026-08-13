@@ -5,16 +5,16 @@ import {
 } from "@/src/lib/stores/useBagStore";
 
 import {
-  useInventoryStore,
-} from "@/src/lib/stores/useInventoryStore";
-
-import {
   useOrderStore,
 } from "@/src/lib/stores/useOrderStore";
 
 import type {
   OrderStatus,
 } from "@/src/lib/stores/useOrderStore";
+
+import {
+  claimOrderInventory,
+} from "@/src/lib/supabase/inventory";
 
 function createOrderNumber() {
   const year =
@@ -26,7 +26,7 @@ function createOrderNumber() {
       .slice(0, 8)
       .toUpperCase();
 
-  return `HE-${year}-${reference}`;
+  return HE-${year}-${reference};
 }
 
 export async function placeOrder() {
@@ -80,103 +80,117 @@ export async function placeOrder() {
     );
 
   /*
-   * Web Locks gives every House Eleven
-   * tab on the same origin an exclusive
-   * inventory-claim section.
-   *
-   * This prevents two tabs from both
-   * claiming the final piece at the
-   * same time.
+   * Convert the complete bag into
+   * the payload expected by the
+   * atomic Supabase inventory claim.
    */
-  if (
-    typeof navigator ===
-      "undefined" ||
-    !("locks" in navigator)
-  ) {
+  const inventoryItems =
+    bag.items.map(
+      (item) => ({
+        productSlug:
+          item.productSlug,
+
+        size:
+          item.size,
+
+        quantity:
+          item.quantity,
+      })
+    );
+
+  /*
+   * Supabase is now the authoritative
+   * inventory authority.
+   *
+   * The database checks and claims
+   * the entire bag atomically.
+   *
+   * If one item is unavailable,
+   * nothing is claimed.
+   */
+  let claimed: boolean;
+
+  try {
+    claimed =
+      await claimOrderInventory(
+        inventoryItems
+      );
+  } catch (error) {
+    console.error(
+      "Inventory claim failed:",
+      error
+    );
+
     return null;
   }
 
-  return navigator.locks.request(
-    "house-eleven-inventory-claim",
-    async () => {
-      const inventory =
-        useInventoryStore.getState();
+  /*
+   * Another customer may have
+   * acquired one or more pieces
+   * before this customer confirmed.
+   */
+  if (!claimed) {
+    return null;
+  }
 
-      /*
-       * Re-check and claim the ENTIRE
-       * bag while holding the lock.
-       *
-       * If even one item is unavailable,
-       * claimInventory() changes nothing.
-       */
-      const claimed =
-        inventory.claimInventory(
-          bag.items
-        );
+  /*
+   * Inventory has now been successfully
+   * claimed by Supabase.
+   *
+   * Only after that do we create
+   * the local order record.
+   */
+  const orderStore =
+    useOrderStore.getState();
 
-      if (!claimed) {
-        return null;
-      }
+  const order = {
+    id:
+      crypto.randomUUID(),
 
-      /*
-       * Inventory has now been claimed
-       * successfully.
-       *
-       * Only after that do we create
-       * the order.
-       */
-      const orderStore =
-        useOrderStore.getState();
+    orderNumber:
+      createOrderNumber(),
 
-      const order = {
-        id:
-          crypto.randomUUID(),
+    items:
+      bag.items.map(
+        (item) => ({
+          productSlug:
+            item.productSlug,
 
-        orderNumber:
-          createOrderNumber(),
+          size:
+            item.size,
 
-        items:
-          bag.items.map(
-            (item) => ({
-              productSlug:
-                item.productSlug,
+          quantity:
+            item.quantity,
+        })
+      ),
 
-              size:
-                item.size,
+    subtotal,
 
-              quantity:
-                item.quantity,
-            })
-          ),
+    total:
+      subtotal,
 
-        subtotal,
+    status:
+      "Preparing Garments" as OrderStatus,
 
-        total: subtotal,
+    paymentMethod:
+      "Debit / Credit Card",
 
-        status:
-          "Preparing Garments" as OrderStatus,
+    estimatedDelivery:
+      "3-5 Business Days",
 
-        paymentMethod:
-          "Debit / Credit Card",
+    createdAt:
+      new Date().toISOString(),
+  };
 
-        estimatedDelivery:
-          "3-5 Business Days",
-
-        createdAt:
-          new Date().toISOString(),
-      };
-
-      orderStore.createOrder(
-        order
-      );
-
-      /*
-       * Clear the bag only after
-       * the order exists.
-       */
-      bag.clearBag();
-
-      return order;
-    }
+  orderStore.createOrder(
+    order
   );
+
+  /*
+   * Clear the bag only after
+   * the order has been created.
+   */
+  bag.clearBag();
+
+  return order;
 }
