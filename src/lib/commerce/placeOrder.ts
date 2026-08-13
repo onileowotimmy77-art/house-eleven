@@ -5,16 +5,20 @@ import {
 } from "@/src/lib/stores/useBagStore";
 
 import {
-  useOrderStore,
-} from "@/src/lib/stores/useOrderStore";
+  useInventoryStore,
+} from "@/src/lib/stores/useInventoryStore";
 
-import type {
-  OrderStatus,
+import {
+  useOrderStore,
 } from "@/src/lib/stores/useOrderStore";
 
 import {
   claimOrderInventory,
 } from "@/src/lib/supabase/inventory";
+
+import type {
+  OrderStatus,
+} from "@/src/lib/stores/useOrderStore";
 
 function createOrderNumber() {
   const year =
@@ -80,117 +84,122 @@ export async function placeOrder() {
     );
 
   /*
-   * Convert the complete bag into
-   * the payload expected by the
-   * atomic Supabase inventory claim.
-   */
-  const inventoryItems =
-    bag.items.map(
-      (item) => ({
-        productSlug:
-          item.productSlug,
-
-        size:
-          item.size,
-
-        quantity:
-          item.quantity,
-      })
-    );
-
-  /*
-   * Supabase is now the authoritative
+   * Web Locks prevents multiple
+   * House Eleven tabs from attempting
+   * the checkout operation simultaneously
+   * on the same browser.
+   *
+   * PostgreSQL remains the authoritative
    * inventory authority.
-   *
-   * The database checks and claims
-   * the entire bag atomically.
-   *
-   * If one item is unavailable,
-   * nothing is claimed.
    */
-  let claimed: boolean;
+  if (
+    typeof navigator ===
+      "undefined" ||
+    !("locks" in navigator)
+  ) {
+    return null;
+  }
 
-  try {
-    claimed =
-      await claimOrderInventory(
-        inventoryItems
+  return navigator.locks.request(
+    "house-eleven-inventory-claim",
+    async () => {
+      /*
+       * PostgreSQL performs the actual
+       * atomic inventory claim.
+       *
+       * The database either claims the
+       * entire bag or changes nothing.
+       */
+      const claimed =
+        await claimOrderInventory(
+          bag.items.map(
+            (item) => ({
+              productSlug:
+                item.productSlug,
+
+              size:
+                item.size,
+
+              quantity:
+                item.quantity,
+            })
+          )
+        );
+
+      if (!claimed) {
+        return null;
+      }
+
+      /*
+       * Refresh the local inventory
+       * representation after the
+       * successful database claim.
+       */
+      const inventoryStore =
+        useInventoryStore.getState();
+
+      await inventoryStore
+        .hydrateInventory();
+
+      /*
+       * Inventory has now been claimed
+       * successfully.
+       *
+       * Only after that do we create
+       * the order.
+       */
+      const orderStore =
+        useOrderStore.getState();
+
+      const order = {
+        id:
+          crypto.randomUUID(),
+
+        orderNumber:
+          createOrderNumber(),
+
+        items:
+          bag.items.map(
+            (item) => ({
+              productSlug:
+                item.productSlug,
+
+              size:
+                item.size,
+
+              quantity:
+                item.quantity,
+            })
+          ),
+
+        subtotal,
+
+        total: subtotal,
+
+        status:
+          "Preparing Garments" as OrderStatus,
+
+        paymentMethod:
+          "Debit / Credit Card",
+
+        estimatedDelivery:
+          "3-5 Business Days",
+
+        createdAt:
+          new Date().toISOString(),
+      };
+
+      orderStore.createOrder(
+        order
       );
-  } catch (error) {
-    console.error(
-      "Inventory claim failed:",
-      error
-    );
 
-    return null;
-  }
+      /*
+       * Clear the bag only after
+       * the order exists.
+       */
+      bag.clearBag();
 
-  /*
-   * Another customer may have
-   * acquired one or more pieces
-   * before this customer confirmed.
-   */
-  if (!claimed) {
-    return null;
-  }
-
-  /*
-   * Inventory has now been successfully
-   * claimed by Supabase.
-   *
-   * Only after that do we create
-   * the local order record.
-   */
-  const orderStore =
-    useOrderStore.getState();
-
-  const order = {
-    id:
-      crypto.randomUUID(),
-
-    orderNumber:
-      createOrderNumber(),
-
-    items:
-      bag.items.map(
-        (item) => ({
-          productSlug:
-            item.productSlug,
-
-          size:
-            item.size,
-
-          quantity:
-            item.quantity,
-        })
-      ),
-
-    subtotal,
-
-    total:
-      subtotal,
-
-    status:
-      "Preparing Garments" as OrderStatus,
-
-    paymentMethod:
-      "Debit / Credit Card",
-
-    estimatedDelivery:
-      "3-5 Business Days",
-
-    createdAt:
-      new Date().toISOString(),
-  };
-
-  orderStore.createOrder(
-    order
+      return order;
+    }
   );
-
-  /*
-   * Clear the bag only after
-   * the order has been created.
-   */
-  bag.clearBag();
-
-  return order;
 }
