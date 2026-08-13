@@ -46,7 +46,7 @@ export default function JournalArticle({
       </section>
 
       {/* Introduction */}
-      <EditorialSection padding="py-56">
+      <EditorialSection padding="xl">
         <Body className="mx-auto max-w-3xl text-2xl leading-relaxed text-white/80">
           {article.introduction}
         </Body>
