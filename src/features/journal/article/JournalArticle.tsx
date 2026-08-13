@@ -107,7 +107,7 @@ export default function JournalArticle({
       </EditorialSection>
 
       {/* Continue */}
-      <EditorialSection padding="pt-20 pb-56">
+      <EditorialSection Padding="pt-lg pb-xl">
         <div className="border-t border-white/10 pt-16 text-center">
           <Eyebrow>Continue to</Eyebrow>
 
