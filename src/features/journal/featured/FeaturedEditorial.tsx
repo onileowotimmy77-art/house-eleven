@@ -30,7 +30,7 @@ const featuredEssay = {
 
 export default function FeaturedEditorial() {
   return (
-    <EditorialSection padding="pt-56 pb-64">
+    <EditorialSection padding="xl">
       <div className="grid gap-24 lg:grid-cols-12 lg:items-center">
         {/* LEFT */}
 
