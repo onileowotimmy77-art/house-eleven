@@ -104,8 +104,10 @@ export default function ProductAcquisition({
           product.slug
       )
     );
+  useEffect(() => {
+    void hydrateInventory());
+  }, [hydrateInventory]);
 
-    
   const [selectedSize, setSelectedSize] =
     useState<string | null>(null);
 
