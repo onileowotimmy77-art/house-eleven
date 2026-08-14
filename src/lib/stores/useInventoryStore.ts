@@ -18,6 +18,9 @@ import {
 
 import { supabase } from "@/src/lib/supabase/client";
 
+import type {
+  BagItem,
+} from "@/src/lib/stores/useBagStore";
 
 interface InventoryStore {
   inventory: ProductInventory[];
@@ -30,7 +33,15 @@ interface InventoryStore {
 
   subscribeToInventory: () => void;
 
-  
+  decreaseStock: (
+    productSlug: string,
+    size: string,
+    quantity?: number
+  ) => void;
+
+  claimInventory: (
+    items: BagItem[]
+  ) => boolean;
 
   getInventory: (
     productSlug: string
