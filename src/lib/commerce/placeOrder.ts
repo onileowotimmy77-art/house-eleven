@@ -13,7 +13,7 @@ import {
 } from "@/src/lib/stores/useOrderStore";
 
 import {
-  claimOrderInventory,
+  createCheckoutOrder,
 } from "@/src/lib/supabase/inventory";
 
 import type {
@@ -30,7 +30,7 @@ function createOrderNumber() {
       .slice(0, 8)
       .toUpperCase();
 
-  return `HE-${year}-${reference}`;
+  return HE-${year}-${reference};
 }
 
 export async function placeOrder() {
@@ -46,8 +46,11 @@ export async function placeOrder() {
   }
 
   /*
-   * Resolve products before
-   * attempting the inventory claim.
+   * Resolve every product before
+   * attempting checkout.
+   *
+   * Product data remains the source
+   * for the authoritative price.
    */
   const products =
     bag.items.map((item) => ({
@@ -85,11 +88,11 @@ export async function placeOrder() {
 
   /*
    * Web Locks prevents multiple
-   * House Eleven tabs from attempting
-   * the checkout operation simultaneously
-   * on the same browser.
+   * House Eleven tabs in the same
+   * browser from attempting checkout
+   * simultaneously.
    *
-   * PostgreSQL remains the authoritative
+   * PostgreSQL remains the ultimate
    * inventory authority.
    */
   if (
@@ -101,116 +104,107 @@ export async function placeOrder() {
   }
 
   return navigator.locks.request(
-    "house-eleven-inventory-claim",
+    "house-eleven-checkout",
     async () => {
       /*
-       * PostgreSQL performs the actual
-       * atomic inventory claim.
-       *
-       * The database either claims the
-       * entire bag or changes nothing.
+       * Generate the order identity
+       * before calling PostgreSQL.
        */
-      let claimed: boolean;
+      const orderId =
+        crypto.randomUUID();
 
-try {
-  claimed =
-    await claimOrderInventory(
-      bag.items.map(
-        (item) => ({
-          productSlug:
-            item.productSlug,
+      const orderNumber =
+        createOrderNumber();
 
-          size:
-            item.size,
+      const orderItems =
+        bag.items.map(
+          (item) => ({
+            productSlug:
+              item.productSlug,
 
-          quantity:
-            item.quantity,
-        })
-      )
-    );
-} catch (error) {
-  console.error(
-    "Failed to claim order inventory:",
-    error
-  );
+            size:
+              item.size,
 
-  return null;
-}
+            quantity:
+              item.quantity,
+          })
+        );
 
-if (!claimed) {
-  return null;
-}
+      /*
+       * PostgreSQL now performs the
+       * complete checkout transaction:
+       *
+       * 1. Validate the request.
+       * 2. Verify inventory.
+       * 3. Claim inventory.
+       * 4. Create the order.
+       * 5. Create order items.
+       * 6. Commit everything together.
+       *
+       * If anything fails, PostgreSQL
+       * rolls the transaction back.
+       */
+      let checkoutSucceeded: boolean;
+
+      try {
+        checkoutSucceeded =
+          await createCheckoutOrder({
+            orderId,
+
+            orderNumber,
+
+            total:
+              subtotal,
+
+            paymentMethod:
+              "Debit / Credit Card",
+
+            estimatedDelivery:
+              "3-5 Business Days",
+
+            items:
+              orderItems,
+          });
+      } catch (error) {
+        console.error(
+          "House Eleven checkout failed:",
+          error
+        );
+
+        return null;
+      }
+
+      /*
+       * Inventory was unavailable or
+       * PostgreSQL rejected the checkout.
+       */
+      if (!checkoutSucceeded) {
+        return null;
+      }
 
       /*
        * Refresh the local inventory
        * representation after the
-       * successful database claim.
+       * successful database transaction.
        */
       const inventoryStore =
         useInventoryStore.getState();
 
+      /*
+       * hydrateInventory() intentionally
+       * does not re-fetch once the store
+       * has already loaded.
+       *
+       * Realtime will normally deliver
+       * the database update, so we do not
+       * rely on hydration for checkout
+       * correctness.
+       */
       await inventoryStore
         .hydrateInventory();
 
       /*
-       * Inventory has now been claimed
-       * successfully.
+       * Mirror the successfully-created
+       * database order into the local
+       * Zustand order store.
        *
-       * Only after that do we create
-       * the order.
-       */
-      const orderStore =
-        useOrderStore.getState();
-
-      const order = {
-        id:
-          crypto.randomUUID(),
-
-        orderNumber:
-          createOrderNumber(),
-
-        items:
-          bag.items.map(
-            (item) => ({
-              productSlug:
-                item.productSlug,
-
-              size:
-                item.size,
-
-              quantity:
-                item.quantity,
-            })
-          ),
-
-        subtotal,
-
-        total: subtotal,
-
-        status:
-          "Preparing Garments" as OrderStatus,
-
-        paymentMethod:
-          "Debit / Credit Card",
-
-        estimatedDelivery:
-          "3-5 Business Days",
-
-        createdAt:
-          new Date().toISOString(),
-      };
-
-      orderStore.createOrder(
-        order
-      );
-
-      /*
-       * Clear the bag only after
-       * the order exists.
-       */
-      bag.clearBag();
-
-      return order;
-    }
-  );
-}
