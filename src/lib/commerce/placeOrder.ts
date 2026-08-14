@@ -110,25 +110,36 @@ export async function placeOrder() {
        * The database either claims the
        * entire bag or changes nothing.
        */
-      const claimed =
-        await claimOrderInventory(
-          bag.items.map(
-            (item) => ({
-              productSlug:
-                item.productSlug,
+      let claimed: boolean;
 
-              size:
-                item.size,
+try {
+  claimed =
+    await claimOrderInventory(
+      bag.items.map(
+        (item) => ({
+          productSlug:
+            item.productSlug,
 
-              quantity:
-                item.quantity,
-            })
-          )
-        );
+          size:
+            item.size,
 
-      if (!claimed) {
-        return null;
-      }
+          quantity:
+            item.quantity,
+        })
+      )
+    );
+} catch (error) {
+  console.error(
+    "Failed to claim order inventory:",
+    error
+  );
+
+  return null;
+}
+
+if (!claimed) {
+  return null;
+}
 
       /*
        * Refresh the local inventory
