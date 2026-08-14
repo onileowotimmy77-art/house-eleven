@@ -15,7 +15,7 @@ export async function getLiveInventory() {
 
   if (error) {
     throw new Error(
-      Failed to fetch inventory: ${error.message}
+      `Failed to fetch inventory: ${error.message}`
     );
   }
 
