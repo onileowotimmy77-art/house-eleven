@@ -22,35 +22,7 @@ export async function getLiveInventory() {
   return data as SupabaseInventoryRow[];
 }
 
-export interface InventoryClaimItem {
-  productSlug: string;
-  size: string;
-  quantity: number;
-}
 
-export async function claimOrderInventory(
-  items: InventoryClaimItem[]
-): Promise<boolean> {
-  if (items.length === 0) {
-    return false;
-  }
-
-  const { data, error } =
-    await supabase.rpc(
-      "claim_order_inventory",
-      {
-        p_items: items,
-      }
-    );
-
-  if (error) {
-    throw new Error(
-      `Failed to claim inventory: ${error.message}`
-    );
-  }
-
-  return data === true;
-}
 
 export interface CreateCheckoutOrderInput {
   orderId: string;
