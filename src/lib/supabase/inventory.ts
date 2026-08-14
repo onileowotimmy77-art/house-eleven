@@ -15,7 +15,7 @@ export async function getLiveInventory() {
 
   if (error) {
     throw new Error(
-      `Failed to fetch inventory: ${error.message}`
+      Failed to fetch inventory: ${error.message}
     );
   }
 
@@ -45,7 +45,56 @@ export async function claimOrderInventory(
 
   if (error) {
     throw new Error(
-      `Failed to claim inventory: ${error.message}` 
+      Failed to claim inventory: ${error.message}
+    );
+  }
+
+  return data === true;
+}
+
+export interface CreateCheckoutOrderInput {
+  orderId: string;
+  orderNumber: string;
+  total: number;
+  paymentMethod: string;
+  estimatedDelivery: string;
+  items: InventoryClaimItem[];
+}
+
+export async function createCheckoutOrder(
+  input: CreateCheckoutOrderInput
+): Promise<boolean> {
+  if (input.items.length === 0) {
+    return false;
+  }
+
+  const { data, error } =
+    await supabase.rpc(
+      "create_checkout_order",
+      {
+        p_order_id:
+          input.orderId,
+
+        p_order_number:
+          input.orderNumber,
+
+        p_total:
+          input.total,
+
+        p_payment_method:
+          input.paymentMethod,
+
+        p_estimated_delivery:
+          input.estimatedDelivery,
+
+        p_items:
+          input.items,
+      }
+    );
+
+  if (error) {
+    throw new Error(
+      `Failed to create checkout order: ${error.message}`
     );
   }
 
