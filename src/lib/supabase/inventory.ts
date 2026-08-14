@@ -45,7 +45,7 @@ export async function claimOrderInventory(
 
   if (error) {
     throw new Error(
-      Failed to claim inventory: ${error.message}
+      `Failed to claim inventory: ${error.message}`
     );
   }
 
