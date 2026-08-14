@@ -30,7 +30,7 @@ function createOrderNumber() {
       .slice(0, 8)
       .toUpperCase();
 
-  return HE-${year}-${reference};
+  return `HE-${year}-${reference}`;
 }
 
 export async function placeOrder() {
@@ -208,3 +208,50 @@ export async function placeOrder() {
        * database order into the local
        * Zustand order store.
        *
+       * * The database remains the
+       * authoritative checkout record.
+       */
+      const orderStore =
+        useOrderStore.getState();
+
+      const order = {
+        id:
+          orderId,
+
+        orderNumber:
+          orderNumber,
+
+        items:
+          orderItems,
+
+        total:
+          subtotal,
+
+        status:
+          "Order Confirmed" as OrderStatus,
+
+        paymentMethod:
+          "Debit / Credit Card",
+
+        estimatedDelivery:
+          "3-5 Business Days",
+
+        createdAt:
+          new Date().toISOString(),
+      };
+
+      orderStore.createOrder(
+        order
+      );
+
+      /*
+       * Clear the local bag only after
+       * the database transaction and
+       * local order creation both succeed.
+       */
+      bag.clearBag();
+
+      return order;
+    }
+  );
+}
