@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import Reveal from "@/components/motion/Reveal";
 
 import {
@@ -12,14 +10,22 @@ import {
 
 import PaymentMethodCard from "./PaymentMethodCard";
 
-export default function CheckoutPayment() {
-  const [method, setMethod] = useState("card");
+import type { CheckoutPaymentMethod } from "./CheckoutSection";
 
+interface CheckoutPaymentProps {
+  paymentMethod: CheckoutPaymentMethod;
+  onPaymentMethodChange: (
+    method: CheckoutPaymentMethod
+  ) => void;
+}
+
+export default function CheckoutPayment({
+  paymentMethod,
+  onPaymentMethodChange,
+}: CheckoutPaymentProps) {
   return (
     <section className="py-40">
-
       <Reveal>
-
         <Eyebrow>
           Chapter III
         </Eyebrow>
@@ -36,27 +42,35 @@ export default function CheckoutPayment() {
         >
           Choose how you'd like to complete your purchase.
         </Body>
-
       </Reveal>
 
       <div className="mt-24 space-y-6">
-
         <PaymentMethodCard
           title="Debit / Credit Card"
           description="Visa, Mastercard and supported payment providers."
-          selected={method === "card"}
-          onClick={() => setMethod("card")}
+          selected={
+            paymentMethod === "card"
+          }
+          onClick={() =>
+            onPaymentMethodChange(
+              "card"
+            )
+          }
         />
 
         <PaymentMethodCard
           title="Bank Transfer"
           description="Complete your purchase through a verified bank transfer."
-          selected={method === "bank"}
-          onClick={() => setMethod("bank")}
+          selected={
+            paymentMethod === "bank"
+          }
+          onClick={() =>
+            onPaymentMethodChange(
+              "bank"
+            )
+          }
         />
-
       </div>
-
     </section>
   );
 }
