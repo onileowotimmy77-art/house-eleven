@@ -20,6 +20,10 @@ import type {
   OrderStatus,
 } from "@/src/lib/stores/useOrderStore";
 
+export type CheckoutPaymentMethod =
+  | "card"
+  | "bank";
+
 function createOrderNumber() {
   const year =
     new Date().getFullYear();
@@ -33,7 +37,17 @@ function createOrderNumber() {
   return `HE-${year}-${reference}`;
 }
 
-export async function placeOrder() {
+function getPaymentMethodLabel(
+  paymentMethod: CheckoutPaymentMethod
+) {
+  return paymentMethod === "card"
+    ? "Debit / Credit Card"
+    : "Bank Transfer";
+}
+
+export async function placeOrder(
+  paymentMethod: CheckoutPaymentMethod
+) {
   const bag =
     useBagStore.getState();
 
@@ -87,6 +101,15 @@ export async function placeOrder() {
     );
 
   /*
+   * Resolve the UI payment method
+   * into the value stored by the order.
+   */
+  const selectedPaymentMethod =
+    getPaymentMethodLabel(
+      paymentMethod
+    );
+
+  /*
    * Web Locks prevents multiple
    * House Eleven tabs in the same
    * browser from attempting checkout
@@ -131,7 +154,7 @@ export async function placeOrder() {
         );
 
       /*
-       * PostgreSQL now performs the
+       * PostgreSQL performs the
        * complete checkout transaction:
        *
        * 1. Validate the request.
@@ -157,7 +180,7 @@ export async function placeOrder() {
               subtotal,
 
             paymentMethod:
-              "Debit / Credit Card",
+              selectedPaymentMethod,
 
             estimatedDelivery:
               "3-5 Business Days",
@@ -192,7 +215,7 @@ export async function placeOrder() {
 
       /*
        * hydrateInventory() intentionally
-       * does not re-fetch once the store
+      * does not re-fetch once the store
        * has already loaded.
        *
        * Realtime will normally deliver
@@ -208,7 +231,7 @@ export async function placeOrder() {
        * database order into the local
        * Zustand order store.
        *
-       * * The database remains the
+       * The database remains the
        * authoritative checkout record.
        */
       const orderStore =
@@ -231,7 +254,7 @@ export async function placeOrder() {
           "Order Confirmed" as OrderStatus,
 
         paymentMethod:
-          "Debit / Credit Card",
+          selectedPaymentMethod,
 
         estimatedDelivery:
           "3-5 Business Days",
