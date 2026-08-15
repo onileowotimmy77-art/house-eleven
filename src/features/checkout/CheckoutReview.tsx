@@ -58,7 +58,7 @@ export default function CheckoutReview({
         }
 
         return {
-          id: ${item.productSlug}-${item.size},
+          id: `${item.productSlug}-${item.size}`  ,
           name: product.name,
           color: product.color,
           size: item.size,
@@ -202,4 +202,56 @@ export default function CheckoutReview({
 
             <p
               className="
-              
+              mt-3
+                text-sm
+                leading-relaxed
+                text-white/70
+              "
+            >
+              One or more pieces in your
+              selection are no longer
+              available in the requested
+              quantity. Return to your Bag
+              to review the current
+              availability.
+            </p>
+
+            <button
+              type="button"
+              onClick={() =>
+                router.push("/bag")
+              }
+              className="
+                mt-6
+                border-b
+                border-white/15
+                pb-2
+                font-mono
+                text-[10px]
+                uppercase
+                tracking-[0.35em]
+                text-white/65
+                transition-colors
+                duration-300
+                hover:border-white/50
+                hover:text-white
+              "
+            >
+              Return to Bag
+            </button>
+          </div>
+        )}
+
+        <CommerceButton
+          onClick={handleConfirmOrder}
+          disabled={isSubmitting}
+          className="mt-20 w-full"
+        >
+          {isSubmitting
+            ? "Confirming Order"
+            : "Confirm Order"}
+        </CommerceButton>
+      </div>
+    </section>
+  );
+}
