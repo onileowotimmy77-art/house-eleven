@@ -1,49 +1,29 @@
 "use client";
 
-const steps = [
-  {
-    title: "Order Confirmed",
-    description: "Your order has been received.",
-    complete: true,
-  },
-  {
-    title: "Preparing Garments",
-    description: "Every piece is individually prepared.",
-    complete: false,
-  },
-  {
-    title: "Quality Inspection",
-    description: "Each garment undergoes final inspection.",
-    complete: false,
-  },
-  {
-    title: "Dispatch",
-    description: "Your Residence begins its journey.",
-    complete: false,
-  },
-  {
-    title: "Delivered",
-    description: "Welcome home.",
-    complete: false,
-  },
-];
+import type { Order } from "@/src/lib/stores/useOrderStore";
 
-export default function ConfirmationTimeline() {
+import { getOrderTimeline } from "@/src/lib/commerce/orderTimeline";
+
+interface ConfirmationTimelineProps {
+  order: Order;
+}
+
+export default function ConfirmationTimeline({
+  order,
+}: ConfirmationTimelineProps) {
+  const steps = getOrderTimeline(order);
+
   return (
     <section className="mt-40">
-
       <div className="space-y-12">
-
         {steps.map((step, index) => (
           <div
             key={step.title}
             className="flex gap-8"
           >
-
             {/* Progress */}
 
             <div className="flex flex-col items-center">
-
               <div
                 className={`
                   h-3
@@ -53,7 +33,8 @@ export default function ConfirmationTimeline() {
                   duration-500
 
                   ${
-                    step.complete
+                    step.complete ||
+                    step.current
                       ? "bg-white"
                       : "bg-white/15"
                   }
@@ -62,49 +43,67 @@ export default function ConfirmationTimeline() {
 
               {index < steps.length - 1 && (
                 <div
-                  className="
+                  className={`
                     mt-4
                     h-20
                     w-px
-                    bg-white/10
-                  "
+                    transition-colors
+                    duration-500
+
+                    ${
+                      step.complete
+                        ? "bg-white/40"
+                        : "bg-white/10"
+                    }
+                  `}
                 />
               )}
-
             </div>
 
             {/* Content */}
 
             <div className="pb-8">
-
               <h3
-                className="
+                className={`
                   text-lg
                   font-medium
                   tracking-[-0.02em]
-                "
+                  transition-colors
+                  duration-500
+
+                  ${
+                    step.current
+                      ? "text-white"
+                      : step.complete
+                      ? "text-white/70"
+                      : "text-white/40"
+                  }
+                `}
               >
                 {step.title}
               </h3>
 
               <p
-                className="
+                className={`
                   mt-3
                   max-w-xl
                   leading-7
-                  text-white/50
-                "
+                  transition-colors
+                  duration-500
+
+                  ${
+                    step.current
+                      ? "text-white/60"
+                      : "text-white/40"
+                  }
+                `}
               >
                 {step.description}
               </p>
-
             </div>
-
           </div>
         ))}
-
       </div>
-
     </section>
   );
 }
