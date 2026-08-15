@@ -86,7 +86,9 @@ if (!latestOrder) {
   items={latestOrder.items}
 />
 
-<ConfirmationTimeline />
+<ConfirmationTimeline  
+  order={latestOrder}
+/>
 
           <ConfirmationActions />
         </Container>
