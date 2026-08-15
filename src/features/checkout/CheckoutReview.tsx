@@ -128,7 +128,8 @@ export default function CheckoutReview({
       paymentMethod
     );
 
-    const order = await placeOrder();
+    const order =
+     await placeOrder(payment);
 
     if (!order) {
       setInventoryError(true);
