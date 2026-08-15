@@ -1,6 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
 import { useRouter } from "next/navigation";
 
 import Container from "@/components/layout/Container";
@@ -18,37 +22,57 @@ import { useOrderStore } from "@/src/lib/stores/useOrderStore";
 
 export default function ConfirmationPage() {
   const router = useRouter();
-const [hasHydrated, setHasHydrated] =
-  useState(false);
 
-useEffect(() => {
-  setHasHydrated(
-    useOrderStore.persist.hasHydrated()
-  );
-
-  const unsubscribe =
-    useOrderStore.persist.onFinishHydration(
-      () => {
-        setHasHydrated(true);
-      }
-    );
-
-  return unsubscribe;
-}, []);
+  const [hasHydrated, setHasHydrated] =
+    useState(false);
 
   const latestOrder = useOrderStore(
     (state) => state.latestOrder
   );
 
+  useEffect(() => {
+    if (
+      useOrderStore.persist.hasHydrated()
+    ) {
+      setHasHydrated(true);
+
+      return;
+    }
+
+    const unsubscribe =
+      useOrderStore.persist.onFinishHydration(
+        () => {
+          setHasHydrated(true);
+        }
+      );
+
+    void useOrderStore.persist.rehydrate();
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (
+      !hasHydrated ||
+      latestOrder
+    ) {
+      return;
+    }
+
+    router.replace("/bag");
+  }, [
+    hasHydrated,
+    latestOrder,
+    router,
+  ]);
+
   if (!hasHydrated) {
-  return null;
-}
+    return null;
+  }
 
-if (!latestOrder) {
-  router.replace("/bag");
-
-  return null;
-}
+  if (!latestOrder) {
+    return null;
+  }
 
   const formattedTotal =
     new Intl.NumberFormat(
@@ -70,25 +94,25 @@ if (!latestOrder) {
           <ConfirmationHero />
 
           <ConfirmationSummary
-  orderNumber={
-    latestOrder.orderNumber
-  }
-  paymentMethod={
-    latestOrder.paymentMethod
-  }
-  estimatedDelivery={
-    latestOrder.estimatedDelivery
-  }
-  total={`₦${formattedTotal}`}
-/>
+            orderNumber={
+              latestOrder.orderNumber
+            }
+            paymentMethod={
+              latestOrder.paymentMethod
+            }
+            estimatedDelivery={
+              latestOrder.estimatedDelivery
+            }
+            total={`₦${formattedTotal}`}
+          />
 
-<ConfirmationItems
-  items={latestOrder.items}
-/>
+          <ConfirmationItems
+            items={latestOrder.items}
+          />
 
-<ConfirmationTimeline  
-  order={latestOrder}
-/>
+          <ConfirmationTimeline
+            order={latestOrder}
+          />
 
           <ConfirmationActions />
         </Container>
