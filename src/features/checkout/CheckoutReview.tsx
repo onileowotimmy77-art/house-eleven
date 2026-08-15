@@ -21,32 +21,44 @@ import { placeOrder } from "@/src/lib/commerce/placeOrder";
 
 import { getProduct } from "@/src/data/getProduct";
 
-export default function CheckoutReview() {
+import type { CheckoutPaymentMethod } from "./CheckoutSection";
+
+interface CheckoutReviewProps {
+  paymentMethod: CheckoutPaymentMethod;
+}
+
+export default function CheckoutReview({
+  paymentMethod,
+}: CheckoutReviewProps) {
   const router = useRouter();
 
-  const items = useBagStore((state) => state.items);
+  const items = useBagStore(
+    (state) => state.items
+  );
 
   const [
-  inventoryError,
-  setInventoryError,
-] = useState(false);
+    inventoryError,
+    setInventoryError,
+  ] = useState(false);
 
   const [
-  isSubmitting,
-  setIsSubmitting,
-] = useState(false);
+    isSubmitting,
+    setIsSubmitting,
+  ] = useState(false);
 
   const reviewItems = useMemo(() => {
     return items
       .map((item) => {
-        const product = getProduct(item.productSlug);
+        const product = getProduct(
+          item.productSlug
+        );
 
         if (!product) {
           return null;
         }
 
         return {
-          id: `${item.productSlug}-${item.size}`,
+          id: ${item.productSlug}-${item.size},
           name: product.name,
           color: product.color,
           size: item.size,
@@ -69,45 +81,65 @@ export default function CheckoutReview() {
   }, [items]);
 
   const subtotal = useMemo(() => {
-    return items.reduce((total, item) => {
-      const product = getProduct(item.productSlug);
+    return items.reduce(
+      (total, item) => {
+        const product = getProduct(
+          item.productSlug
+        );
 
-      if (!product) {
-        return total;
-      }
+        if (!product) {
+          return total;
+        }
 
-      return (
-        total +
-        product.priceValue * item.quantity
-      );
-    }, 0);
+        return (
+          total +
+          product.priceValue *
+            item.quantity
+        );
+      },
+      0
+    );
   }, [items]);
 
   const total = subtotal;
 
   async function handleConfirmOrder() {
-  if (isSubmitting) {
-    return;
+    if (isSubmitting) {
+      return;
+    }
+
+    if (items.length === 0) {
+      router.push("/bag");
+      return;
+    }
+
+    setInventoryError(false);
+    setIsSubmitting(true);
+
+    /*
+     * Payment selection is now available
+     * here through paymentMethod.
+     *
+     * We will connect this to placeOrder()
+     * in the next step.
+     */
+    console.log(
+      "Selected payment method:",
+      paymentMethod
+    );
+
+    const order = await placeOrder();
+
+    if (!order) {
+      setInventoryError(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    router.push(
+      "/checkout/confirmation"
+    );
   }
-
-  if (items.length === 0) {
-    router.push("/bag");
-    return;
-  }
-
-  setInventoryError(false);
-  setIsSubmitting(true);
-
-  const order = await placeOrder();
-
-  if (!order) {
-    setInventoryError(true);
-    setIsSubmitting(false);
-    return;
-  }
-
-  router.push("/checkout/confirmation");
-}
 
   return (
     <section className="py-40">
@@ -136,86 +168,38 @@ export default function CheckoutReview() {
         />
 
         <ReviewTotals
-          subtotal={`₦${new Intl.NumberFormat("en-NG").format(subtotal)}`}
+          subtotal={`₦${new Intl.NumberFormat(
+            "en-NG"
+          ).format(subtotal)}`}
           shipping="Calculated at checkout"
-          total={`₦${new Intl.NumberFormat("en-NG").format(total)}`}
+          total={`₦${new Intl.NumberFormat(
+            "en-NG"
+          ).format(total)}`}
         />
 
         {inventoryError && (
-  <div
-    className="
-      mt-16
-      border
-      border-white/10
-      bg-white/[0.03]
-      px-6
-      py-5
-    "
-  >
-    <p
-      className="
-        font-mono
-        text-[10px]
-        uppercase
-        tracking-[0.35em]
-        text-white/45
-      "
-    >
-      Selection Updated
-    </p>
+          <div
+            className="
+              mt-16
+              border
+              border-white/10
+              bg-white/[0.03]
+              px-6
+              py-5
+            "
+          >
+            <p
+              className="
+                font-mono
+                text-[10px]
+                uppercase
+                tracking-[0.35em]
+                text-white/45
+              "
+            >
+              Selection Updated
+            </p>
 
-    <p
-      className="
-        mt-3
-        text-sm
-        leading-relaxed
-        text-white/70
-      "
-    >
-      One or more pieces in your
-      selection are no longer
-      available in the requested
-      quantity. Return to your Bag
-      to review the current
-      availability.
-    </p>
-
-    <button
-      type="button"
-      onClick={() =>
-        router.push("/bag")
-      }
-      className="
-        mt-6
-        border-b
-        border-white/15
-        pb-2
-        font-mono
-        text-[10px]
-        uppercase
-        tracking-[0.35em]
-        text-white/65
-        transition-colors
-        duration-300
-        hover:border-white/50
-        hover:text-white
-      "
-    >
-      Return to Bag
-    </button>
-  </div>
-)}
-
-<CommerceButton
-  onClick={handleConfirmOrder}
-  disabled={isSubmitting}
-  className="mt-20 w-full"
->
-  {isSubmitting
-    ? "Confirming Order"
-    : "Confirm Order"}
-</CommerceButton>
-      </div>
-    </section>
-  );
-}
+            <p
+              className="
+              
