@@ -260,6 +260,7 @@ export const useBagStore =
             };
           }),
 
+          
         clearBag: () =>
           set({
             items: [],
