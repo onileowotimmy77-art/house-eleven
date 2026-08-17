@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import type { Produ }
 import {
   canAcquireQuantity,
 } from "../commerce/inventory";
