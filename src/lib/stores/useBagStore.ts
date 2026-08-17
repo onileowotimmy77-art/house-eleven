@@ -260,7 +260,74 @@ export const useBagStore =
             };
           }),
 
-          
+          reconcileWithInventory:
+  (inventory) =>
+    set((state) => ({
+      items: state.items
+        .map((item) => {
+          const productInventory =
+            inventory.find(
+              (product) =>
+                product.productSlug ===
+                item.productSlug
+            );
+
+          const sizeInventory =
+            productInventory?.sizes.find(
+              (size) =>
+                size.size ===
+                item.size
+            );
+
+          /*
+           * If the product or size no longer
+           * exists in live inventory, remove it.
+           */
+          if (!sizeInventory) {
+            return null;
+          }
+
+          /*
+           * No stock remains.
+           */
+          if (
+            sizeInventory.stock <= 0
+          ) {
+            return null;
+          }
+
+          /*
+           * The requested quantity is still
+           * fully available.
+           */
+          if (
+            item.quantity <=
+            sizeInventory.stock
+          ) {
+            return item;
+          }
+
+          /*
+           * Some stock remains, but less than
+           * the requested quantity.
+           *
+           * Reduce the bag quantity to the
+           * maximum currently available.
+           */
+          return {
+            ...item,
+            quantity:
+              sizeInventory.stock,
+          };
+        })
+        .filter(
+          (
+            item
+          ): item is BagItem =>
+            item !== null
+        ),
+    })),
+    
         clearBag: () =>
           set({
             items: [],
