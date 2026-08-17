@@ -3,7 +3,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import type { Produ }
+import type { ProductInventory } from "@/src/data/inventory";
+
 import {
   canAcquireQuantity,
 } from "../commerce/inventory";
