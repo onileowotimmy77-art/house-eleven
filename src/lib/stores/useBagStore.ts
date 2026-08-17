@@ -38,6 +38,10 @@ interface BagStore {
     quantity: number
   ) => void;
 
+  reconcileWithInventory: (
+    inventory: ProductInventory[]
+  ) => void;
+
   clearBag: () => void;
 
   totalItems: () => number;
