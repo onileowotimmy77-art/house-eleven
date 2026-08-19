@@ -14,6 +14,7 @@ import {
 
 import {
   createCheckoutOrder,
+  getLiveInventory,
 } from "@/src/lib/supabase/inventory";
 
 import type {
@@ -155,17 +156,7 @@ export async function placeOrder(
 
       /*
        * PostgreSQL performs the
-       * complete checkout transaction:
-       *
-       * 1. Validate the request.
-       * 2. Verify inventory.
-       * 3. Claim inventory.
-       * 4. Create the order.
-       * 5. Create order items.
-       * 6. Commit everything together.
-       *
-       * If anything fails, PostgreSQL
-       * rolls the transaction back.
+       * complete checkout transaction.
        */
       let checkoutSucceeded: boolean;
 
@@ -194,35 +185,129 @@ export async function placeOrder(
           error
         );
 
+        /*
+         * The database rejected the
+         * checkout. Refresh the bag against
+         * the latest inventory before the
+         * customer returns to Bag.
+         */
+        try {
+          const liveInventory =
+            await getLiveInventory();
+
+          useBagStore
+            .getState()
+            .reconcileWithInventory(
+              useInventoryStore
+                .getState()
+                .inventory.map(
+                  (product) => {
+                    const liveProduct =
+                      liveInventory.filter(
+                        (row) =>
+                          row.product_slug ===
+                          product.productSlug
+                      );
+                      const sizes =
+                      product.sizes.map(
+                        (size) => ({
+                          size:
+                            size.size,
+
+                          stock:
+                            liveProduct.find(
+                              (row) =>
+                                row.size ===
+                                size.size
+                            )?.stock ?? 0,
+                        })
+                      );
+
+                    return {
+                      ...product,
+                      sizes,
+                    };
+                  }
+                )
+            );
+        } catch (
+          reconciliationError
+        ) {
+          console.error(
+            "House Eleven inventory reconciliation failed:",
+            reconciliationError
+          );
+        }
+
         return null;
       }
 
       /*
        * Inventory was unavailable or
        * PostgreSQL rejected the checkout.
+       *
+       * Reconcile the bag using the latest
+       * database inventory.
        */
       if (!checkoutSucceeded) {
+        try {
+          const liveInventory =
+            await getLiveInventory();
+
+          useBagStore
+            .getState()
+            .reconcileWithInventory(
+              useInventoryStore
+                .getState()
+                .inventory.map(
+                  (product) => {
+                    const liveProduct =
+                      liveInventory.filter(
+                        (row) =>
+                          row.product_slug ===
+                          product.productSlug
+                      );
+
+                    const sizes =
+                      product.sizes.map(
+                        (size) => ({
+                          size:
+                            size.size,
+
+                          stock:
+                            liveProduct.find(
+                              (row) =>
+                                row.size ===
+                                size.size
+                            )?.stock ?? 0,
+                        })
+                      );
+
+                    return {
+                      ...product,
+                      sizes,
+                    };
+                  }
+                )
+            );
+        } catch (
+          reconciliationError
+        ) {
+          console.error(
+            "House Eleven inventory reconciliation failed:",
+            reconciliationError
+          );
+        }
+
         return null;
       }
 
       /*
-       * Refresh the local inventory
-       * representation after the
-       * successful database transaction.
+       * Inventory was successfully claimed.
        */
       const inventoryStore =
         useInventoryStore.getState();
 
-      /*
-       * hydrateInventory() intentionally
-      * does not re-fetch once the store
-       * has already loaded.
-       *
-       * Realtime will normally deliver
-       * the database update, so we do not
-       * rely on hydration for checkout
-       * correctness.
-       */
       await inventoryStore
         .hydrateInventory();
 
@@ -230,9 +315,6 @@ export async function placeOrder(
        * Mirror the successfully-created
        * database order into the local
        * Zustand order store.
-       *
-       * The database remains the
-       * authoritative checkout record.
        */
       const orderStore =
         useOrderStore.getState();
@@ -269,8 +351,7 @@ export async function placeOrder(
 
       /*
        * Clear the local bag only after
-       * the database transaction and
-       * local order creation both succeed.
+       * successful checkout.
        */
       bag.clearBag();
 
