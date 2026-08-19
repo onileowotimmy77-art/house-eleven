@@ -17,6 +17,8 @@ import ReviewItems from "./ReviewItems";
 import ReviewTotals from "./ReviewTotals";
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
+import { useInventoryStore } from "@/src/lib/stores/useInventoryStore";
+
 import { placeOrder } from "@/src/lib/commerce/placeOrder";
 
 import { getProduct } from "@/src/data/getProduct";
@@ -35,6 +37,17 @@ export default function CheckoutReview({
   const items = useBagStore(
     (state) => state.items
   );
+
+  const reconcileWithInventory =
+    useBagStore(
+      (state) =>
+        state.reconcileWithInventory
+    );
+
+  const liveInventory =
+    useInventoryStore(
+      (state) => state.inventory
+    );
 
   const [
     inventoryError,
@@ -58,7 +71,7 @@ export default function CheckoutReview({
         }
 
         return {
-          id: `${item.productSlug}-${item.size}`  ,
+          id: ${item.productSlug}-${item.size},
           name: product.name,
           color: product.color,
           size: item.size,
@@ -116,20 +129,8 @@ export default function CheckoutReview({
     setInventoryError(false);
     setIsSubmitting(true);
 
-    /*
-     * Payment selection is now available
-     * here through paymentMethod.
-     *
-     * We will connect this to placeOrder()
-     * in the next step.
-     */
-    console.log(
-      "Selected payment method:",
-      paymentMethod
-    );
-
     const order =
-     await placeOrder(paymentMethod);
+      await placeOrder(paymentMethod);
 
     if (!order) {
       setInventoryError(true);
@@ -140,6 +141,25 @@ export default function CheckoutReview({
     router.push(
       "/checkout/confirmation"
     );
+  }
+
+  function handleReturnToBag() {
+    /*
+     * Reconcile the local bag against
+     * the latest inventory currently
+     * known by the synchronized
+     * inventory store.
+     *
+     * Invalid items are removed.
+     * Partially unavailable quantities
+     * are reduced to the available stock.
+     * Valid items remain untouched.
+     */
+    reconcileWithInventory(
+      liveInventory
+    );
+
+    router.push("/bag");
   }
 
   return (
@@ -181,7 +201,7 @@ export default function CheckoutReview({
         {inventoryError && (
           <div
             className="
-              mt-16
+            mt-16
               border
               border-white/10
               bg-white/[0.03]
@@ -203,7 +223,7 @@ export default function CheckoutReview({
 
             <p
               className="
-              mt-3
+                mt-3
                 text-sm
                 leading-relaxed
                 text-white/70
@@ -219,8 +239,8 @@ export default function CheckoutReview({
 
             <button
               type="button"
-              onClick={() =>
-                router.push("/bag")
+              onClick={
+                handleReturnToBag
               }
               className="
                 mt-6
@@ -244,7 +264,9 @@ export default function CheckoutReview({
         )}
 
         <CommerceButton
-          onClick={handleConfirmOrder}
+          onClick={
+            handleConfirmOrder
+          }
           disabled={isSubmitting}
           className="mt-20 w-full"
         >
