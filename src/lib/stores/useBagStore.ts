@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useInventoryStore } from "./useInventoryStore";
 
 import type { ProductInventory } from "@/src/data/inventory";
 
