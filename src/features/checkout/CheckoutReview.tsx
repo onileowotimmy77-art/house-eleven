@@ -71,7 +71,7 @@ export default function CheckoutReview({
         }
 
         return {
-          id: ${item.productSlug}-${item.size},
+          id: `${item.productSlug}-${item.size}`,
           name: product.name,
           color: product.color,
           size: item.size,
