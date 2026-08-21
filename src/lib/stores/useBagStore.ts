@@ -2,7 +2,6 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { useInventoryStore } from "./useInventoryStore";
 
 import type { ProductInventory } from "@/src/data/inventory";
 
@@ -16,8 +15,22 @@ export interface BagItem {
   quantity: number;
 }
 
+export interface BagInventoryNotice {
+  productSlug: string;
+  size: string;
+  previousQuantity: number;
+  currentQuantity: number;
+  reason:
+    | "unavailable"
+    | "reduced";
+}
+
 interface BagStore {
   items: BagItem[];
+
+  inventoryNotice:
+    | BagInventoryNotice
+    | null;
 
   addToBag: (
     item: BagItem
@@ -43,6 +56,8 @@ interface BagStore {
     inventory: ProductInventory[]
   ) => void;
 
+  clearInventoryNotice: () => void;
+
   clearBag: () => void;
 
   totalItems: () => number;
@@ -53,6 +68,8 @@ export const useBagStore =
     persist(
       (set, get) => ({
         items: [],
+
+        inventoryNotice: null,
 
         addToBag: (
           item
@@ -168,190 +185,4 @@ export const useBagStore =
                   ),
               };
             }
-
-            const restoredItems = [
-              ...state.items,
-            ];
-
-            const safeIndex =
-              Math.max(
-                0,
-                Math.min(
-                  index,
-                  restoredItems.length
-                )
-              );
-
-            restoredItems.splice(
-              safeIndex,
-              0,
-              item
-            );
-
-            return {
-              items:
-              restoredItems,
-            };
-          }),
-
-        removeFromBag: (
-          productSlug,
-          size
-        ) =>
-          set((state) => ({
-            items:
-              state.items.filter(
-                (item) =>
-                  !(
-                    item.productSlug ===
-                      productSlug &&
-                    item.size ===
-                      size
-                  )
-              ),
-          })),
-
-        updateQuantity: (
-          productSlug,
-          size,
-          quantity
-        ) =>
-          set((state) => {
-            if (
-              quantity <= 0
-            ) {
-              return {
-                items:
-                  state.items.filter(
-                    (item) =>
-                      !(
-                        item.productSlug ===
-                          productSlug &&
-                        item.size ===
-                          size
-                      )
-                  ),
-              };
-            }
-
-            if (
-              !canAcquireQuantity(
-                productSlug,
-                size,
-                quantity
-              )
-            ) {
-              return state;
-            }
-
-            return {
-              items:
-                state.items.map(
-                  (item) =>
-                    item.productSlug ===
-                      productSlug &&
-                    item.size ===
-                      size
-                      ? {
-                          ...item,
-                          quantity,
-                        }
-                      : item
-                ),
-            };
-          }),
-
-          reconcileWithInventory:
-  (inventory) =>
-    set((state) => ({
-      items: state.items
-        .map((item) => {
-          const productInventory =
-            inventory.find(
-              (product) =>
-                product.productSlug ===
-                item.productSlug
-            );
-
-          const sizeInventory =
-            productInventory?.sizes.find(
-              (size) =>
-                size.size ===
-                item.size
-            );
-
-          /*
-           * If the product or size no longer
-           * exists in live inventory, remove it.
-           */
-          if (!sizeInventory) {
-            return null;
-          }
-
-          /*
-           * No stock remains.
-           */
-          if (
-            sizeInventory.stock <= 0
-          ) {
-            return null;
-          }
-
-          /*
-           * The requested quantity is still
-           * fully available.
-           */
-          if (
-            item.quantity <=
-            sizeInventory.stock
-          ) {
-            return item;
-          }
-
-          /*
-           * Some stock remains, but less than
-           * the requested quantity.
-           *
-           * Reduce the bag quantity to the
-           * maximum currently available.
-           */
-          return {
-            ...item,
-            quantity:
-              sizeInventory.stock,
-          };
-        })
-        .filter(
-          (
-            item
-          ): item is BagItem =>
-            item !== null
-        ),
-    })),
-    
-        clearBag: () =>
-          set({
-            items: [],
-          }),
-
-        totalItems: () =>
-          get()
-            .items
-            .reduce(
-              (
-                total,
-                item
-              ) =>
-                total +
-                item.quantity,
-              0
-            ),
-      }),
-      {
-        name:
-          "house-eleven-bag",
-
-        skipHydration: true,
-      }
-    )
-  );
+            
