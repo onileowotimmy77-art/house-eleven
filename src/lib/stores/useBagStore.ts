@@ -302,8 +302,14 @@ export const useBagStore =
                       );
 
                     /*
-                     * If the product or size no longer
-                     * exists in live inventory, remove it.
+                     * If the product or size no
+                     * longer exists in live inventory,
+                     * remove it from the bag.
+                     *
+                     * The notice is deliberately
+                     * created at the same moment as
+                     * the removal so the two states
+                     * cannot become disconnected.
                      */
                     if (
                       !sizeInventory ||
@@ -315,12 +321,16 @@ export const useBagStore =
                         nextNotice = {
                           productSlug:
                             item.productSlug,
+
                           size:
                             item.size,
+
                           previousQuantity:
                             item.quantity,
+
                           currentQuantity:
                             0,
+
                           reason:
                             "unavailable",
                         };
@@ -330,22 +340,24 @@ export const useBagStore =
                     }
 
                     /*
-                     * The requested quantity is still
-                     * fully available.
+                    * The customer's complete
+                     * requested quantity is still
+                     * available.
                      */
                     if (
                       item.quantity <=
                       sizeInventory.stock
                     ) {
                       return item;
-                      }
+                    }
 
                     /*
-                     * Some stock remains, but less than
-                     * the requested quantity.
+                     * Some stock remains, but not
+                     * enough to satisfy the original
+                     * quantity.
                      *
-                     * Reduce the bag quantity to the
-                     * maximum currently available.
+                     * Reduce the bag to the maximum
+                     * quantity currently available.
                      */
                     if (
                       !nextNotice
@@ -353,12 +365,16 @@ export const useBagStore =
                       nextNotice = {
                         productSlug:
                           item.productSlug,
+
                         size:
                           item.size,
+
                         previousQuantity:
                           item.quantity,
+
                         currentQuantity:
                           sizeInventory.stock,
+
                         reason:
                           "reduced",
                       };
@@ -366,6 +382,7 @@ export const useBagStore =
 
                     return {
                       ...item,
+
                       quantity:
                         sizeInventory.stock,
                     };
@@ -377,6 +394,14 @@ export const useBagStore =
                       item !== null
                   );
 
+              /*
+               * The inventory notice represents a
+               * meaningful change to the customer's
+               * selection.
+               *
+               * Keep it in the Bag store until the
+               * customer explicitly dismisses it.
+               */
               return {
                 items:
                   reconciledItems,
@@ -396,6 +421,13 @@ export const useBagStore =
         clearBag: () =>
           set({
             items: [],
+
+            /*
+             * A completely cleared bag should not
+             * retain a previous inventory warning.
+             */
+            inventoryNotice:
+              null,
           }),
 
         totalItems: () =>
@@ -418,18 +450,26 @@ export const useBagStore =
         skipHydration: true,
 
         /*
-         * Only the actual Bag contents are
-         * persisted.
+         * Persist both the Bag contents and the
+         * inventory notice.
          *
-         * Inventory notices are temporary UI
-         * state and must never survive a browser
-         * restart or become part of the Bag data.
+         * The notice is part of the customer's
+         * selection-change state: if checkout
+         * discovers that a piece is no longer
+         * available, the customer must still be
+         * informed when they return to Bag.
+         *
+         * The notice is removed explicitly by
+         * clearInventoryNotice().
          */
         partialize: (
           state
         ) => ({
           items:
             state.items,
+
+          inventoryNotice:
+            state.inventoryNotice,
         }),
       }
     )
