@@ -39,7 +39,7 @@ function createOrderNumber() {
       .slice(0, 8)
       .toUpperCase();
 
-  return HE-${year}-${reference};
+  return `HE-${year}-${reference}`;
 }
 
 function getPaymentMethodLabel(
@@ -396,4 +396,96 @@ export async function placeOrder(
        * hydration once the store has already
        * loaded. The successful checkout has
        * already been authorized by PostgreSQL,
-       * 
+       * * so the local inventory should instead
+       * be synchronized directly.
+       */
+      try {
+        const liveInventory =
+          await getLiveInventory();
+
+        const inventoryStore =
+          useInventoryStore.getState();
+
+        const mergedInventory =
+          mergeLiveInventory(
+            inventoryStore.inventory,
+            liveInventory
+          );
+
+        useInventoryStore.setState({
+          inventory:
+            mergedInventory,
+
+          hasLoaded:
+            true,
+
+          isLoading:
+            false,
+        });
+      } catch (inventoryError) {
+        /*
+         * The order has already been
+         * successfully created.
+         *
+         * Failure to refresh the local
+         * inventory must not turn a successful
+         * order into a failed checkout.
+         */
+        console.error(
+          "House Eleven inventory refresh after successful checkout failed:",
+          inventoryError
+        );
+      }
+
+      /*
+       * Mirror the successfully-created
+       * database order into the local
+       * Zustand order store.
+       */
+      const orderStore =
+        useOrderStore.getState();
+
+      const order = {
+        id:
+          orderId,
+
+        orderNumber:
+          orderNumber,
+
+        items:
+          orderItems,
+
+        total:
+          subtotal,
+
+        status:
+          "Order Confirmed" as OrderStatus,
+
+        paymentMethod:
+          selectedPaymentMethod,
+
+        estimatedDelivery:
+          "3-5 Business Days",
+
+        createdAt:
+          new Date().toISOString(),
+      };
+
+      orderStore.createOrder(
+        order
+      );
+
+      /*
+       * Clear the local bag ONLY after
+       * PostgreSQL has successfully completed
+       * the checkout transaction and the local
+       * order has been created.
+       */
+      useBagStore
+        .getState()
+        .clearBag();
+
+      return order;
+    }
+  );
+}
