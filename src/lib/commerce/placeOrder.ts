@@ -18,12 +18,12 @@ import {
 } from "@/src/lib/supabase/inventory";
 
 import type {
-  OrderStatus,
-} from "@/src/lib/stores/useOrderStore";
-
-import type {
   ProductInventory,
 } from "@/src/data/inventory";
+
+import type {
+  OrderStatus,
+} from "@/src/lib/stores/useOrderStore";
 
 export type CheckoutPaymentMethod =
   | "card"
@@ -50,153 +50,88 @@ function getPaymentMethodLabel(
     : "Bank Transfer";
 }
 
-/*
- * Build a fresh ProductInventory
- * representation from the latest
- * Supabase inventory rows.
- *
- * The existing product structure remains
- * the source of truth for known products
- * and sizes. Supabase becomes the source
- * of truth for the current stock values.
- */
-function mergeLiveInventory(
-  currentInventory: ProductInventory[],
-  liveRows: Awaited<
-    ReturnType<typeof getLiveInventory>
-  >
+function buildLiveInventory(
+  liveInventory: Awaited<
+    ReturnType<
+      typeof getLiveInventory
+    >
+  >,
+  currentInventory: ProductInventory[]
 ): ProductInventory[] {
   return currentInventory.map(
     (product) => {
+      const liveProduct =
+        liveInventory.filter(
+          (row) =>
+            row.product_slug ===
+            product.productSlug
+        );
+
       const sizes =
         product.sizes.map(
-          (size) => {
-            const liveRow =
-              liveRows.find(
+          (size) => ({
+            size:
+              size.size,
+
+            stock:
+              liveProduct.find(
                 (row) =>
-                  row.product_slug ===
-                    product.productSlug &&
                   row.size ===
-                    size.size
-              );
-
-            return {
-              ...size,
-
-              /*
-               * A known product/size that
-               * does not exist in the live
-               * result is treated as zero
-               * stock.
-               */
-              stock:
-                liveRow?.stock ?? 0,
-            };
-          }
+                  size.size
+              )?.stock ?? 0,
+          })
         );
 
       return {
         ...product,
-
         sizes,
-
-        /*
-         * Keep the existing product status
-         * here temporarily. The bag
-         * reconciliation only needs size
-         * stock, while the inventory store's
-         * normal hydration/realtime path
-         * remains responsible for statuses.
-         */
       };
     }
   );
 }
 
-/*
- * Reconcile the customer's bag against
- * the latest inventory returned directly
- * from Supabase.
- *
- * This function deliberately does not
- * modify the bag if the live inventory
- * request fails.
- */
 async function reconcileBagWithLiveInventory() {
   try {
     const liveInventory =
       await getLiveInventory();
 
-    const inventoryStore =
-      useInventoryStore.getState();
+    const currentInventory =
+      useInventoryStore
+        .getState()
+        .inventory;
 
-    const mergedInventory =
-      mergeLiveInventory(
-        inventoryStore.inventory,
-        liveInventory
+    const reconciledInventory =
+      buildLiveInventory(
+        liveInventory,
+        currentInventory
       );
 
-    /*
-     * Update the client inventory store
-     * immediately so the Bag and any other
-     * inventory-aware UI reflect the same
-     * live stock used for reconciliation.
-     */
-    useInventoryStore.setState({
-      inventory:
-        mergedInventory,
-      hasLoaded:
-        true,
-      isLoading:
-        false,
-    });
-
-    /*
-     * Reconcile only after the live
-     * inventory has been successfully
-     * obtained.
-     */
     useBagStore
       .getState()
       .reconcileWithInventory(
-        mergedInventory
+        reconciledInventory
       );
-
-    return true;
-  } catch (error) {
-    /*
-     * If live inventory cannot be fetched,
-     * leave the customer's bag untouched.
-     *
-     * This is safer than interpreting a
-     * failed inventory request as zero stock.
-     */
+  } catch (
+    reconciliationError
+  ) {
     console.error(
       "House Eleven inventory reconciliation failed:",
-      error
+      reconciliationError
     );
-
-    return false;
   }
 }
 
 export async function placeOrder(
   paymentMethod: CheckoutPaymentMethod
 ) {
-  /*
-   * Read the bag at the moment checkout
-   * begins.
-   */
-  const initialBag =
+  const bag =
     useBagStore.getState();
 
   /*
-   * Never create an order from an
-   * empty bag.
+   * Never create an order
+   * from an empty bag.
    */
-  if (
-    initialBag.items.length === 0
-    ) {
+  if (bag.items.length === 0) {
     return null;
   }
 
@@ -208,16 +143,14 @@ export async function placeOrder(
    * for the authoritative price.
    */
   const products =
-    initialBag.items.map(
-      (item) => ({
-        item,
+    bag.items.map((item) => ({
+      item,
 
-        product:
-          getProduct(
-            item.productSlug
-          ),
-      })
-    );
+      product:
+        getProduct(
+          item.productSlug
+        ),
+    }));
 
   if (
     products.some(
@@ -274,23 +207,6 @@ export async function placeOrder(
     "house-eleven-checkout",
     async () => {
       /*
-       * Read the bag again inside the lock.
-       *
-       * This prevents us from using a stale
-       * bag snapshot if the bag changed
-       * between the initial checkout request
-       * and acquisition of the browser lock.
-       */
-      const bag =
-        useBagStore.getState();
-
-      if (
-        bag.items.length === 0
-      ) {
-        return null;
-      }
-
-      /*
        * Generate the order identity
        * before calling PostgreSQL.
        */
@@ -308,8 +224,7 @@ export async function placeOrder(
 
             size:
               item.size,
-
-            quantity:
+              quantity:
               item.quantity,
           })
         );
@@ -348,13 +263,9 @@ export async function placeOrder(
 
         /*
          * The database rejected the
-         * transaction.
-         *
-         * Refresh inventory and reconcile
-         * the bag against the actual database
-         * state.
-         *
-         * No bag clearing occurs here.
+         * checkout. Reconcile the Bag
+         * against the latest live inventory
+         * before the customer returns to Bag.
          */
         await reconcileBagWithLiveInventory();
 
@@ -362,17 +273,11 @@ export async function placeOrder(
       }
 
       /*
-       * PostgreSQL returned false.
+       * Inventory was unavailable or
+       * PostgreSQL rejected the checkout.
        *
-       * This means checkout did not complete,
-       * most importantly because one or more
-       * requested inventory quantities were
-       * unavailable.
-       *
-       * Refresh inventory and reconcile the
-       * bag against the actual database state.
-       *
-       * No bag clearing occurs here.
+       * Reconcile the Bag using the latest
+       * database inventory.
        */
       if (!checkoutSucceeded) {
         await reconcileBagWithLiveInventory();
@@ -383,59 +288,15 @@ export async function placeOrder(
       /*
        * Inventory was successfully claimed.
        *
-       * The database transaction has now
-       * created the order and order items.
+       * Refresh the local inventory state
+       * so the UI reflects the successful
+       * database transaction.
        */
+      const inventoryStore =
+        useInventoryStore.getState();
 
-      /*
-       * Refresh the client inventory state.
-       *
-       * We intentionally do not rely on
-       * hydrateInventory() here because that
-       * function correctly prevents redundant
-       * hydration once the store has already
-       * loaded. The successful checkout has
-       * already been authorized by PostgreSQL,
-       * * so the local inventory should instead
-       * be synchronized directly.
-       */
-      try {
-        const liveInventory =
-          await getLiveInventory();
-
-        const inventoryStore =
-          useInventoryStore.getState();
-
-        const mergedInventory =
-          mergeLiveInventory(
-            inventoryStore.inventory,
-            liveInventory
-          );
-
-        useInventoryStore.setState({
-          inventory:
-            mergedInventory,
-
-          hasLoaded:
-            true,
-
-          isLoading:
-            false,
-        });
-      } catch (inventoryError) {
-        /*
-         * The order has already been
-         * successfully created.
-         *
-         * Failure to refresh the local
-         * inventory must not turn a successful
-         * order into a failed checkout.
-         */
-        console.error(
-          "House Eleven inventory refresh after successful checkout failed:",
-          inventoryError
-        );
-      }
+      await inventoryStore
+        .hydrateInventory();
 
       /*
        * Mirror the successfully-created
@@ -476,14 +337,10 @@ export async function placeOrder(
       );
 
       /*
-       * Clear the local bag ONLY after
-       * PostgreSQL has successfully completed
-       * the checkout transaction and the local
-       * order has been created.
+       * Clear the local bag only after
+       * successful checkout.
        */
-      useBagStore
-        .getState()
-        .clearBag();
+      bag.clearBag();
 
       return order;
     }
