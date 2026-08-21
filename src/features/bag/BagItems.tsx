@@ -1,16 +1,15 @@
 "use client";
 
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import BagItem from "./BagItem";
 
 import CommerceEmpty from "@/src/features/commerce/CommerceEmpty";
 import CommerceNotification from "@/src/features/commerce/CommerceNotification";
 
-import { useBagStore } from "@/src/lib/stores/useBagStore";
+import {
+  useBagStore,
+} from "@/src/lib/stores/useBagStore";
 
 import {
   getProduct,
@@ -32,44 +31,70 @@ interface RemovedBagItem {
 }
 
 export default function BagItems() {
-  const items = useBagStore(
-    (state) => state.items
-  );
+  const items =
+    useBagStore(
+      (state) =>
+        state.items
+    );
 
-  const restoreToBag = useBagStore(
-    (state) => state.restoreToBag
-  );
+  const restoreToBag =
+    useBagStore(
+      (state) =>
+        state.restoreToBag
+    );
 
-  const removeFromBag = useBagStore(
-    (state) => state.removeFromBag
-  );
+  const removeFromBag =
+    useBagStore(
+      (state) =>
+        state.removeFromBag
+    );
 
-  const inventoryItems = useInventoryStore(
-    (state) => state.inventory
-  );
+  const inventoryItems =
+    useInventoryStore(
+      (state) =>
+        state.inventory
+    );
 
-  const updateQuantity = useBagStore(
-    (state) => state.updateQuantity
-  );
+  const updateQuantity =
+    useBagStore(
+      (state) =>
+        state.updateQuantity
+    );
+
+  const inventoryNotice =
+    useBagStore(
+      (state) =>
+        state.inventoryNotice
+    );
+
+  const clearInventoryNotice =
+    useBagStore(
+      (state) =>
+        state.clearInventoryNotice
+    );
 
   const [
     removedItem,
     setRemovedItem,
-  ] = useState<RemovedBagItem | null>(
-    null
-  );
+  ] =
+    useState<RemovedBagItem | null>(
+      null
+    );
 
   useEffect(() => {
     if (!removedItem) {
       return;
     }
 
-    const timer = window.setTimeout(() => {
-      setRemovedItem(null);
-    }, 5000);
+    const timer =
+      window.setTimeout(() => {
+        setRemovedItem(null);
+      }, 5000);
 
     return () => {
-      window.clearTimeout(timer);
+      window.clearTimeout(
+        timer
+      );
     };
   }, [removedItem]);
 
@@ -101,8 +126,10 @@ export default function BagItems() {
       {
         productSlug:
           removedItem.productSlug,
+
         size:
           removedItem.size,
+
         quantity:
           removedItem.quantity,
       },
@@ -126,17 +153,29 @@ export default function BagItems() {
     const sizeInventory =
       productInventory?.sizes.find(
         (item) =>
-          item.size === size
+          item.size ===
+          size
       );
 
-    return sizeInventory?.stock ?? 0;
+    return (
+      sizeInventory?.stock ??
+      0
+    );
   }
 
-  const removedProduct = removedItem
-    ? getProduct(
-        removedItem.productSlug
-      )
-    : null;
+  const removedProduct =
+    removedItem
+      ? getProduct(
+          removedItem.productSlug
+        )
+      : null;
+
+  const inventoryNoticeProduct =
+    inventoryNotice
+      ? getProduct(
+          inventoryNotice.productSlug
+        )
+      : null;
 
   return (
     <>
@@ -156,7 +195,10 @@ export default function BagItems() {
       ) : (
         <div>
           {items.map(
-            (item, index) => {
+            (
+              item,
+              index
+            ) => {
               const product =
                 getProduct(
                   item.productSlug
@@ -178,9 +220,7 @@ export default function BagItems() {
 
               return (
                 <BagItem
-                  key={
-                    `${item.productSlug}-${item.size}`
-                  }
+                  key={`${item.productSlug}-${item.size}`}
                   image={
                     product.bagImage
                   }
@@ -203,30 +243,38 @@ export default function BagItems() {
                     product.priceValue
                   }
                   onIncrease={() => {
-  const nextQuantity =
-    item.quantity + 1;
+                    const nextQuantity =
+                      item.quantity +
+                      1;
 
-  if (
-    !canAcquireQuantity(
-      item.productSlug,
-      item.size,
-      nextQuantity
-    )
-  ) {
-    return;
-  }
+                    if (
+                      !canIncrease
+                    ) {
+                      return;
+                    }
 
-  updateQuantity(
-    item.productSlug,
-    item.size,
-    nextQuantity
-  );
-}}
+                    if (
+                      !canAcquireQuantity(
+                        item.productSlug,
+                        item.size,
+                        nextQuantity
+                      )
+                    ) {
+                      return;
+                    }
+
+                    updateQuantity(
+                      item.productSlug,
+                      item.size,
+                      nextQuantity
+                    );
+                  }}
                   onDecrease={() =>
                     updateQuantity(
                       item.productSlug,
                       item.size,
-                      item.quantity - 1
+                      item.quantity -
+                        1
                     )
                   }
                   onRemove={() =>
@@ -244,6 +292,47 @@ export default function BagItems() {
         </div>
       )}
 
+      {inventoryNoticeProduct &&
+        inventoryNotice && (
+          <CommerceNotification
+            open
+            image={
+              inventoryNoticeProduct.bagImage
+            }
+            eyebrow="Selection Updated"
+            title={
+              inventoryNoticeProduct.name
+            }
+            subtitle={
+              Size ${inventoryNotice.size}
+            }
+            message={
+              inventoryNotice.reason ===
+              "unavailable"
+                ? "This piece was removed from your selection because it is no longer available in the requested quantity."
+                : `Only ${inventoryNotice.currentQuantity} ${
+                    inventoryNotice.currentQuantity ===
+                    1
+                      ? "piece"
+                      : "pieces"
+                  } ${
+                    inventoryNotice.size
+                  } ${
+                    inventoryNoticeProduct.name
+                  } ${
+                    inventoryNotice.currentQuantity ===
+                    1
+                      ? "remain"
+                      : "remain"
+                  }. Your selection has been updated.`
+            }
+            actionLabel="Understood"
+            onAction={
+              clearInventoryNotice
+            }
+          />
+        )}
+
       {removedProduct && (
         <CommerceNotification
           open
@@ -255,7 +344,7 @@ export default function BagItems() {
             removedProduct.name
           }
           subtitle={
-            `Size ${removedItem?.size}`
+            Size ${removedItem?.size}
           }
           message="
             This piece has been removed
