@@ -304,7 +304,7 @@ export default function BagItems() {
               inventoryNoticeProduct.name
             }
             subtitle={
-              Size ${inventoryNotice.size}
+              `Size ${inventoryNotice.size}`
             }
             message={
               inventoryNotice.reason ===
@@ -344,7 +344,7 @@ export default function BagItems() {
             removedProduct.name
           }
           subtitle={
-            Size ${removedItem?.size}
+            `Size ${removedItem?.size}`
           }
           message="
             This piece has been removed
