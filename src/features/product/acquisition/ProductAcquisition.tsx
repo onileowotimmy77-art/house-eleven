@@ -385,7 +385,7 @@ export default function ProductAcquisition({
       ? {
           eyebrow: "House Eleven",
           title: product.name,
-          subtitle: Size ${selectedSize} • ${product.price},
+          subtitle: `Size ${selectedSize} • ${product.price}`,
           message:
             "This piece has entered your Residence.",
           ctaLabel: "View Bag",
@@ -397,7 +397,7 @@ export default function ProductAcquisition({
           eyebrow:
             "Already Selected",
           title: product.name,
-          subtitle: Size ${selectedSize},
+          subtitle: `Size ${selectedSize}`,
           message:
             "This piece is already in your selection. Visit your Bag to increase the quantity if you would like another.",
           ctaLabel: "Go to Bag",
