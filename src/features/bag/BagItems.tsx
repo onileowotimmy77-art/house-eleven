@@ -327,9 +327,8 @@ export default function BagItems() {
                   }. Your selection has been updated.`
             }
             actionLabel="Understood"
-            onAction={
-              clearInventoryNotice
-            }
+            onAction={clearInventoryNotice}
+            
           />
         )}
 
