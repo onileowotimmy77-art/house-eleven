@@ -328,7 +328,7 @@ export default function BagItems() {
             }
             actionLabel="Understood"
             onAction={clearInventoryNotice}
-            
+            onDismiss={clearInventoryNotice}
           />
         )}
 
