@@ -353,6 +353,9 @@ export default function BagItems() {
           onAction={
             handleUndoRemove
           }
+          onDismiss={() =>
+            setRemovedItem(null)
+          }
         />
       )}
     </>
