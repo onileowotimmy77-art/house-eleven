@@ -385,7 +385,7 @@ export default function ProductAcquisition({
       ? {
           eyebrow: "House Eleven",
           title: product.name,
-          subtitle: Size ${selectedSize} • ${product.price},
+          subtitle: `Size ${selectedSize} • ${product.price}`,
           message:
             "This piece has entered your Residence.",
           ctaLabel: "View Bag",
