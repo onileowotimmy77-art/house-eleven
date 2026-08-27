@@ -452,7 +452,7 @@ export default function ProductAcquisition({
           title: product.name,
           subtitle:
             selectedSize
-              ? Size ${selectedSize}
+              ? `Size ${selectedSize}`
               : product.collection,
           message:
             "This size is no longer available in the requested quantity. Please review the current availability.",
