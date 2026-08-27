@@ -710,3 +710,149 @@ export default function ProductAcquisition({
                         border
                         px-10
                         py-4
+                        font-mono
+                        text-xs
+                        uppercase
+                        tracking-[0.45em]
+                        transition-all
+                        duration-300
+
+                        ${
+                          isDisabled
+                            ? "cursor-not-allowed border-white/5 text-white/20"
+                            : isSelected
+                            ? "border-white bg-white text-black"
+                            : "border-white/10 text-white/70 hover:border-white/40 hover:text-white"
+                        }
+                      `}
+                    >
+                      {size}
+                    </button>
+                  );
+                }
+              )}
+            </div>
+
+            <button
+              type="button"
+              disabled={
+                inventoryStatus ===
+                  "coming-soon" ||
+                inventoryStatus ===
+                  "sold-out"
+                  ? false
+                  : !canAcquire
+              }
+              onClick={
+                inventoryStatus ===
+                "coming-soon"
+                  ? handleEarlyAccessRequest
+                  : inventoryStatus ===
+                  "sold-out"
+                  ? handleRestockRequest
+                  : handleAcquire
+              }
+              className={`
+                mt-20
+                inline-flex
+                items-center
+                gap-4
+                border-b
+                pb-3
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.45em]
+                transition-all
+                duration-300
+
+                ${
+                  canAcquire
+                    ? "border-white/20 text-white/80 hover:gap-6 hover:border-white/60 hover:text-white"
+                    : "cursor-not-allowed border-white/10 text-white/25"
+                }
+              `}
+            >
+              {inventoryStatus ===
+              "coming-soon"
+                ? hasRequestedEarlyAccess
+                  ? "Early Access Requested"
+                  : "Request Early Access"
+                : inventoryStatus ===
+                  "sold-out"
+                ? hasRequestedRestock
+                  ? "Restock Requested"
+                  : "Notify Me"
+                : selectedSize
+                ? "Acquire Piece"
+                : "Select Size"}
+
+              {(inventoryStatus ===
+                "available" ||
+                inventoryStatus ===
+                  "low-stock") &&
+                selectedSize && (
+                  <span aria-hidden>
+                    →
+                  </span>
+                )}
+            </button>
+
+            <button
+              type="button"
+              onClick={
+                handleSavePiece
+              }
+              className="
+                mt-8
+                block
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[0.45em]
+                text-white/40
+                transition-colors
+                duration-300
+                hover:text-white/70
+              "
+            >
+              {isSaved
+                ? "Saved ✓"
+                : "Save Piece"}
+            </button>
+          </div>
+        </Container>
+      </Section>
+
+      {notificationConfig && (
+        <CommerceNotification
+          open
+          image={
+            product.bagImage
+          }
+          eyebrow={
+            notificationConfig.eyebrow
+          }
+          title={
+            notificationConfig.title
+          }
+          subtitle={
+            notificationConfig.subtitle
+          }
+          message={
+            notificationConfig.message
+          }
+          ctaLabel={
+            notificationConfig.ctaLabel
+          }
+          ctaHref={
+            notificationConfig.ctaHref
+          }
+          onDismiss={() =>
+            setNotification(null)
+          }
+        />
+      )}
+    </>
+  );
+}
