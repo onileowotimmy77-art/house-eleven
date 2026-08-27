@@ -204,4 +204,108 @@ export default function CommerceNotification({
                 </p>
 
                 <h3
-                
+                className="
+                    mt-4
+                    text-2xl
+                    font-semibold
+                    tracking-[-0.04em]
+                  "
+                >
+                  {title}
+                </h3>
+
+                <p
+                  className="
+                    mt-2
+                    text-sm
+                    text-white/50
+                  "
+                >
+                  {subtitle}
+                </p>
+
+                <p
+                  className="
+                    mt-6
+                    leading-relaxed
+                    text-white/75
+                  "
+                >
+                  {message}
+                </p>
+
+                {((ctaLabel &&
+                  ctaHref) ||
+                  (actionLabel &&
+                    onAction)) && (
+                  <div
+                    className="
+                      mt-8
+                      flex
+                      flex-wrap
+                      items-center
+                      gap-8
+                    "
+                  >
+                    {ctaLabel &&
+                      ctaHref && (
+                        <Link
+                          href={ctaHref}
+                          className="
+                            inline-flex
+                            items-center
+                            gap-3
+                            border-b
+                            border-white/15
+                            pb-2
+                            font-mono
+                            text-[11px]
+                            uppercase
+                            tracking-[0.35em]
+                            text-white/75
+                            transition-all
+                            duration-300
+                            hover:gap-5
+                            hover:border-white/50
+                            hover:text-white
+                          "
+                        >
+                          {ctaLabel}
+
+                          <span
+                            aria-hidden
+                          >
+                            →
+                          </span>
+                        </Link>
+                      )}
+
+                    {actionLabel &&
+                      onAction && (
+                        <button
+                          type="button"
+                          onClick={onAction}
+                          className="
+                            font-mono
+                            text-[11px]
+                            uppercase
+                            tracking-[0.35em]
+                            text-white/40
+                            transition-colors
+                            duration-300
+                            hover:text-white
+                          "
+                        >
+                          {actionLabel}
+                        </button>
+                      )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
