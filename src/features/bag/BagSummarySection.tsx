@@ -54,12 +54,20 @@ export default function BagSummarySection({
 
           <div className="lg:sticky lg:top-32">
             <CommerceSummary
-              subtotal={subtotal}
-              shipping={shipping}
-              total={total}
-              cta="Proceed to Checkout"
-              href="/checkout"
-            />
+  subtotal={subtotal}
+  shipping={shipping}
+  total={total}
+  cta={
+    items.length > 0
+      ? "Proceed to Checkout"
+      : "Explore Collections"
+  }
+  href={
+    items.length > 0
+      ? "/checkout"
+      : "/collections"
+  }
+/>
           </div>
         </div>
       </Container>
