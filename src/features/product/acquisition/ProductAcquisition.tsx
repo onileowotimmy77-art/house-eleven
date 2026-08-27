@@ -33,7 +33,8 @@ type CommerceNotificationType =
   | "removed"
   | "restock"
   | "early-access"
-  | "unavailable";
+  | "unavailable"
+  | "already-in-bag";
 
 export default function ProductAcquisition({
   product,
@@ -41,6 +42,10 @@ export default function ProductAcquisition({
 }: ProductAcquisitionProps) {
   const addToBag = useBagStore(
     (state) => state.addToBag
+  );
+
+  const bagItems = useBagStore(
+    (state) => state.items
   );
 
   const requestRestock = useRestockStore(
@@ -81,9 +86,9 @@ export default function ProductAcquisition({
       state.isSaved(product.slug)
   );
 
-  const hydrateInventory = 
+  const hydrateInventory =
     useInventoryStore(
-      (state) => 
+      (state) =>
         state.hydrateInventory
     );
 
@@ -104,6 +109,7 @@ export default function ProductAcquisition({
           product.slug
       )
     );
+
   useEffect(() => {
     void hydrateInventory();
   }, [hydrateInventory]);
@@ -190,7 +196,7 @@ export default function ProductAcquisition({
   }, [
     selectedSize,
     sizes,
-  ]);
+    ]);
 
   const availability = useMemo(() => {
     switch (inventoryStatus) {
@@ -203,7 +209,7 @@ export default function ProductAcquisition({
       case "low-stock":
         return {
           label:
-          "Only a few pieces remain.",
+            "Only a few pieces remain.",
           className: "text-white/70",
         };
 
@@ -274,6 +280,35 @@ export default function ProductAcquisition({
     }
 
     /*
+     * Prevent the exact same product and
+     * size from being acquired more than once
+     * from the Product page.
+     *
+     * The Bag is intentionally responsible for
+     * quantity changes. Once this exact
+     * product/size combination exists in the
+     * Bag, the customer should go there to
+     * increase the quantity rather than creating
+     * another acquisition from the Product page.
+     */
+    const alreadyInBag =
+      bagItems.some(
+        (item) =>
+          item.productSlug ===
+            product.slug &&
+          item.size ===
+            selectedSize
+      );
+
+    if (alreadyInBag) {
+      setNotification(
+        "already-in-bag"
+      );
+
+      return;
+    }
+
+    /*
      * Read the current live inventory at the
      * exact moment of acquisition.
      *
@@ -327,8 +362,10 @@ export default function ProductAcquisition({
       addToBag({
         productSlug:
           product.slug,
+
         size:
           selectedSize,
+
         quantity: 1,
       });
 
@@ -348,10 +385,22 @@ export default function ProductAcquisition({
       ? {
           eyebrow: "House Eleven",
           title: product.name,
-          subtitle: `Size ${selectedSize} • ${product.price}`,
+          subtitle: Size ${selectedSize} • ${product.price},
           message:
             "This piece has entered your Residence.",
           ctaLabel: "View Bag",
+          ctaHref: "/bag",
+        }
+      : notification ===
+        "already-in-bag"
+      ? {
+          eyebrow:
+            "Already Selected",
+          title: product.name,
+          subtitle: Size ${selectedSize},
+          message:
+            "This piece is already in your selection. Visit your Bag to increase the quantity if you would like another.",
+          ctaLabel: "Go to Bag",
           ctaHref: "/bag",
         }
       : notification === "saved"
@@ -403,7 +452,7 @@ export default function ProductAcquisition({
           title: product.name,
           subtitle:
             selectedSize
-            ? `Size ${selectedSize}`
+              ? Size ${selectedSize}
               : product.collection,
           message:
             "This size is no longer available in the requested quantity. Please review the current availability.",
@@ -463,149 +512,151 @@ export default function ProductAcquisition({
             >
               {availability.label}
             </p>
-<div
-  className="
-    mt-8
-    border
-    border-white/10
-    bg-white/[0.02]
-    px-5
-    py-4
-  "
->
-  <div
-    className="
-      flex
-      items-center
-      justify-between
-      gap-6
-    "
-  >
-    <span
-      className="
-        font-mono
-        text-[9px]
-        uppercase
-        tracking-[0.35em]
-        text-white/35
-      "
-    >
-      Live Inventory
-    </span>
 
-    <span
-      className="
-        font-mono
-        text-[9px]
-        uppercase
-        tracking-[0.25em]
-        text-white/35
-      "
-    >
-      Synchronized
-    </span>
-  </div>
+            <div
+              className="
+                mt-8
+                border
+                border-white/10
+                bg-white/[0.02]
+                px-5
+                py-4
+              "
+            >
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-between
+                  gap-6
+                "
+              >
+                <span
+                  className="
+                    font-mono
+                    text-[9px]
+                    uppercase
+                    tracking-[0.35em]
+                    text-white/35
+                  "
+                >
+                  Live Inventory
+                </span>
 
-  <div
-    className="
-      mt-5
-      grid
-      grid-cols-2
-      gap-x-8
-      gap-y-3
-      sm:grid-cols-4
-    "
-  >
-    {sizes.map(
-      ({
-        size,
-        stock,
-      }) => (
-        <div
-          key={`live-stock-${size}`}
-          className="
-            flex
-            items-center
-            justify-between
-            border-b
-            border-white/5
-            pb-2
-          "
-        >
-          <span
-            className="
-              font-mono
-              text-[10px]
-              uppercase
-              tracking-[0.3em]
-              text-white/45
-            "
-          >
-            {size}
-          </span>
+                <span
+                  className="
+                    font-mono
+                    text-[9px]
+                    uppercase
+                    tracking-[0.25em]
+                    text-white/35
+                  "
+                >
+                  Synchronized
+                </span>
+              </div>
 
-          <span
-            className={`
-              font-mono
-              text-[10px]
-              tracking-[0.2em]
-              ${
-                stock > 0
-                  ? "text-white/70"
-                  : "text-white/20"
-              }
-            `}
-          >
-            {stock}
-          </span>
-        </div>
-      )
-    )}
-  </div>
+              <div
+                className="
+                  mt-5
+                  grid
+                  grid-cols-2
+                  gap-x-8
+                  gap-y-3
+                  sm:grid-cols-4
+                  "
+              >
+                {sizes.map(
+                  ({
+                    size,
+                    stock,
+                  }) => (
+                    <div
+                      key={`live-stock-${size}`}
+                      className="
+                        flex
+                        items-center
+                        justify-between
+                        border-b
+                        border-white/5
+                        pb-2
+                      "
+                    >
+                      <span
+                        className="
+                          font-mono
+                          text-[10px]
+                          uppercase
+                          tracking-[0.3em]
+                          text-white/45
+                        "
+                      >
+                        {size}
+                      </span>
 
-  {selectedSize && (
-    <div
-      className="
-        mt-5
-        border-t
-        border-white/5
-        pt-4
-      "
-    >
-      <p
-        className="
-          font-mono
-          text-[9px]
-          uppercase
-          tracking-[0.3em]
-          text-white/30
-        "
-      >
-        Selected Size
-      </p>
+                      <span
+                        className={`
+                          font-mono
+                          text-[10px]
+                          tracking-[0.2em]
+                          ${
+                            stock > 0
+                              ? "text-white/70"
+                              : "text-white/20"
+                          }
+                        `}
+                      >
+                        {stock}
+                      </span>
+                    </div>
+                  )
+                )}
+              </div>
 
-      <p
-        className="
-          mt-2
-          font-mono
-          text-[11px]
-          uppercase
-          tracking-[0.3em]
-          text-white/65
-        "
-      >
-        {selectedSize}
-        {" · "}
-        {sizes.find(
-          (item) =>
-            item.size ===
-            selectedSize
-        )?.stock ?? 0}
-        {" Remaining"}
-      </p>
-    </div>
-  )}
-</div>
+              {selectedSize && (
+                <div
+                  className="
+                    mt-5
+                    border-t
+                    border-white/5
+                    pt-4
+                  "
+                >
+                  <p
+                    className="
+                      font-mono
+                      text-[9px]
+                      uppercase
+                      tracking-[0.3em]
+                      text-white/30
+                    "
+                  >
+                    Selected Size
+                  </p>
+
+                  <p
+                    className="
+                      mt-2
+                      font-mono
+                      text-[11px]
+                      uppercase
+                      tracking-[0.3em]
+                      text-white/65
+                    "
+                  >
+                    {selectedSize}
+                    {" · "}
+                    {sizes.find(
+                      (item) =>
+                        item.size ===
+                        selectedSize
+                    )?.stock ?? 0}
+                    {" Remaining"}
+                  </p>
+                </div>
+              )}
+            </div>
+
             <p
               className="
                 my-6
@@ -659,149 +710,3 @@ export default function ProductAcquisition({
                         border
                         px-10
                         py-4
-                        font-mono
-                        text-xs
-                        uppercase
-                        tracking-[0.45em]
-                        transition-all
-                        duration-300
-
-                        ${
-                          isDisabled
-                            ? "cursor-not-allowed border-white/5 text-white/20"
-                            : isSelected
-                            ? "border-white bg-white text-black"
-                            : "border-white/10 text-white/70 hover:border-white/40 hover:text-white"
-                        }
-                      `}
-                    >
-                      {size}
-                    </button>
-                  );
-                }
-              )}
-            </div>
-
-            <button
-              type="button"
-              disabled={
-                inventoryStatus ===
-                  "coming-soon" ||
-                inventoryStatus ===
-                  "sold-out"
-                  ? false
-                  : !canAcquire
-              }
-              onClick={
-                inventoryStatus ===
-                "coming-soon"
-                  ? handleEarlyAccessRequest
-                  : inventoryStatus ===
-                  "sold-out"
-                  ? handleRestockRequest
-                  : handleAcquire
-              }
-              className={`
-                mt-20
-                inline-flex
-                items-center
-                gap-4
-                border-b
-                pb-3
-                font-mono
-                text-[11px]
-                uppercase
-                tracking-[0.45em]
-                transition-all
-                duration-300
-
-                ${
-                  canAcquire
-                    ? "border-white/20 text-white/80 hover:gap-6 hover:border-white/60 hover:text-white"
-                    : "cursor-not-allowed border-white/10 text-white/25"
-                }
-              `}
-            >
-              {inventoryStatus ===
-              "coming-soon"
-                ? hasRequestedEarlyAccess
-                  ? "Early Access Requested"
-                  : "Request Early Access"
-                : inventoryStatus ===
-                  "sold-out"
-                ? hasRequestedRestock
-                  ? "Restock Requested"
-                  : "Notify Me"
-                : selectedSize
-                ? "Acquire Piece"
-                : "Select Size"}
-
-              {(inventoryStatus ===
-                "available" ||
-                inventoryStatus ===
-                  "low-stock") &&
-                selectedSize && (
-                  <span aria-hidden>
-                    →
-                  </span>
-                )}
-            </button>
-
-            <button
-              type="button"
-              onClick={
-                handleSavePiece
-              }
-              className="
-                mt-8
-                block
-                font-mono
-                text-[11px]
-                uppercase
-                tracking-[0.45em]
-                text-white/40
-                transition-colors
-                duration-300
-                hover:text-white/70
-              "
-            >
-              {isSaved
-                ? "Saved ✓"
-                : "Save Piece"}
-            </button>
-          </div>
-        </Container>
-      </Section>
-
-      {notificationConfig && (
-        <CommerceNotification
-          open
-          image={
-            product.bagImage
-          }
-          eyebrow={
-            notificationConfig.eyebrow
-          }
-          title={
-            notificationConfig.title
-          }
-          subtitle={
-            notificationConfig.subtitle
-          }
-          message={
-            notificationConfig.message
-          }
-          ctaLabel={
-            notificationConfig.ctaLabel
-          }
-          ctaHref={
-            notificationConfig.ctaHref
-          }
-          onDismiss={() =>
-            setNotification(null)
-          }
-        />
-      )}
-    </>
-  );
-}
