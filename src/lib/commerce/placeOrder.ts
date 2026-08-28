@@ -284,6 +284,8 @@ export async function placeOrder(
       const bag =
         useBagStore.getState();
 
+        
+
       if (
         bag.items.length === 0
       ) {
