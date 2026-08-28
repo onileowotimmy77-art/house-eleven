@@ -228,21 +228,7 @@ export async function placeOrder(
     return null;
   }
 
-  /*
-   * Calculate the authoritative
-   * order total from product data.
-   */
-  const subtotal =
-    products.reduce(
-      (
-        total,
-        { item, product }
-      ) =>
-        total +
-        product!.priceValue *
-          item.quantity,
-      0
-    );
+  
 
   /*
    * Resolve the UI payment method
