@@ -228,8 +228,6 @@ export async function placeOrder(
     return null;
   }
 
-  
-
   /*
    * Resolve the UI payment method
    * into the value stored by the order.
