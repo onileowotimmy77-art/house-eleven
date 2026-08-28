@@ -208,6 +208,7 @@ export default function BagItems() {
               removedItem.quantity,
           },
           removedItem.index
+          mergedInventory
         );
 
     if (!restored) {
