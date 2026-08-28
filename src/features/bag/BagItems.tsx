@@ -371,7 +371,36 @@ export default function BagItems() {
         />
       )}
 
-      
+      {undoUnavailable && removedProduct && (
+  <CommerceNotification
+    open
+    image={
+      removedProduct.bagImage
+    }
+    eyebrow="Selection Updated"
+    title={
+      removedProduct.name
+    }
+    subtitle={
+      Size ${removedItem?.size}
+    }
+    message="
+      This piece is no longer
+      available in the requested
+      quantity, so it could not be
+      restored to your selection.
+    "
+    actionLabel="Understood"
+    onAction={() => {
+      setUndoUnavailable(false);
+      setRemovedItem(null);
+    }}
+    onDismiss={() => {
+      setUndoUnavailable(false);
+      setRemovedItem(null);
+    }}
+  />
+)}
     </>
   );
 }
