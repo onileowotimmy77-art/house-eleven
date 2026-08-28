@@ -135,9 +135,36 @@ export const useBagStore =
 
 restoreToBag: (
   item,
-  index
+  index,
+  inventory
 ) => {
   const state = get();
+
+  const productInventory =
+    inventory.find(
+      (product) =>
+        product.productSlug ===
+        item.productSlug
+    );
+
+  const sizeInventory =
+    productInventory?.sizes.find(
+      (size) =>
+        size.size === item.size
+    );
+
+  /*
+   * Undo is only allowed when the
+   * exact product and size currently
+   * have enough live stock to restore
+   * the requested quantity.
+   */
+  if (
+    !sizeInventory ||
+    sizeInventory.stock < item.quantity
+  ) {
+    return false;
+  }
 
   const existingIndex =
     state.items.findIndex(
@@ -148,46 +175,49 @@ restoreToBag: (
           item.size
     );
 
-  const nextQuantity =
-    existingIndex !== -1
-      ? state.items[existingIndex].quantity +
-        item.quantity
-      : item.quantity;
-
   /*
-   * Validate the restoration against
-   * the current synchronized inventory.
+   * If the same product/size has
+   * already been added back to the Bag,
+   * restore the requested quantity onto
+   * that existing line.
    */
-  if (
-    !canAcquireQuantity(
-      item.productSlug,
-      item.size,
-      nextQuantity
-    )
-  ) {
-    return false;
-  }
-
   if (existingIndex !== -1) {
+    const existingItem =
+      state.items[existingIndex];
+
+    const nextQuantity =
+      existingItem.quantity +
+      item.quantity;
+
+    if (
+      nextQuantity >
+      sizeInventory.stock
+    ) {
+      return false;
+    }
+
     set({
-      items: state.items.map(
-        (bagItem) =>
-          bagItem.productSlug ===
-            item.productSlug &&
-          bagItem.size ===
-            item.size
-            ? {
-                ...bagItem,
-                quantity:
-                  nextQuantity,
-              }
-            : bagItem
-      ),
+      items:
+        state.items.map(
+          (bagItem, currentIndex) =>
+            currentIndex ===
+            existingIndex
+              ? {
+                  ...bagItem,
+                  quantity:
+                    nextQuantity,
+                }
+              : bagItem
+        ),
     });
 
     return true;
   }
 
+  /*
+   * Reinsert the removed piece at
+   * its original position.
+   */
   const restoredItems = [
     ...state.items,
   ];
