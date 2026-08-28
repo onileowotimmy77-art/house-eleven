@@ -117,11 +117,12 @@ export default function BagItems() {
     });
   }
 
-  function handleUndoRemove() {
-    if (!removedItem) {
-      return;
-    }
+ function handleUndoRemove() {
+  if (!removedItem) {
+    return;
+  }
 
+  const restored =
     restoreToBag(
       {
         productSlug:
@@ -136,8 +137,12 @@ export default function BagItems() {
       removedItem.index
     );
 
-    setRemovedItem(null);
+  if (!restored) {
+    return;
   }
+
+  setRemovedItem(null);
+}
 
   function getAvailableStock(
     productSlug: string,
