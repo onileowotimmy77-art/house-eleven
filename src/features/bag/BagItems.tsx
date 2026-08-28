@@ -23,6 +23,10 @@ import {
   useInventoryStore,
 } from "@/src/lib/stores/useInventoryStore";
 
+import { 
+  getLiveInventory,
+} from "@/src/lib/supabase/inventory";
+
 interface RemovedBagItem {
   productSlug: string;
   size: string;
