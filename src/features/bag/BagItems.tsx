@@ -94,12 +94,13 @@ export default function BagItems() {
     const [
   undoUnavailable,
   setUndoUnavailable,
-] =
-  useState(false);
+] = useState(false);
 
-  
+useEffect(() => {
+  hydrateInventory();
+}, [hydrateInventory]);
 
-  useEffect(() => {
+useEffect(() => {
     if (!removedItem) {
       return;
     }
