@@ -109,23 +109,34 @@ export default function BagItems() {
   }, [removedItem]);
 
   function handleRemove(
-    productSlug: string,
-    size: string,
-    quantity: number,
-    index: number
-  ) {
-    removeFromBag(
-      productSlug,
-      size
-    );
+  productSlug: string,
+  size: string,
+  quantity: number,
+  index: number
+) {
+  /*
+   * A new removal starts a completely
+   * new Undo interaction.
+   *
+   * Clear any previous failed-Undo state
+   * so an old "Selection Updated"
+   * notification cannot leak into this
+   * new removal.
+   */
+  setUndoUnavailable(false);
 
-    setRemovedItem({
-      productSlug,
-      size,
-      quantity,
-      index,
-    });
-  }
+  removeFromBag(
+    productSlug,
+    size
+  );
+
+  setRemovedItem({
+    productSlug,
+    size,
+    quantity,
+    index,
+  });
+}
 
  async function handleUndoRemove() {
   if (!removedItem) {
