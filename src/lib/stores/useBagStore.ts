@@ -38,7 +38,8 @@ interface BagStore {
 
   restoreToBag: (
     item: BagItem,
-    index: number
+    index: number,
+    inventory: ProductInventory[]
   ) => boolean;
 
   removeFromBag: (
