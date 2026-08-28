@@ -133,82 +133,90 @@ export const useBagStore =
           return true;
         },
 
-        restoreToBag: (
-          item,
-          index
-        ) =>
-          set((state) => {
-            const existingIndex =
-              state.items.findIndex(
-                (bagItem) =>
-                  bagItem.productSlug ===
-                    item.productSlug &&
-                  bagItem.size ===
-                    item.size
-              );
+restoreToBag: (
+  item,
+  index
+) => {
+  let restored = false;
 
-            const nextQuantity =
-              existingIndex !== -1
-                ? state.items[
-                    existingIndex
-                  ].quantity +
-                  item.quantity
-                : item.quantity;
+  set((state) => {
+    const existingIndex =
+      state.items.findIndex(
+        (bagItem) =>
+          bagItem.productSlug ===
+            item.productSlug &&
+          bagItem.size ===
+            item.size
+      );
 
-            if (
-              !canAcquireQuantity(
-                item.productSlug,
-                item.size,
-                nextQuantity
-              )
-            ) {
-              return state;
-            }
+    const nextQuantity =
+      existingIndex !== -1
+        ? state.items[
+            existingIndex
+          ].quantity +
+          item.quantity
+        : item.quantity;
 
-            if (
-              existingIndex !== -1
-            ) {
-              return {
-                items:
-                  state.items.map(
-                    (bagItem) =>
-                      bagItem.productSlug ===
-                        item.productSlug &&
-                      bagItem.size ===
-                        item.size
-                        ? {
-                            ...bagItem,
-                            quantity:
-                              nextQuantity,
-                          }
-                        : bagItem
-                  ),
-              };
-            }
-            const restoredItems = [
-              ...state.items,
-            ];
+    if (
+      !canAcquireQuantity(
+        item.productSlug,
+        item.size,
+        nextQuantity
+      )
+    ) {
+      return state;
+    }
 
-            const safeIndex =
-              Math.max(
-                0,
-                Math.min(
-                  index,
-                  restoredItems.length
-                )
-              );
+    restored = true;
 
-            restoredItems.splice(
-              safeIndex,
-              0,
-              item
-            );
+    if (
+      existingIndex !== -1
+    ) {
+      return {
+        items:
+          state.items.map(
+            (bagItem) =>
+              bagItem.productSlug ===
+                item.productSlug &&
+              bagItem.size ===
+                item.size
+                ? {
+                    ...bagItem,
+                    quantity:
+                      nextQuantity,
+                  }
+                : bagItem
+          ),
+      };
+    }
 
-            return {
-              items:
-                restoredItems,
-            };
-          }),
+    const restoredItems = [
+      ...state.items,
+    ];
+
+    const safeIndex =
+      Math.max(
+        0,
+        Math.min(
+          index,
+          restoredItems.length
+        )
+      );
+
+    restoredItems.splice(
+      safeIndex,
+      0,
+      item
+    );
+
+    return {
+      items:
+        restoredItems,
+    };
+  });
+
+  return restored;
+},
 
         removeFromBag: (
           productSlug,
