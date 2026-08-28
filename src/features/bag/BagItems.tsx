@@ -81,7 +81,11 @@ export default function BagItems() {
       null
     );
 
-    
+    const [
+  undoUnavailable,
+  setUndoUnavailable,
+] =
+  useState(false);
 
   useEffect(() => {
     if (!removedItem) {
