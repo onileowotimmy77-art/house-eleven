@@ -59,6 +59,12 @@ export default function BagItems() {
         state.inventory
     );
 
+    const hydrateInventory =
+  useInventoryStore(
+    (state) =>
+      state.hydrateInventory
+  );
+
   const updateQuantity =
     useBagStore(
       (state) =>
