@@ -97,6 +97,8 @@ export default function BagItems() {
 ] =
   useState(false);
 
+  
+
   useEffect(() => {
     if (!removedItem) {
       return;
