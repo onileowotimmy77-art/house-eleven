@@ -2,7 +2,6 @@
 
 import {
   useEffect,
-  useState,
 } from "react";
 
 import {
@@ -44,30 +43,6 @@ export default function CommerceNotification({
   onAction,
   onDismiss,
 }: CommerceNotificationProps) {
-  const [isMounted, setIsMounted] =
-    useState(open);
-
-  useEffect(() => {
-    if (open) {
-      setIsMounted(true);
-    }
-  }, [open]);
-
-  useEffect(() => {
-    if (open) {
-      return;
-    }
-
-    const timer =
-      window.setTimeout(() => {
-        setIsMounted(false);
-      }, 600);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [open]);
-
   useEffect(() => {
     if (!open || !onDismiss) {
       return;
@@ -77,7 +52,7 @@ export default function CommerceNotification({
       event: KeyboardEvent
     ) {
       if (event.key === "Escape") {
-        onDismiss();
+        onDismiss?.();
       }
     }
 
@@ -96,7 +71,7 @@ export default function CommerceNotification({
 
   return (
     <AnimatePresence>
-      {isMounted && (
+      {open && (
         <>
           <motion.button
             type="button"
@@ -204,7 +179,7 @@ export default function CommerceNotification({
                 </p>
 
                 <h3
-                className="
+                  className="
                     mt-4
                     text-2xl
                     font-semibold
@@ -220,7 +195,7 @@ export default function CommerceNotification({
                     text-sm
                     text-white/50
                   "
-                >
+                  >
                   {subtitle}
                 </p>
 
