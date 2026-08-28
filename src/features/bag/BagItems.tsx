@@ -127,111 +127,30 @@ export default function BagItems() {
     });
   }
 
-async function handleUndoRemove() {
+ function handleUndoRemove() {
   if (!removedItem) {
     return;
   }
 
-  try {
-    /*
-     * Undo is an acquisition attempt.
-     *
-     * Refresh inventory directly from Supabase
-     * before restoring the removed piece so that
-     * the decision is based on current stock,
-     * not a potentially stale client snapshot.
-     */
-    const liveInventory =
-      await getLiveInventory();
+  const restored =
+    restoreToBag(
+      {
+        productSlug:
+          removedItem.productSlug,
 
-    const inventoryStore =
-      useInventoryStore.getState();
+        size:
+          removedItem.size,
 
-    /*
-     * Update the client inventory store so
-     * the Bag UI and the restoration decision
-     * use the same inventory state.
-     *
-     * Keep the existing product/size structure
-     * and replace only the live stock values.
-     */
-    const mergedInventory =
-      inventoryStore.inventory.map(
-        (product) => ({
-          ...product,
-
-          sizes:
-            product.sizes.map(
-              (size) => {
-                const liveRow =
-                  liveInventory.find(
-                    (row) =>
-                      row.product_slug ===
-                        product.productSlug &&
-                      row.size ===
-                        size.size
-                  );
-
-                return {
-                  ...size,
-                  stock:
-                    liveRow?.stock ?? 0,
-                };
-              }
-            ),
-        })
-      );
-
-    useInventoryStore.setState({
-      inventory:
-        mergedInventory,
-      hasLoaded: true,
-      isLoading: false,
-    });
-
-    /*
-     * restoreToBag() now validates against
-     * the freshly synchronized inventory.
-     */
-    const restored =
-      useBagStore
-        .getState()
-        .restoreToBag(
-          {
-            productSlug:
-              removedItem.productSlug,
-
-            size:
-              removedItem.size,
-
-            quantity:
-              removedItem.quantity,
-          },
-          removedItem.index
-        );
-
-    if (!restored) {
-      setUndoUnavailable(true);
-      return;
-    }
-
-    setRemovedItem(null);
-  } catch (error) {
-    /*
-     * If live inventory cannot be checked,
-     * do not restore the piece.
-     *
-     * We never want a failed inventory request
-     * to become an accidental acquisition.
-     */
-    console.error(
-      "House Eleven undo inventory check failed:",
-      error
+        quantity:
+          removedItem.quantity,
+      },
+      removedItem.index
     );
 
+  if (!restored) {
     setUndoUnavailable(true);
+    return;
   }
-}
 
   setRemovedItem(null);
 }

@@ -137,85 +137,82 @@ restoreToBag: (
   item,
   index
 ) => {
-  let restored = false;
+  const state = get();
 
-  set((state) => {
-    const existingIndex =
-      state.items.findIndex(
+  const existingIndex =
+    state.items.findIndex(
+      (bagItem) =>
+        bagItem.productSlug ===
+          item.productSlug &&
+        bagItem.size ===
+          item.size
+    );
+
+  const nextQuantity =
+    existingIndex !== -1
+      ? state.items[existingIndex].quantity +
+        item.quantity
+      : item.quantity;
+
+  /*
+   * Validate the restoration against
+   * the current synchronized inventory.
+   */
+  if (
+    !canAcquireQuantity(
+      item.productSlug,
+      item.size,
+      nextQuantity
+    )
+  ) {
+    return false;
+  }
+
+  if (existingIndex !== -1) {
+    set({
+      items: state.items.map(
         (bagItem) =>
           bagItem.productSlug ===
             item.productSlug &&
           bagItem.size ===
             item.size
-      );
+            ? {
+                ...bagItem,
+                quantity:
+                  nextQuantity,
+              }
+            : bagItem
+      ),
+    });
 
-    const nextQuantity =
-      existingIndex !== -1
-        ? state.items[
-            existingIndex
-          ].quantity +
-          item.quantity
-        : item.quantity;
+    return true;
+  }
 
-    if (
-      !canAcquireQuantity(
-        item.productSlug,
-        item.size,
-        nextQuantity
-      )
-    ) {
-      return state;
-    }
+  const restoredItems = [
+    ...state.items,
+  ];
 
-    restored = true;
-
-    if (
-      existingIndex !== -1
-    ) {
-      return {
-        items:
-          state.items.map(
-            (bagItem) =>
-              bagItem.productSlug ===
-                item.productSlug &&
-              bagItem.size ===
-                item.size
-                ? {
-                    ...bagItem,
-                    quantity:
-                      nextQuantity,
-                  }
-                : bagItem
-          ),
-      };
-    }
-
-    const restoredItems = [
-      ...state.items,
-    ];
-
-    const safeIndex =
-      Math.max(
-        0,
-        Math.min(
-          index,
-          restoredItems.length
-        )
-      );
-
-    restoredItems.splice(
-      safeIndex,
+  const safeIndex =
+    Math.max(
       0,
-      item
+      Math.min(
+        index,
+        restoredItems.length
+      )
     );
 
-    return {
-      items:
-        restoredItems,
-    };
+  restoredItems.splice(
+    safeIndex,
+    0,
+    item
+  );
+
+  set({
+    items:
+      restoredItems,
   });
 
-  return restored;
+  return true;
 },
 
         removeFromBag: (
