@@ -194,22 +194,22 @@ export default function BagItems() {
      * the freshly synchronized inventory.
      */
     const restored =
-      useBagStore
-        .getState()
-        .restoreToBag(
-          {
-            productSlug:
-              removedItem.productSlug,
+  useBagStore
+    .getState()
+    .restoreToBag(
+      {
+        productSlug:
+          removedItem.productSlug,
 
-            size:
-              removedItem.size,
+        size:
+          removedItem.size,
 
-            quantity:
-              removedItem.quantity,
-          },
-          removedItem.index
-          mergedInventory
-        );
+        quantity:
+          removedItem.quantity,
+      },
+      removedItem.index,
+      mergedInventory
+    );
 
     if (!restored) {
       setUndoUnavailable(true);
