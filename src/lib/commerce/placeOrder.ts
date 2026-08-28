@@ -284,7 +284,26 @@ export async function placeOrder(
       const bag =
         useBagStore.getState();
 
-        
+        const subtotal =
+  bag.items.reduce(
+    (total, item) => {
+      const product =
+        getProduct(
+          item.productSlug
+        );
+
+      if (!product) {
+        return total;
+      }
+
+      return (
+        total +
+        product.priceValue *
+          item.quantity
+      );
+    },
+    0
+  );
 
       if (
         bag.items.length === 0
