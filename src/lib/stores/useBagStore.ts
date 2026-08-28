@@ -39,7 +39,7 @@ interface BagStore {
   restoreToBag: (
     item: BagItem,
     index: number
-  ) => void;
+  ) => boolean;
 
   removeFromBag: (
     productSlug: string,
