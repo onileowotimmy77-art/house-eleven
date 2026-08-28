@@ -222,6 +222,12 @@ export const useInventoryStore =
                 ) {
                   const row =
                     payload.new as SupabaseInventoryRow;
+                    console.log(
+                      "House Eleven inventory Realtime update:",
+                      row.product_slug,
+                      row.size,
+                      row.stock
+                    );
 
                   set((state) => {
                     const productIndex =
