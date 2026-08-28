@@ -81,6 +81,8 @@ export default function BagItems() {
       null
     );
 
+    
+
   useEffect(() => {
     if (!removedItem) {
       return;
