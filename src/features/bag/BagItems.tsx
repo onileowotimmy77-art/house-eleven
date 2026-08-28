@@ -227,6 +227,7 @@ export default function BagItems() {
       return;
     }
 
+    setUndoUnavailable(false);
     setRemovedItem(null);
   } catch (error) {
     /*
