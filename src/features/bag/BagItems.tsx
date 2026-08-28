@@ -144,6 +144,7 @@ export default function BagItems() {
     );
 
   if (!restored) {
+    setUndoUnavailable(true);
     return;
   }
 
