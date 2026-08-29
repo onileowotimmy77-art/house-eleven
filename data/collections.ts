@@ -37,7 +37,7 @@ export const collections: Collection[] = [
 pieces: [
   {
     code: "H11-001",
-    name: "Wool Overcoat",
+    name: "Residence Polo",
     category: "Outerwear",
     chapter: "Residence",
     season: "FW26",
