@@ -43,7 +43,7 @@ pieces: [
     season: "FW26",
     description: "A study in structure and restraint.",
     image: "/collection1.jpg",
-  },
+  }, 
   {
     code: "H11-002",
     name: "Double Pleated Trouser",
