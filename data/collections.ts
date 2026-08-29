@@ -64,7 +64,7 @@ pieces: [
   },
   {
     code: "H11-004",
-    name: "Reflective Tank Top",
+    name: "House 11 Reflective Tank Top",
     category: "Shirting",
     chapter: "Residence",
     season: "FW26",
@@ -73,22 +73,14 @@ pieces: [
   },
   {
     code: "H11-005",
-    name: "Wide Leg Trouser",
+    name: "Rhinestone Jorts",
     category: "Trousers",
     chapter: "Residence",
     season: "FW26",
     description: "Designed for movement without excess.",
     image: "/collection2.jpg",
   },
-  {
-    code: "H11-006",
-    name: "Leather Weekender",
-    category: "Accessories",
-    chapter: "Residence",
-    season: "FW26",
-    description: "A companion for journeys worth remembering.",
-    image: "/collection3.jpg",
-  },
+  
 ],
   },
   
