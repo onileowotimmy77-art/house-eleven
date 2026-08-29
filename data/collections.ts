@@ -64,7 +64,7 @@ pieces: [
   },
   {
     code: "H11-004",
-    name: "Relaxed Oxford Shirt",
+    name: "Rhinestone Jorts",
     category: "Shirting",
     chapter: "Residence",
     season: "FW26",
