@@ -46,7 +46,7 @@ pieces: [
   }, 
   {
     code: "H11-002",
-    name: "",
+    name: "Double Layered Sweatshirt",
     category: "Trousers",
     chapter: "Residence",
     season: "FW26",
@@ -55,7 +55,7 @@ pieces: [
   },
   {
     code: "H11-003",
-    name: "Heavyweight Tee",
+    name: "Residence Tee",
     category: "Essentials",
     chapter: "Residence",
     season: "FW26",
