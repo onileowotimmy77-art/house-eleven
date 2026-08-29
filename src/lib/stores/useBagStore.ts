@@ -262,56 +262,104 @@ restoreToBag: (
                   )
               ),
           })),
+          
+updateQuantity: (
+  productSlug,
+  size,
+  quantity
+) =>
+  set((state) => {
+    const currentItem =
+      state.items.find(
+        (item) =>
+          item.productSlug ===
+            productSlug &&
+          item.size ===
+            size
+      );
 
-        updateQuantity: (
+    if (!currentItem) {
+      return state;
+    }
+
+    /*
+     * Decreasing quantity is always allowed.
+     *
+     * The customer is relinquishing inventory,
+     * so current live stock must never prevent
+     * them from reducing their selection.
+     */
+    if (
+      quantity <
+      currentItem.quantity
+    ) {
+      if (quantity <= 0) {
+        return {
+          items:
+            state.items.filter(
+              (item) =>
+                !(
+                  item.productSlug ===
+                    productSlug &&
+                  item.size ===
+                    size
+                )
+            ),
+        };
+      }
+
+      return {
+        items:
+          state.items.map(
+            (item) =>
+              item.productSlug ===
+                productSlug &&
+              item.size ===
+                size
+                ? {
+                    ...item,
+                    quantity,
+                  }
+                : item
+          ),
+      };
+    }
+
+    /*
+     * Increasing quantity is an acquisition,
+     * so live inventory must allow it.
+     */
+    if (
+      quantity >
+      currentItem.quantity
+    ) {
+      if (
+        !canAcquireQuantity(
           productSlug,
           size,
           quantity
-        ) =>
-          set((state) => {
-            if (
-              quantity <= 0
-            ) {
-              return {
-                items:
-                  state.items.filter(
-                    (item) =>
-                      !(
-                        item.productSlug ===
-                          productSlug &&
-                        item.size ===
-                          size
-                      )
-                  ),
-              };
-            }
+        )
+      ) {
+        return state;
+      }
+    }
 
-            if (
-              !canAcquireQuantity(
-                productSlug,
-                size,
-                quantity
-              )
-            ) {
-              return state;
-            }
-
-            return {
-              items:
-                state.items.map(
-                  (item) =>
-                    item.productSlug ===
-                      productSlug &&
-                    item.size ===
-                      size
-                      ? {
-                          ...item,
-                          quantity,
-                        }
-                      : item
-                ),
-            };
-          }),
+    return {
+      items:
+        state.items.map(
+          (item) =>
+            item.productSlug ===
+              productSlug &&
+            item.size ===
+              size
+              ? {
+                  ...item,
+                  quantity,
+                }
+              : item
+        ),
+    };
+  }),
 
         reconcileWithInventory:
           (inventory) =>
