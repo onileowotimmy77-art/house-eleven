@@ -37,6 +37,7 @@ export const collections: Collection[] = [
 pieces: [
   {
     code: "H11-001",
+    slug: "residence-polo",
     name: "Residence Polo",
     category: "Outerwear",
     chapter: "Residence",
