@@ -64,7 +64,7 @@ pieces: [
   },
   {
     code: "H11-004",
-    name: "Rhinestone Jorts",
+    name: "Reflective Tank Top",
     category: "Shirting",
     chapter: "Residence",
     season: "FW26",
