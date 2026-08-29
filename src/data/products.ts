@@ -55,7 +55,7 @@ export const products: Product[] = [
   //Residence Polo
   {
     slug: "residence-polo",
-
+ 
     order: 1,
 
     name: "Residence Polo",
