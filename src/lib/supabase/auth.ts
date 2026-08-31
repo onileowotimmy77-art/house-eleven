@@ -12,7 +12,7 @@ export async function signUp(
 
   if (error) {
     throw new Error(
-      Failed to create account: ${error.message}
+      `Failed to create account: ${error.message}`
     );
   }
 
@@ -31,7 +31,7 @@ export async function signIn(
 
   if (error) {
     throw new Error(
-      Failed to sign in: ${error.message}
+      `Failed to sign in: ${error.message}`
     );
   }
 
@@ -44,7 +44,7 @@ export async function signOut() {
 
   if (error) {
     throw new Error(
-      Failed to sign out: ${error.message}
+      `Failed to sign out: ${error.message}`
     );
   }
 }
@@ -57,7 +57,7 @@ export async function getCurrentUser() {
 
   if (error) {
     throw new Error(
-      Failed to get current user: ${error.message}
+      `Failed to get current user: ${error.message}`
     );
   }
 
