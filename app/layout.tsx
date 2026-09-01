@@ -87,6 +87,7 @@ export default function RootLayout({
         `}
       >
             <StoreSyncProvider>
+              <AuthProvider>
               <MenuProvider>
                 <AppTransitionProvider>
                   <CursorProvider>
@@ -106,6 +107,7 @@ export default function RootLayout({
                   </CursorProvider>
                 </AppTransitionProvider>
               </MenuProvider>
+              </AuthProvider>
             </StoreSyncProvider>
           </body>
     </html>
