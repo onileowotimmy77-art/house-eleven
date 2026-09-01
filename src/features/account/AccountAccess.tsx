@@ -39,7 +39,7 @@ export default function AccountAccess() {
   }
 
   async function handleSubmit(
-    event: React.SubmitEvent
+    event: SubmitEvent
   ) {
     event.preventDefault();
 
