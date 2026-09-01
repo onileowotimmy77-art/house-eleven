@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  FormEvent,
   useState,
+  type FormEvent,
 } from "react";
 
 import { useAuth } from "@/components/providers/AuthProvider";
