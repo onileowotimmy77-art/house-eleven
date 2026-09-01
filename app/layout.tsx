@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import StoreSyncProvider from "@/components/providers/StoreSyncProvider";
 
-import Auth
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 import {
   Space_Grotesk,
