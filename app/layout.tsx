@@ -88,25 +88,25 @@ export default function RootLayout({
       >
             <StoreSyncProvider>
               <AuthProvider>
-              <MenuProvider>
-                <AppTransitionProvider>
-                  <CursorProvider>
-                    <AnimationProvider>
-                      <EntranceProvider>
-                        <Cursor />
+                <MenuProvider>
+                  <AppTransitionProvider>
+                    <CursorProvider>
+                      <AnimationProvider>
+                        <EntranceProvider>
+                          <Cursor />
 
-                        <LenisProvider>
-                          <Navbar />
+                          <LenisProvider>
+                            <Navbar />
 
-                          <Concierge />
+                            <Concierge />
 
-                          {children}
-                        </LenisProvider>
-                      </EntranceProvider>
-                    </AnimationProvider>
-                  </CursorProvider>
-                </AppTransitionProvider>
-              </MenuProvider>
+                            {children}
+                          </LenisProvider>
+                        </EntranceProvider>
+                      </AnimationProvider>
+                    </CursorProvider>
+                  </AppTransitionProvider>
+                </MenuProvider>
               </AuthProvider>
             </StoreSyncProvider>
           </body>
