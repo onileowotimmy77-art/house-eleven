@@ -10,7 +10,8 @@ export default function ProfilePage() {
       title="Profile"
       description="Manage your personal information and House Eleven account."
     >
-      <ProfileInformation />
+      <AccountAccess />
+      
     </AccountLayout>
   );
 }
