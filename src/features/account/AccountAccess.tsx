@@ -36,7 +36,7 @@ export default function AccountAccess() {
   }
 
   async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
+    event: React.SubmitEvent
   ) {
     event.preventDefault();
 
