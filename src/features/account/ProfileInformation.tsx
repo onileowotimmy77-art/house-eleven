@@ -1,8 +1,82 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+import { useAuth } from "@/components/providers/AuthProvider";
+import { supabase } from "@/src/lib/supabase/client";
 import CommerceButton from "@/src/features/commerce/CommerceButton";
 
+interface Profile {
+  first_name: string;
+  last_name: string;
+  phone: string | null;
+}
+
 export default function ProfileInformation() {
+  const { user, loading: authLoading } = useAuth();
+
+  const [profile, setProfile] =
+    useState<Profile | null>(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+
+    if (!user) {
+      setProfile(null);
+      setLoading(false);
+      return;
+    }
+
+    let mounted = true;
+
+    async function loadProfile() {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("first_name, last_name, phone")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (!mounted) {
+        return;
+      }
+
+      if (error) {
+        console.error(
+          "Failed to load profile:",
+          error
+        );
+
+        setProfile(null);
+      } else {
+        setProfile(data);
+      }
+
+      setLoading(false);
+    }
+
+    loadProfile();
+
+    return () => {
+      mounted = false;
+    };
+  }, [user, authLoading]);
+
+  if (authLoading  loading  !user) {
+    return null;
+  }
+
+  const fullName = [
+    profile?.first_name,
+    profile?.last_name,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <section
       className="
@@ -15,17 +89,17 @@ export default function ProfileInformation() {
 
         <ProfileRow
           label="Name"
-          value="John Doe"
+          value={fullName || "—"}
         />
 
         <ProfileRow
           label="Email"
-          value="john@example.com"
+          value={user.email || "—"}
         />
 
         <ProfileRow
           label="Phone"
-          value="+234 800 000 0000"
+          value={profile?.phone || "—"}
         />
 
       </div>
