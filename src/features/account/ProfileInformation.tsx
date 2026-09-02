@@ -101,7 +101,7 @@ export default function ProfileInformation() {
     };
   }, [user, authLoading]);
 
-  if (authLoading  loading  !user) {
+  if (authLoading || loading || !user) {
     return null;
   }
 
@@ -237,3 +237,165 @@ export default function ProfileInformation() {
           <ProfileRow
             label="Email"
             value={user.email || "—"}
+            />
+
+          {error && (
+            <p
+              className="
+                text-sm
+                leading-7
+                text-white/50
+              "
+            >
+              {error}
+            </p>
+          )}
+
+          <div className="flex gap-4">
+            <CommerceButton
+              variant="secondary"
+              onClick={handleSave}
+              disabled={saving}
+            >
+              {saving ? "Saving..." : "Save Changes"}
+            </CommerceButton>
+
+            <CommerceButton
+              variant="secondary"
+              onClick={handleCancel}
+              disabled={saving}
+            >
+              Cancel
+            </CommerceButton>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="space-y-10">
+
+            <ProfileRow
+              label="Name"
+              value={fullName || "—"}
+            />
+
+            <ProfileRow
+              label="Email"
+              value={user.email || "—"}
+            />
+
+            <ProfileRow
+              label="Phone"
+              value={profile?.phone || "—"}
+            />
+
+          </div>
+
+          <CommerceButton
+            variant="secondary"
+            className="mt-16"
+            onClick={handleEdit}
+          >
+            Edit Profile
+          </CommerceButton>
+        </>
+      )}
+    </section>
+  );
+}
+
+interface ProfileFieldProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: "text" | "tel";
+}
+
+function ProfileField({
+  label,
+  value,
+  onChange,
+  type = "text",
+}: ProfileFieldProps) {
+  return (
+    <label className="block">
+      <span
+        className="
+          mb-3
+          block
+          font-mono
+          text-[11px]
+          uppercase
+          tracking-[0.35em]
+          text-white/35
+        "
+      >
+        {label}
+      </span>
+
+      <input
+        type={type}
+        value={value}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        className="
+          w-full
+          border-b
+          border-white/20
+          bg-transparent
+          py-3
+          text-lg
+          tracking-[-0.02em]
+          outline-none
+          transition-colors
+          focus:border-white/60
+        "
+      />
+    </label>
+  );
+}
+
+interface ProfileRowProps {
+  label: string;
+  value: string;
+}
+
+function ProfileRow({
+  label,
+  value,
+}: ProfileRowProps) {
+  return (
+    <div
+      className="
+        flex
+        flex-col
+        gap-3
+
+        md:flex-row
+        md:items-center
+        md:justify-between
+      "
+    >
+      <span
+        className="
+          font-mono
+          text-[11px]
+          uppercase
+          tracking-[0.35em]
+          text-white/35
+        "
+      >
+        {label}
+      </span>
+
+      <span
+        className="
+          text-lg
+          tracking-[-0.02em]
+        "
+      >
+        {value}
+      </span>
+    </div>
+  );
+}
