@@ -66,7 +66,7 @@ export default function ProfileInformation() {
     };
   }, [user, authLoading]);
 
-  if (authLoading  loading  !user) {
+  if (authLoading || loading || !user) {
     return null;
   }
 
