@@ -99,7 +99,7 @@ export default function AddressesPage() {
       title="Addresses"
       description="Manage the destinations where your Residence will arrive."
     >
-      {authLoading  loading  !user ? null : (
+      {authLoading || loading || !user ? null : (
         <div className="space-y-8">
           {addresses.map((address) => {
             const recipient = [
