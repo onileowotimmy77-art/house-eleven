@@ -22,49 +22,51 @@ export default function ProfileInformation() {
     useState(true);
 
   useEffect(() => {
-    if (authLoading) {
+  if (authLoading) {
+    return;
+  }
+
+  if (!user) {
+    setProfile(null);
+    setLoading(false);
+    return;
+  }
+
+  const currentUser = user;
+
+  let mounted = true;
+
+  async function loadProfile() {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("first_name, last_name, phone")
+      .eq("id", currentUser.id)
+      .maybeSingle();
+
+    if (!mounted) {
       return;
     }
 
-    if (!user) {
+    if (error) {
+      console.error(
+        "Failed to load profile:",
+        error
+      );
+
       setProfile(null);
-      setLoading(false);
-      return;
+    } else {
+      setProfile(data);
     }
 
-    let mounted = true;
+    setLoading(false);
+  }
 
-    async function loadProfile() {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("first_name, last_name, phone")
-        .eq("id", user.id)
-        .maybeSingle();
+  loadProfile();
 
-      if (!mounted) {
-        return;
-      }
-
-      if (error) {
-        console.error(
-          "Failed to load profile:",
-          error
-        );
-
-        setProfile(null);
-      } else {
-        setProfile(data);
-      }
-
-      setLoading(false);
-    }
-
-    loadProfile();
-
-    return () => {
-      mounted = false;
-    };
-  }, [user, authLoading]);
+  return () => {
+    mounted = false;
+  };
+}, [user, authLoading]);
 
   if (authLoading || loading || !user) {
     return null;
