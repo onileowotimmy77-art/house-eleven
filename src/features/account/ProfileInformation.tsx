@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import { useAuth } from "@/components/providers/AuthProvider";
 import { supabase } from "@/src/lib/supabase/client";
@@ -21,54 +24,84 @@ export default function ProfileInformation() {
   const [loading, setLoading] =
     useState(true);
 
+  const [editing, setEditing] =
+    useState(false);
+
+  const [saving, setSaving] =
+    useState(false);
+
+  const [error, setError] =
+    useState<string | null>(null);
+
+  const [firstName, setFirstName] =
+    useState("");
+
+  const [lastName, setLastName] =
+    useState("");
+
+  const [phone, setPhone] =
+    useState("");
+
   useEffect(() => {
-  if (authLoading) {
-    return;
-  }
-
-  if (!user) {
-    setProfile(null);
-    setLoading(false);
-    return;
-  }
-
-  const currentUser = user;
-
-  let mounted = true;
-
-  async function loadProfile() {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("first_name, last_name, phone")
-      .eq("id", currentUser.id)
-      .maybeSingle();
-
-    if (!mounted) {
+    if (authLoading) {
       return;
     }
 
-    if (error) {
-      console.error(
-        "Failed to load profile:",
-        error
-      );
-
+    if (!user) {
       setProfile(null);
-    } else {
-      setProfile(data);
+      setLoading(false);
+      return;
     }
 
-    setLoading(false);
-  }
+    const currentUser = user;
 
-  loadProfile();
+    let mounted = true;
 
-  return () => {
-    mounted = false;
-  };
-}, [user, authLoading]);
+    async function loadProfile() {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("first_name, last_name, phone")
+        .eq("id", currentUser.id)
+        .maybeSingle();
 
-  if (authLoading || loading || !user) {
+      if (!mounted) {
+        return;
+      }
+
+      if (error) {
+        console.error(
+          "Failed to load profile:",
+          error
+        );
+
+        setProfile(null);
+      } else {
+        setProfile(data);
+
+        setFirstName(
+          data?.first_name ?? ""
+        );
+
+        setLastName(
+          data?.last_name ?? ""
+        );
+
+        setPhone(
+          data?.phone ?? ""
+        );
+      }
+
+      setLoading(false);
+    }
+
+    loadProfile();
+
+    return () => {
+      mounted = false;
+    };
+  }, [user, authLoading]);
+
+  if (authLoading  loading  !user) {
     return null;
   }
 
@@ -79,6 +112,98 @@ export default function ProfileInformation() {
     .filter(Boolean)
     .join(" ");
 
+  function handleEdit() {
+    setError(null);
+
+    setFirstName(
+      profile?.first_name ?? ""
+    );
+
+    setLastName(
+      profile?.last_name ?? ""
+    );
+
+    setPhone(
+      profile?.phone ?? ""
+    );
+
+    setEditing(true);
+  }
+
+  function handleCancel() {
+    setError(null);
+
+    setFirstName(
+      profile?.first_name ?? ""
+    );
+
+    setLastName(
+      profile?.last_name ?? ""
+    );
+
+    setPhone(
+      profile?.phone ?? ""
+    );
+
+    setEditing(false);
+  }
+
+  async function handleSave() {
+    if (!user) {
+      return;
+    }
+
+    setSaving(true);
+    setError(null);
+
+    const updatedProfile = {
+      first_name: firstName.trim(),
+      last_name: lastName.trim(),
+      phone: phone.trim() || null,
+    };
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .update(updatedProfile)
+      .eq("id", user.id)
+      .select(
+        "first_name, last_name, phone"
+      )
+      .maybeSingle();
+
+    if (error) {
+      console.error(
+        "Failed to update profile:",
+        error
+      );
+
+      setError(
+        "We couldn't save your changes. Please try again."
+      );
+
+      setSaving(false);
+
+      return;
+    }
+
+    setProfile(data);
+
+    setFirstName(
+      data?.first_name ?? ""
+    );
+
+    setLastName(
+      data?.last_name ?? ""
+    );
+
+    setPhone(
+      data?.phone ?? ""
+    );
+
+    setEditing(false);
+    setSaving(false);
+  }
+
   return (
     <section
       className="
@@ -87,76 +212,28 @@ export default function ProfileInformation() {
         pt-12
       "
     >
-      <div className="space-y-10">
+      {editing ? (
+        <div className="space-y-10">
 
-        <ProfileRow
-          label="Name"
-          value={fullName || "—"}
-        />
+          <ProfileField
+            label="First Name"
+            value={firstName}
+            onChange={setFirstName}
+          />
 
-        <ProfileRow
-          label="Email"
-          value={user.email || "—"}
-        />
+          <ProfileField
+            label="Last Name"
+            value={lastName}
+            onChange={setLastName}
+          />
 
-        <ProfileRow
-          label="Phone"
-          value={profile?.phone || "—"}
-        />
+          <ProfileField
+            label="Phone"
+            value={phone}
+            onChange={setPhone}
+            type="tel"
+          />
 
-      </div>
-
-      <CommerceButton
-        variant="secondary"
-        className="mt-16"
-      >
-        Edit Profile
-      </CommerceButton>
-    </section>
-  );
-}
-
-interface ProfileRowProps {
-  label: string;
-  value: string;
-}
-
-function ProfileRow({
-  label,
-  value,
-}: ProfileRowProps) {
-  return (
-    <div
-      className="
-        flex
-        flex-col
-        gap-3
-
-        md:flex-row
-        md:items-center
-        md:justify-between
-      "
-    >
-      <span
-        className="
-          font-mono
-          text-[11px]
-          uppercase
-          tracking-[0.35em]
-          text-white/35
-        "
-      >
-        {label}
-      </span>
-
-      <span
-        className="
-          text-lg
-          tracking-[-0.02em]
-        "
-      >
-        {value}
-      </span>
-    </div>
-  );
-}
+          <ProfileRow
+            label="Email"
+            value={user.email || "—"}
