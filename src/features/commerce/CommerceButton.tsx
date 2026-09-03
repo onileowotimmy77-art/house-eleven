@@ -12,7 +12,7 @@ interface CommerceButtonProps {
 
   disabled?: boolean;
 
-  type?: "button" | "submit" 
+  type?: "button" | "submit";
 
   variant?:
     | "primary"
