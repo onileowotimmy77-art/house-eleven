@@ -374,5 +374,178 @@ export default function AddressesPage() {
                     cursor-pointer
                   "
                 >
-                  
+                  <input
+                    type="checkbox"
+                    checked={
+                      form.isDefault
+                    }
+                    onChange={(event) =>
+                      updateField(
+                        "isDefault",
+                        event.target.checked
+                      )
+                    }
+                    className="
+                      h-4
+                      w-4
+                    "
+                  />
+
+                  <span
+                    className="
+                      font-mono
+                      text-[11px]
+                      uppercase
+                      tracking-[0.3em]
+                      text-white/45
+                    "
+                  >
+                    Set as default address
+                  </span>
                 </label>
+
+                {error && (
+                  <p
+                    className="
+                      text-sm
+                      leading-7
+                      text-white/50
+                    "
+                  >
+                    {error}
+                  </p>
+                )}
+
+                <div className="flex gap-4">
+                  <CommerceButton
+                    variant="secondary"
+                    disabled={saving}
+                  >
+                    {saving
+                      ? "Saving..."
+                      : "Save Address"}
+                  </CommerceButton>
+
+                  <CommerceButton
+                    variant="secondary"
+                    onClick={handleCancel}
+                    disabled={saving}
+                  >
+                    Cancel
+                  </CommerceButton>
+                </div>
+
+              </div>
+            </form>
+          )}
+
+          <div className="space-y-8">
+            {addresses.map((address) => {
+              const recipient = [
+                address.first_name,
+                address.last_name,
+              ]
+                .filter(Boolean)
+                .join(" ");
+
+              const addressLines = [
+                address.address_line_1,
+                address.address_line_2,
+              ]
+                .filter(Boolean)
+                .join(", ");
+
+              const city = [
+                address.city,
+                address.state,
+              ]
+                .filter(Boolean)
+                .join(", ");
+
+              return (
+                <AddressCard
+                  key={address.id}
+                  label={
+                    address.label ??
+                    ""
+                  }
+                  recipient={
+                    recipient || "—"
+                  }
+                  address={
+                    addressLines || "—"
+                  }
+                  city={
+                    city || "—"
+                  }
+                  country={
+                    address.country ||
+                    "—"
+                  }
+                  isDefault={
+                    address.is_default
+                  }
+                />
+              );
+            })}
+          </div>
+
+        </div>
+      )}
+    </AccountLayout>
+  );
+}
+
+interface AddressFieldProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+}
+
+function AddressField({
+  label,
+  value,
+  onChange,
+  required = false,
+}: AddressFieldProps) {
+  return (
+    <label className="block">
+      <span
+        className="
+          mb-3
+          block
+          font-mono
+          text-[11px]
+          uppercase
+          tracking-[0.35em]
+          text-white/35
+        "
+      >
+        {label}
+        {required && " *"}
+      </span>
+
+      <input
+        type="text"
+        value={value}
+        required={required}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        className="
+          w-full
+          border-b
+          border-white/20
+          bg-transparent
+          py-3
+          text-lg
+          tracking-[-0.02em]
+          outline-none
+          transition-colors
+          focus:border-white/60
+        "
+      />
+    </label>
+  );
+}
