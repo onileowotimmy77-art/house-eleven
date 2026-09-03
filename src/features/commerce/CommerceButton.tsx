@@ -26,6 +26,7 @@ export default function CommerceButton({
   href,
   onClick,
   disabled = false,
+  type = "button",
   variant = "primary",
   className,
 }: CommerceButtonProps) {
