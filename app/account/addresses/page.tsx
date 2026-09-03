@@ -419,6 +419,7 @@ export default function AddressesPage() {
                 <div className="flex gap-4">
                   <CommerceButton
                     variant="secondary"
+                    type="submit"
                     disabled={saving}
                   >
                     {saving
