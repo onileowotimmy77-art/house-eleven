@@ -12,6 +12,8 @@ interface CommerceButtonProps {
 
   disabled?: boolean;
 
+  type?: "button" | "submit" 
+
   variant?:
     | "primary"
     | "secondary";
