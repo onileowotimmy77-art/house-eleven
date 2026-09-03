@@ -91,7 +91,7 @@ export default function CommerceButton({
 
   return (
     <button
-      type="button"
+      type={type}
       onClick={onClick}
       disabled={disabled}
       className={styles}
