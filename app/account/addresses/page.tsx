@@ -91,6 +91,7 @@ export default function AddressesPage() {
           address_line_2,
           city,
           state,
+          postal_code,
           country,
           is_default
         `
