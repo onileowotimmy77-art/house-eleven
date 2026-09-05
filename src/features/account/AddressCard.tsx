@@ -7,6 +7,7 @@ interface AddressCardProps {
   city: string;
   country: string;
   isDefault?: boolean;
+onEdit?: () => void;
 }
 
 export default function AddressCard({
@@ -16,6 +17,7 @@ export default function AddressCard({
   city,
   country,
   isDefault = false,
+  onEdit,
 }: AddressCardProps) {
   return (
     <article
@@ -31,7 +33,7 @@ export default function AddressCard({
       <div className="flex items-start justify-between gap-6">
 
         <div>
-          
+
         {label && (
           <p
             className="
@@ -88,5 +90,6 @@ export default function AddressCard({
         {country}
       </p>
     </article>
+    
   );
 }
