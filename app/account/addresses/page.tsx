@@ -486,7 +486,9 @@ export default function AddressesPage() {
                   isDefault={
                     address.is_default
                   }
-                  onEdit={() => handleEditAddress(address)}
+                  onEdit={() => {
+                    console.log("Edit address:", address.id);
+                  }}  
                 />
               );
             })}
