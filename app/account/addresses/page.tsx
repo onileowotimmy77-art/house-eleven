@@ -508,7 +508,7 @@ function handleEditAddress(address: Address) {
                     address.is_default
                   }
                   onEdit={() => {
-                    console.log("Edit address:", address.id);
+                    handleEditAddress(address);
                   }}  
                 />
               );
