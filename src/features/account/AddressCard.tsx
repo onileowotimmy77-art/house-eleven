@@ -19,6 +19,7 @@ export default function AddressCard({
   isDefault = false,
   onEdit,
 }: AddressCardProps) {
+  
   return (
     <article
       className="
@@ -89,7 +90,26 @@ export default function AddressCard({
         <br />
         {country}
       </p>
+
+      {onEdit && (
+        <button
+          type="button"
+          onClick={onEdit}
+          className="
+            mt-8
+            font-mono
+            text-[10px]
+            uppercase
+            tracking-[0.35em]
+            text-white/40
+            transition-colors
+            duration-300
+            hover:text-white
+          "
+        >
+          Edit Address
+        </button>
+      )}
     </article>
-    
   );
 }
