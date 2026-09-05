@@ -21,6 +21,7 @@ interface Address {
   address_line_2: string | null;
   city: string;
   state: string;
+  postal_code: string | null;
   country: string;
   is_default: boolean;
 }
