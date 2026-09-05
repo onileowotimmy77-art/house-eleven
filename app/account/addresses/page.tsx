@@ -148,7 +148,24 @@ export default function AddressesPage() {
     setAdding(true);
   }
 
+function handleEditAddress(address: Address) {
+  setError(null);
 
+  setForm({
+    label: address.label ?? "",
+    firstName: address.first_name,
+    lastName: address.last_name ?? "",
+    addressLine1: address.address_line_1,
+    addressLine2: address.address_line_2 ?? "",
+    city: address.city,
+    state: address.state,
+    postalCode: address.postal_code ?? "",
+    country: address.country,
+    isDefault: address.is_default,
+  });
+
+  setAdding(true);
+}
 
   function handleCancel() {
     if (saving) {
