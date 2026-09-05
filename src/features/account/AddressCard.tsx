@@ -31,7 +31,8 @@ export default function AddressCard({
       <div className="flex items-start justify-between gap-6">
 
         <div>
-
+          
+        {label && (
           <p
             className="
               font-mono
@@ -43,7 +44,7 @@ export default function AddressCard({
           >
             {label}
           </p>
-
+        )}
           <h2
             className="
               mt-5
