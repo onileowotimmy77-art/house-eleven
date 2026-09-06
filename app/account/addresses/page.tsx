@@ -258,29 +258,77 @@ function handleEditAddress(address: Address) {
     }
 
     if (data) {
-      setAddresses((current) => {
-        const nextAddress =
-          data as Address;
 
-        if (nextAddress.is_default) {
-          return [
-            nextAddress,
-            ...
-            current.map((address) => ({
-              ...address,
-              is_default: false,
-            })),
-          ];
+  const updatedAddress =
+
+    data as Address;
+
+  setAddresses((current) => {
+
+    if (editingAddressId) {
+
+      return current.map((address) => {
+
+        if (
+
+          address.id ===
+
+          updatedAddress.id
+
+        ) {
+
+          return updatedAddress;
+
         }
 
-        return [
-          ...current,
-          nextAddress,
-        ];
+        return updatedAddress.is_default
+
+          ? {
+
+              ...address,
+
+              is_default: false,
+
+            }
+
+          : address;
+
       });
-    } else {
-      await loadAddresses();
+
     }
+
+    if (updatedAddress.is_default) {
+
+      return [
+
+        updatedAddress,
+
+        ...current.map((address) => ({
+
+          ...address,
+
+          is_default: false,
+
+        })),
+
+      ];
+
+    }
+
+    return [
+
+      ...current,
+
+      updatedAddress,
+
+    ];
+
+  });
+
+} else {
+
+  await loadAddresses();
+}
 
     setForm(initialForm);
     setEditingAddressId(null);
