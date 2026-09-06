@@ -368,6 +368,7 @@ function handleEditAddress(address: Address) {
     <AccountLayout
       title="Addresses"
       description="Manage the destinations where your Residence will arrive."
+      requiresAuth
     >
       {authLoading || loading || !user ? null : (
         <div className="space-y-10">
