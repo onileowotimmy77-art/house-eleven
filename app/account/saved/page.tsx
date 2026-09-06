@@ -17,11 +17,13 @@ import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
 
 type NotificationType =
   | "removed"
-  | "moved";
+  | "moved"
+  | "unavailable";
 
 interface NotificationState {
   productSlug: string;
   type: NotificationType;
+  size?: string;
 }
 
 export default function SavedPiecesPage() {
@@ -53,9 +55,12 @@ export default function SavedPiecesPage() {
       return;
     }
 
-    const timer = window.setTimeout(() => {
-      setNotification(null);
-    }, 5000);
+    const timer = window.setTimeout(
+      () => {
+        setNotification(null);
+      },
+      5000
+    );
 
     return () => {
       window.clearTimeout(timer);
@@ -91,19 +96,33 @@ export default function SavedPiecesPage() {
   function handleMoveToBag(
     productSlug: string,
     size: string
-  ) {
-    addToBag({
-      productSlug,
-      size,
-      quantity: 1,
-    });
+  ): boolean {
+    const wasAdded =
+      addToBag({
+        productSlug,
+        size,
+        quantity: 1,
+      });
+
+    if (!wasAdded) {
+      setNotification({
+        productSlug,
+        type: "unavailable",
+        size,
+      });
+
+      return false;
+    }
 
     removePiece(productSlug);
 
     setNotification({
       productSlug,
       type: "moved",
+      size,
     });
+
+    return true;
   }
 
   const notificationProduct =
@@ -122,7 +141,7 @@ export default function SavedPiecesPage() {
             title:
               notificationProduct.name,
             subtitle: `Size ${
-              notificationProduct.sizes[0]
+              notification.size
             } • ${
               notificationProduct.price
             }`,
@@ -130,6 +149,19 @@ export default function SavedPiecesPage() {
               "This piece has entered your Residence.",
             ctaLabel: "View Bag",
             ctaHref: "/bag",
+          }
+        : notification.type ===
+          "unavailable"
+        ? {
+            eyebrow:
+              "Selection Updated",
+            title:
+              notificationProduct.name,
+            subtitle: notification.size
+              ? `Size ${notification.size}`
+              : notificationProduct.collection,
+            message:
+              "This size is no longer available in the requested quantity. Please review the current availability.",
           }
         : {
             eyebrow: "Saved Pieces",
@@ -172,29 +204,31 @@ export default function SavedPiecesPage() {
                 return null;
               }
 
-              const firstAvailableSize =
-                product.sizes[0];
-
-              if (!firstAvailableSize) {
-                return null;
-              }
-
               return (
                 <SavedPieceCard
                   key={product.slug}
-                  image={product.bagImage}
-                  name={product.name}
+                  productSlug={
+                    product.slug
+                  }
+                  image={
+                    product.bagImage
+                  }
+                  name={
+                    product.name
+                  }
                   collection={
                     product.collection
                   }
-                  price={product.price}
-                  href={`
-                    /products/${product.slug}`
+                  price={
+                    product.price
                   }
-                  onMoveToBag={() =>
+                  href={`/products/${product.slug}`}
+                  onMoveToBag={(
+                    size
+                  ) =>
                     handleMoveToBag(
                       product.slug,
-                      firstAvailableSize
+                      size
                     )
                   }
                   onRemove={() =>
@@ -247,15 +281,15 @@ export default function SavedPiecesPage() {
                 : undefined
             }
             onAction={
-  notification?.type ===
-  "removed"
-    ? handleUndoRemove
-    : undefined
-}
-onDismiss={() =>
-  setNotification(null)
-}
-/>
+              notification?.type ===
+              "removed"
+                ? handleUndoRemove
+                : undefined
+            }
+            onDismiss={() =>
+              setNotification(null)
+            }
+          />
         )}
     </>
   );
