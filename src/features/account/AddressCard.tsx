@@ -1,6 +1,6 @@
 "use client";
 
-import { use}
+import { useState } from "react";
 
 interface AddressCardProps {
   label: string;
@@ -23,6 +23,9 @@ export default function AddressCard({
   onEdit,
   onDelete,
 }: AddressCardProps) {
+
+  const [confirmingDelete, setConfirmingDelete] = 
+  useState(false);
 
   return (
     <article
