@@ -3,13 +3,9 @@
 import { useAuth } from "@/components/providers/AuthProvider";
 
 export default function AccountAccess() {
-  const { user, loading } = useAuth();
+  const { loading } = useAuth();
 
   if (loading) {
-    return null;
-  }
-
-  if (user) {
     return null;
   }
 
