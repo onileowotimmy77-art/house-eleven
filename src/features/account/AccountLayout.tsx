@@ -3,24 +3,43 @@
 import Container from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
+import { useAuth } from "@/components/providers/AuthProvider";
+
+import AccountAccess from "./AccountAccess";
 import AccountSidebar from "./AccountSidebar";
 
 interface AccountLayoutProps {
   title: string;
   description?: string;
+  requiresAuth?: boolean;
   children: React.ReactNode;
 }
 
 export default function AccountLayout({
   title,
   description,
+  requiresAuth = false,
   children,
 }: AccountLayoutProps) {
+  const { user, loading } = useAuth();
+
+  if (requiresAuth && loading) {
+    return null;
+  }
+
+  if (requiresAuth && !user) {
+    return (
+      <Section customPadding="py-48">
+        <Container>
+          <AccountAccess />
+        </Container>
+      </Section>
+    );
+  }
+
   return (
     <Section customPadding="py-48">
-
       <Container>
-
         <div
           className="
             grid
@@ -30,17 +49,12 @@ export default function AccountLayout({
             lg:items-start
           "
         >
-
           <aside>
-
             <AccountSidebar />
-
           </aside>
 
           <main>
-
             <header className="mb-20">
-
               <h1
                 className="
                   text-[clamp(2.5rem,5vw,4rem)]
@@ -65,17 +79,12 @@ export default function AccountLayout({
                   {description}
                 </p>
               )}
-
             </header>
 
             {children}
-
           </main>
-
         </div>
-
       </Container>
-
     </Section>
   );
 }
