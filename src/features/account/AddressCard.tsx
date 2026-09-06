@@ -8,6 +8,7 @@ interface AddressCardProps {
   country: string;
   isDefault?: boolean;
 onEdit?: () => void;
+onDelete?: () => void;
 }
 
 export default function AddressCard({
@@ -18,8 +19,9 @@ export default function AddressCard({
   country,
   isDefault = false,
   onEdit,
+  onDelete,
 }: AddressCardProps) {
-  
+
   return (
     <article
       className="
@@ -110,6 +112,8 @@ export default function AddressCard({
           Edit Address
         </button>
       )}
+
+      
     </article>
   );
 }
