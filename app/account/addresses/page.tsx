@@ -620,7 +620,7 @@ function handleEditAddress(address: Address) {
                     handleEditAddress(address);
                   }} 
                   onDelete={() => {
-                    console.log("Delete address", address.id);
+                    handleDeleteAddress(address.id);
                   }}
                 />
               );
