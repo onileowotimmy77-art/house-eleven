@@ -336,6 +336,34 @@ function handleEditAddress(address: Address) {
     setSaving(false);
   }
 
+  async function handleDeleteAddress(
+  addressId: string
+) {
+  setError(null);
+
+  const { error } = await supabase.rpc(
+    "delete_address",
+    {
+      p_address_id: addressId,
+    }
+  );
+
+  if (error) {
+    console.error(
+      "Failed to delete address:",
+      error
+    );
+
+    setError(
+      "We couldn't remove this address. Please try again."
+    );
+
+    return;
+  }
+
+  await loadAddresses();
+}
+
   return (
     <AccountLayout
       title="Addresses"
