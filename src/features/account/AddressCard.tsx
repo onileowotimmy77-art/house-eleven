@@ -113,7 +113,26 @@ export default function AddressCard({
         </button>
       )}
 
-      
+      {onDelete && (
+  <button
+    type="button"
+    onClick={onDelete}
+    className="
+      mt-4
+      block
+      font-mono
+      text-[10px]
+      uppercase
+      tracking-[0.35em]
+      text-white/25
+      transition-colors
+      duration-300
+      hover:text-white/60
+    "
+  >
+    Delete Address
+  </button>
+)}
     </article>
   );
 }
