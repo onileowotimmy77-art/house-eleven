@@ -64,6 +64,9 @@ export default function AddressesPage() {
   const [adding, setAdding] =
     useState(false);
 
+  const [editingAddressId, setEditingAddressId] =
+    useState<string | null>(null);
+
   const [saving, setSaving] =
     useState(false);
 
