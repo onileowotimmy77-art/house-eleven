@@ -27,15 +27,7 @@ export default function AccountLayout({
     return null;
   }
 
-  if (requiresAuth && !user) {
-    return (
-      <Section customPadding="py-48">
-        <Container>
-          <AccountAccess />
-        </Container>
-      </Section>
-    );
-  }
+  const showAccountAccess = requiresAuth && !user;
 
   return (
     <Section customPadding="py-48">
@@ -44,7 +36,6 @@ export default function AccountLayout({
           className="
             grid
             gap-24
-
             lg:grid-cols-[260px_minmax(0,1fr)]
             lg:items-start
           "
@@ -54,34 +45,40 @@ export default function AccountLayout({
           </aside>
 
           <main>
-            <header className="mb-20">
-              <h1
-                className="
-                  text-[clamp(2.5rem,5vw,4rem)]
-                  font-medium
-                  tracking-[-0.05em]
-                  leading-[0.95]
-                "
-              >
-                {title}
-              </h1>
+            {showAccountAccess ? (
+              <AccountAccess />
+            ) : (
+              <>
+                <header className="mb-20">
+                  <h1
+                    className="
+                      text-[clamp(2.5rem,5vw,4rem)]
+                      font-medium
+                      tracking-[-0.05em]
+                      leading-[0.95]
+                    "
+                  >
+                    {title}
+                  </h1>
 
-              {description && (
-                <p
-                  className="
-                    mt-6
-                    max-w-2xl
-                    text-lg
-                    leading-8
-                    text-white/55
-                  "
-                >
-                  {description}
-                </p>
-              )}
-            </header>
+                  {description && (
+                    <p
+                      className="
+                        mt-6
+                        max-w-2xl
+                        text-lg
+                        leading-8
+                        text-white/55
+                      "
+                    >
+                      {description}
+                    </p>
+                  )}
+                </header>
 
-            {children}
+                {children}
+              </>
+            )}
           </main>
         </div>
       </Container>
