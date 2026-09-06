@@ -25,7 +25,7 @@ export default function AddressCard({
 }: AddressCardProps) {
 
   const [confirmingDelete, setConfirmingDelete] = 
-  useState(false);
+    useState(false);
 
   return (
     <article
