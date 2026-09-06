@@ -590,7 +590,13 @@ function handleEditAddress(address: Address) {
                   }
                   onEdit={() => {
                     handleEditAddress(address);
-                  }}  
+                  }} 
+                  onDelete={() => {
+                    console.log(
+                      "Delete address",
+                      address.id
+                    );
+                  }
                 />
               );
             })}
