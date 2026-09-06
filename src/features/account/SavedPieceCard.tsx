@@ -12,7 +12,7 @@ interface SavedPieceCardProps {
   price: string;
   href: string;
 
-  onMoveToBag: () => void;
+  onMoveToBag: (size: string) => void;
   onRemove: () => void;
 }
 
