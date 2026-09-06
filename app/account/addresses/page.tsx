@@ -257,6 +257,7 @@ function handleEditAddress(address: Address) {
     }
 
     setForm(initialForm);
+    setEditingAddressId(null);
     setAdding(false);
     setSaving(false);
   }
