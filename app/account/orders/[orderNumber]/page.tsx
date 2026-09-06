@@ -71,6 +71,7 @@ export default function OrderDetailPage() {
       <AccountLayout
         title="Order"
         description="This order could not be found."
+        requiresAuth
       >
         <div className="py-24">
           <Display>
@@ -112,6 +113,7 @@ export default function OrderDetailPage() {
     <AccountLayout
       title="Order"
       description={`Placed ${formattedDate}`}
+      requiresAuth
     >
       <section>
         <p
