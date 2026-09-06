@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { useInventoryStore } from "@/src/lib/stores/useInventoryStore";
 
 interface SavedPieceCardProps {
   image: string;
