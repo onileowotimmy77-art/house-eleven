@@ -142,6 +142,7 @@ export default function AddressesPage() {
 
   function handleAddAddress() {
     setError(null);
+    setEditingAddressId(null);
 
     setForm({
       ...initialForm,
