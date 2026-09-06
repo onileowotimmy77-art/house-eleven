@@ -154,6 +154,7 @@ export default function AddressesPage() {
 
 function handleEditAddress(address: Address) {
   setError(null);
+  setEditingAddressId(address.id);
 
   setForm({
     label: address.label ?? "",
@@ -178,6 +179,7 @@ function handleEditAddress(address: Address) {
 
     setError(null);
     setForm(initialForm);
+    setEditingAddressId(null);
     setAdding(false);
   }
 
