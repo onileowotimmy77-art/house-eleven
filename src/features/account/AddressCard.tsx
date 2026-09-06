@@ -118,10 +118,12 @@ export default function AddressCard({
         </button>
       )}
 
-      {onDelete && (
+      {onDelete && !confirmingDelete && (
   <button
     type="button"
-    onClick={onDelete}
+    onClick={() =>
+      setConfirmingDelete(true)
+    }
     className="
       mt-4
       block
@@ -137,6 +139,63 @@ export default function AddressCard({
   >
     Delete Address
   </button>
+)}
+
+{confirmingDelete && (
+  <div className="mt-8">
+    <p
+      className="
+        font-mono
+        text-[10px]
+        uppercase
+        tracking-[0.25em]
+        text-white/40
+      "
+    >
+      Remove this address?
+    </p>
+
+    <div className="mt-5 flex gap-4">
+      <button
+        type="button"
+        onClick={() => {
+          onDelete?.();
+          setConfirmingDelete(false);
+        }}
+        className="
+          font-mono
+          text-[10px]
+          uppercase
+          tracking-[0.35em]
+          text-white/60
+          transition-colors
+          duration-300
+          hover:text-white
+        "
+      >
+        Confirm
+      </button>
+
+      <button
+        type="button"
+        onClick={() =>
+          setConfirmingDelete(false)
+        }
+        className="
+          font-mono
+          text-[10px]
+          uppercase
+          tracking-[0.35em]
+          text-white/25
+          transition-colors
+          duration-300
+          hover:text-white/60
+        "
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
 )}
     </article>
   );
