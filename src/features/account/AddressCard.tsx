@@ -98,108 +98,104 @@ export default function AddressCard({
         {country}
       </p>
 
-     {(onEdit || onDelete) && (
-  <div className="mt-8">
-    {!confirmingDelete ? (
-      <div className="flex items-center gap-8">
-        {onEdit && (
-          <button
-            type="button"
-            onClick={onEdit}
-            className="
-              font-mono
-              text-[10px]
-              uppercase
-              tracking-[0.35em]
-              text-white/40
-              transition-colors
-              duration-300
-              hover:text-white
-            "
-          >
-            Edit Address
-          </button>
-        )}
+    <div className="mt-8 flex items-end justify-between gap-6">
+  {onEdit && (
+    <button
+      type="button"
+      onClick={onEdit}
+      className="
+        font-mono
+        text-[10px]
+        uppercase
+        tracking-[0.35em]
+        text-white/40
+        transition-colors
+        duration-300
+        hover:text-white
+      "
+    >
+      Edit Address
+    </button>
+  )}
 
-        {onDelete && (
-          <button
-            type="button"
-            onClick={() =>
-              setConfirmingDelete(true)
-            }
-            className="
-              font-mono
-              text-[10px]
-              uppercase
-              tracking-[0.35em]
-              text-white/20
-              transition-colors
-              duration-300
-              hover:text-white/50
-            "
-          >
-            Delete
-          </button>
-        )}
-      </div>
-    ) : (
-      <div>
-        <p
+  {onDelete && !confirmingDelete && (
+    <button
+      type="button"
+      onClick={() =>
+        setConfirmingDelete(true)
+      }
+      className="
+        font-mono
+        text-[10px]
+        uppercase
+        tracking-[0.35em]
+        text-white/20
+        transition-colors
+        duration-300
+        hover:text-white/50
+      "
+    >
+      Delete
+    </button>
+  )}
+
+  {confirmingDelete && (
+    <div className="ml-auto text-right">
+      <p
+        className="
+          font-mono
+          text-[10px]
+          uppercase
+          tracking-[0.25em]
+          text-white/40
+        "
+      >
+        Remove this address?
+      </p>
+
+      <div className="mt-4 flex justify-end gap-6">
+        <button
+          type="button"
+          onClick={() => {
+            onDelete?.();
+            setConfirmingDelete(false);
+          }}
           className="
             font-mono
             text-[10px]
             uppercase
-            tracking-[0.25em]
-            text-white/40
+            tracking-[0.35em]
+            text-white/60
+            transition-colors
+            duration-300
+            hover:text-white
           "
         >
-          Remove this address?
-        </p>
+          Confirm
+        </button>
 
-        <div className="mt-4 flex items-center gap-6">
-          <button
-            type="button"
-            onClick={() => {
-              onDelete?.();
-              setConfirmingDelete(false);
-            }}
-            className="
-              font-mono
-              text-[10px]
-              uppercase
-              tracking-[0.35em]
-              text-white/60
-              transition-colors
-              duration-300
-              hover:text-white
-            "
-          >
-            Confirm
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              setConfirmingDelete(false)
-            }
-            className="
-              font-mono
-              text-[10px]
-              uppercase
-              tracking-[0.35em]
-              text-white/25
-              transition-colors
-              duration-300
-              hover:text-white/60
-            "
-          >
-            Cancel
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() =>
+            setConfirmingDelete(false)
+          }
+          className="
+            font-mono
+            text-[10px]
+            uppercase
+            tracking-[0.35em]
+            text-white/25
+            transition-colors
+            duration-300
+            hover:text-white/60
+          "
+        >
+          Cancel
+        </button>
       </div>
-    )}
-  </div>
-)}
+    </div>
+  )}
+</div>
     </article>
   );
 }
