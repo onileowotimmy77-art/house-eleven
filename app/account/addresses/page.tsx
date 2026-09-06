@@ -196,12 +196,38 @@ function handleEditAddress(address: Address) {
     setError(null);
 
     const { data, error } =
-      await supabase.rpc(
+  editingAddressId
+    ? await supabase.rpc(
+        "update_address",
+        {
+          p_address_id:
+            editingAddressId,
+          p_label: form.label,
+          p_first_name:
+            form.firstName,
+          p_last_name:
+            form.lastName,
+          p_address_line_1:
+            form.addressLine1,
+          p_address_line_2:
+            form.addressLine2,
+          p_city: form.city,
+          p_state: form.state,
+          p_postal_code:
+            form.postalCode,
+          p_country: form.country,
+          p_is_default:
+            form.isDefault,
+        }
+      )
+    : await supabase.rpc(
         "create_address",
         {
           p_label: form.label,
-          p_first_name: form.firstName,
-          p_last_name: form.lastName,
+          p_first_name:
+            form.firstName,
+          p_last_name:
+            form.lastName,
           p_address_line_1:
             form.addressLine1,
           p_address_line_2:
