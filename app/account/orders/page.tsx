@@ -42,6 +42,7 @@ export default function OrdersPage() {
     <AccountLayout
       title="Orders"
       description="Track every Residence from confirmation to delivery."
+      requiresAuth
     >
       {orders.length === 0 ? (
         <EmptyOrders />
@@ -51,9 +52,7 @@ export default function OrdersPage() {
             const formattedTotal =
               new Intl.NumberFormat(
                 "en-NG"
-              ).format(
-                order.total
-              );
+              ).format(order.total);
 
             const formattedDate =
               new Intl.DateTimeFormat(
@@ -64,31 +63,17 @@ export default function OrdersPage() {
                   year: "numeric",
                 }
               ).format(
-                new Date(
-                  order.createdAt
-                )
+                new Date(order.createdAt)
               );
 
             return (
               <OrderCard
-                key={
-                  order.orderNumber
-                }
-                orderNumber={
-                  order.orderNumber
-                }
-                placedOn={
-                  formattedDate
-                }
-                status={
-                  order.status
-                }
-                total={
-                  `₦${formattedTotal}`
-                }
-                href={
-                  `/account/orders/${order.orderNumber}`
-                }
+                key={order.orderNumber}
+                orderNumber={order.orderNumber}
+                placedOn={formattedDate}
+                status={order.status}
+                total={`₦${formattedTotal}`}
+                href={`/account/orders/${order.orderNumber}`}
               />
             );
           })}
@@ -96,4 +81,4 @@ export default function OrdersPage() {
       )}
     </AccountLayout>
   );
-}  
+}
