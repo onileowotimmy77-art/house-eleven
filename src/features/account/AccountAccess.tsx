@@ -74,6 +74,15 @@ export default function AccountAccess() {
       return;
     }
 
+    if (
+      !normalizedEmail.includes("@")
+    ) {
+      setError(
+        "Enter a valid email address."
+      );
+      return;
+    }
+
     if (!password) {
       setError(
         "Enter your password."
@@ -149,6 +158,7 @@ export default function AccountAccess() {
 
         <form
           onSubmit={handleSubmit}
+          noValidate
           autoComplete="on"
           className="
             mt-14
