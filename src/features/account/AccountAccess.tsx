@@ -1,10 +1,19 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import {
+  FormEvent,
+  useEffect,
+  useState,
+} from "react";
+import {
+  usePathname,
+  useRouter,
+} from "next/navigation";
 
 import { useAuth } from "@/components/providers/AuthProvider";
+
 import Button from "@/components/ui/Button";
+
 import Field from "@/components/fields/Field";
 import FieldError from "@/components/fields/FieldError";
 import FieldHint from "@/components/fields/FieldHint";
@@ -14,7 +23,10 @@ import TextField from "@/components/fields/TextField";
 import { signIn } from "@/src/lib/supabase/auth";
 
 export default function AccountAccess() {
-  const { loading } = useAuth();
+  const {
+    user,
+    loading,
+  } = useAuth();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -22,8 +34,24 @@ export default function AccountAccess() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] =
+    useState(false);
+
+  const [submitting, setSubmitting] =
+    useState(false);
+
+  const [error, setError] =
+    useState("");
+
+  useEffect(() => {
+    if (!user) {
+      setEmail("");
+      setPassword("");
+      setShowPassword(false);
+      setError("");
+      setSubmitting(false);
+    }
+  }, [user]);
 
   if (loading) {
     return null;
@@ -36,22 +64,30 @@ export default function AccountAccess() {
 
     setError("");
 
-    const normalizedEmail = email.trim();
+    const normalizedEmail =
+      email.trim();
 
     if (!normalizedEmail) {
-      setError("Enter your email address.");
+      setError(
+        "Enter your email address."
+      );
       return;
     }
 
     if (!password) {
-      setError("Enter your password.");
+      setError(
+        "Enter your password."
+      );
       return;
     }
 
     setSubmitting(true);
 
     try {
-      await signIn(normalizedEmail, password);
+      await signIn(
+        normalizedEmail,
+        password
+      );
 
       router.replace(pathname);
       router.refresh();
@@ -105,13 +141,15 @@ export default function AccountAccess() {
               text-white/50
             "
           >
-            Sign in to access your profile, saved pieces,
-            addresses, and order history.
+            Sign in to access your profile,
+            saved pieces, addresses, and order
+            history.
           </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
+          autoComplete="on"
           className="
             mt-14
             max-w-md
@@ -130,10 +168,12 @@ export default function AccountAccess() {
               id="account-email"
               name="email"
               type="email"
-              autoComplete="email"
+              autoComplete="username"
               value={email}
               onChange={(event) =>
-                setEmail(event.target.value)
+                setEmail(
+                  event.target.value
+                )
               }
               placeholder="you@example.com"
               disabled={submitting}
@@ -149,19 +189,66 @@ export default function AccountAccess() {
               Password
             </FieldLabel>
 
-            <TextField
-              id="account-password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) =>
-                setPassword(event.target.value)
-              }
-              placeholder="••••••••"
-              disabled={submitting}
-              required
-            />
+            <div className="relative">
+              <TextField
+                id="account-password"
+                name="password"
+                type={
+                  showPassword
+                    ? "text"
+                    : "password"
+                }
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) =>
+                  setPassword(
+                    event.target.value
+                  )
+                }
+                placeholder="••••••••"
+                disabled={submitting}
+                required
+                className="pr-20"
+              />
+
+              <button
+                type="button"
+                onClick={() =>
+                  setShowPassword(
+                    (visible) => !visible
+                  )
+                }
+                disabled={submitting}
+                aria-label={
+                  showPassword
+                    ? "Hide password"
+                    : "Show password"
+                }
+                className="
+                  absolute
+                  right-0
+                  bottom-3
+
+                  text-[10px]
+                  uppercase
+                  tracking-[0.25em]
+
+                  text-white/30
+
+                  transition-colors
+                  duration-300
+
+                  hover:text-white
+
+                  disabled:cursor-not-allowed
+                  disabled:text-white/15
+                "
+              >
+                {showPassword
+                  ? "Hide"
+                  : "Show"}
+              </button>
+            </div>
           </Field>
 
           {error && (
@@ -181,8 +268,9 @@ export default function AccountAccess() {
             </Button>
 
             <FieldHint>
-              Your account keeps your orders, addresses,
-              and personal details within the House.
+              Your account keeps your orders,
+              addresses, and personal details
+              within the House.
             </FieldHint>
           </div>
         </form>
@@ -225,8 +313,9 @@ export default function AccountAccess() {
                 text-white/50
               "
             >
-              Become a resident of House Eleven and keep
-              your relationship with the House in one place.
+              Become a resident of House
+              Eleven and keep your relationship
+              with the House in one place.
             </p>
 
             <button
@@ -237,14 +326,17 @@ export default function AccountAccess() {
                 uppercase
                 tracking-[0.3em]
                 text-white/55
+
                 transition-colors
                 duration-300
+
                 hover:text-white
               "
               onClick={() => {
                 setError("");
                 setEmail("");
                 setPassword("");
+                setShowPassword(false);
               }}
             >
               Create an Account
