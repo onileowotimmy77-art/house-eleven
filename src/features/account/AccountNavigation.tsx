@@ -4,7 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
+import { useAuth } from "@/components/providers/AuthProvider";
+
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
+import { signOut } from "@/src/lib/supabase/auth";
 
 const navigation = [
   {
@@ -28,9 +31,19 @@ const navigation = [
 export default function AccountNavigation() {
   const pathname = usePathname();
 
+  const { user } = useAuth();
+
   const savedPiecesCount = useSavedPiecesStore(
     (state) => state.pieces.length
   );
+
+  async function handleSignOut() {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Failed to sign out:", error);
+    }
+  }
 
   return (
     <nav aria-label="Account navigation">
@@ -125,6 +138,66 @@ export default function AccountNavigation() {
           );
         })}
       </ul>
+
+      {user && (
+        <div
+          className="
+            mt-12
+            border-t
+            border-white/10
+            pt-8
+          "
+        >
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="
+              group
+              flex
+              w-full
+              items-center
+              justify-between
+
+              py-4
+
+              text-left
+              text-white/35
+
+              transition-colors
+              duration-300
+
+              hover:text-white
+            "
+          >
+            <span
+              className="
+                text-xs
+                uppercase
+                tracking-[0.25em]
+              "
+            >
+              Sign Out
+            </span>
+
+            <span
+              className="
+                text-lg
+                opacity-0
+                -translate-x-1
+
+                transition-all
+                duration-300
+
+                group-hover:translate-x-0
+                group-hover:opacity-100
+              "
+              aria-hidden
+            >
+              →
+            </span>
+          </button>
+        </div>
+      )}
     </nav>
   );
 }
