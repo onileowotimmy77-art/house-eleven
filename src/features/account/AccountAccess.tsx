@@ -262,7 +262,9 @@ export default function AccountAccess() {
     try {
       const data = await signUp(
         normalizedEmail,
-        password
+        password,
+        normalizedFirstName,
+        normalizedLastName
       );
 
       /*
