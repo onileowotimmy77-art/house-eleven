@@ -260,11 +260,15 @@ export default function AccountAccess() {
     setSubmitting(true);
 
     try {
+      const redirectTo =
+        `${window.location.origin}/auth/callback?next=/account/profile`;
+
       const data = await signUp(
         normalizedEmail,
         password,
         normalizedFirstName,
-        normalizedLastName
+        normalizedLastName,
+        redirectTo
       );
 
       /*
