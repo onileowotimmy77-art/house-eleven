@@ -40,7 +40,9 @@ export function useSavedPiecesSync() {
       hasSyncedUser.current = null;
       return;
     }
-
+    
+    const userId = user.id;
+    
     /*
      * Prevent duplicate synchronization
      * for the same authenticated session.
