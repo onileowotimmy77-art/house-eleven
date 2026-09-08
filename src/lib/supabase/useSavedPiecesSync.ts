@@ -53,8 +53,6 @@ export function useSavedPiecesSync() {
 
     let cancelled = false;
 
-    const userId = user.id;
-
     async function synchronize() {
       try {
         /*
