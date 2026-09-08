@@ -15,6 +15,8 @@ import { supabase } from "@/src/lib/supabase/client";
 interface AuthContextValue {
   user: User | null;
   loading: boolean;
+  isAuthenticated: boolean;
+  isEmailConfirmed: boolean;
 }
 
 const AuthContext =
@@ -69,11 +71,20 @@ export function AuthProvider({
     };
   }, []);
 
+  const isAuthenticated =
+    user !== null;
+
+  const isEmailConfirmed =
+    user?.email_confirmed_at !== null &&
+    user?.email_confirmed_at !== undefined;
+
   return (
     <AuthContext.Provider
       value={{
         user,
         loading,
+        isAuthenticated,
+        isEmailConfirmed,
       }}
     >
       {children}
