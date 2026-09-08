@@ -46,7 +46,7 @@ export function useSavedPiecesSync() {
      * for the same authenticated session.
      */
     if (
-      hasSyncedUser.current === user.id
+      hasSyncedUser.current === userId
     ) {
       return;
     }
@@ -140,7 +140,7 @@ export function useSavedPiecesSync() {
         replacePieces(mergedSlugs);
 
         hasSyncedUser.current =
-          user.id;
+          userId;
       } catch (error) {
         if (cancelled) {
           return;
