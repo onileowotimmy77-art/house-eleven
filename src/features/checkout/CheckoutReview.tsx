@@ -24,6 +24,11 @@ import { getProduct } from "@/src/data/getProduct";
 
 import type { CheckoutPaymentMethod } from "./CheckoutSection";
 
+type CheckoutAccessError =
+  | "unauthenticated"
+  | "email_unconfirmed"
+  | null;
+
 interface CheckoutReviewProps {
   paymentMethod: CheckoutPaymentMethod;
 }
@@ -41,6 +46,11 @@ export default function CheckoutReview({
     inventoryError,
     setInventoryError,
   ] = useState(false);
+
+  const [
+    accessError,
+    setAccessError,
+  ] = useState<CheckoutAccessError>(null);
 
   const [
     isSubmitting,
@@ -115,16 +125,57 @@ export default function CheckoutReview({
     }
 
     setInventoryError(false);
+    setAccessError(null);
     setIsSubmitting(true);
 
-    const order =
+    const result =
       await placeOrder(paymentMethod);
 
-    if (!order) {
-      setInventoryError(true);
+    /*
+     * ------------------------------------------------------
+     * Verification / authentication result.
+     *
+     * These states are returned before the database
+     * checkout transaction begins, so the bag must remain
+     * completely untouched.
+     * ------------------------------------------------------
+     */
+
+    if (
+      result &&
+      !("orderNumber" in result)
+    ) {
+      setAccessError(
+        result.status
+      );
+
       setIsSubmitting(false);
+
       return;
     }
+
+    /*
+     * ------------------------------------------------------
+     * Checkout failed.
+     *
+     * A null result here represents the existing inventory
+     * or checkout failure path. placeOrder() has already
+     * performed the authoritative inventory reconciliation.
+     * ------------------------------------------------------
+     */
+
+    if (!result) {
+      setInventoryError(true);
+      setIsSubmitting(false);
+
+      return;
+    }
+
+    /*
+     * ------------------------------------------------------
+     * Checkout succeeded.
+     * ------------------------------------------------------
+     */
 
     router.push(
       "/checkout/confirmation"
@@ -189,6 +240,140 @@ export default function CheckoutReview({
             "en-NG"
           ).format(total)}`}
         />
+
+        {accessError ===
+          "email_unconfirmed" && (
+          <div
+            className="
+              mt-16
+              border
+              border-white/10
+              bg-white/[0.03]
+              px-6
+              py-6
+            "
+          >
+            <p
+              className="
+                font-mono
+                text-[10px]
+                uppercase
+                tracking-[0.35em]
+                text-white/45
+              "
+            >
+              Email Confirmation Required
+            </p>
+
+            <p
+              className="
+                mt-4
+                max-w-xl
+                text-sm
+                leading-7
+                text-white/70
+              "
+            >
+              Confirm your email address before
+              completing your order. Your
+              selection will remain in your Bag
+              while you complete this step.
+            </p>
+
+            <button
+              type="button"
+              onClick={() =>
+                router.push(
+                  "/account/profile"
+                )
+              }
+              className="
+                mt-6
+                border-b
+                border-white/15
+                pb-2
+                font-mono
+                text-[10px]
+                uppercase
+                tracking-[0.35em]
+                text-white/65
+                transition-colors
+                duration-300
+                hover:border-white/50
+                hover:text-white
+              "
+            >
+              Go to Your Profile
+            </button>
+          </div>
+        )}
+
+        {accessError ===
+          "unauthenticated" && (
+          <div
+            className="
+              mt-16
+              border
+              border-white/10
+              bg-white/[0.03]
+              px-6
+              py-6
+            "
+          >
+            <p
+              className="
+                font-mono
+                text-[10px]
+                uppercase
+                tracking-[0.35em]
+                text-white/45
+              "
+            >
+              House Eleven Account Required
+            </p>
+
+            <p
+              className="
+                mt-4
+                max-w-xl
+                text-sm
+                leading-7
+                text-white/70
+              "
+            >
+              Sign in to your House Eleven
+              account before completing your
+              order. Your selection will remain
+              in your Bag.
+            </p>
+
+            <button
+              type="button"
+              onClick={() =>
+                router.push(
+                  "/account/profile"
+                )
+              }
+              className="
+                mt-6
+                border-b
+                border-white/15
+                pb-2
+                font-mono
+                text-[10px]
+                uppercase
+                tracking-[0.35em]
+                text-white/65
+                transition-colors
+                duration-300
+                hover:border-white/50
+                hover:text-white
+              "
+            >
+              Enter the House
+            </button>
+          </div>
+        )}
 
         {inventoryError && (
           <div
@@ -259,7 +444,10 @@ export default function CheckoutReview({
           onClick={
             handleConfirmOrder
           }
-          disabled={isSubmitting}
+          disabled={
+            isSubmitting ||
+            accessError !== null
+          }
           className="mt-20 w-full"
         >
           {isSubmitting
