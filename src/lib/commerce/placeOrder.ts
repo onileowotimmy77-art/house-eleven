@@ -185,6 +185,7 @@ async function reconcileBagWithLiveInventory() {
 export async function placeOrder(
   paymentMethod: CheckoutPaymentMethod
 ) {
+  
   /*
    * Read the bag at the moment checkout
    * begins.
