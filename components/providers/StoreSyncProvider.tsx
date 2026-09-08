@@ -8,6 +8,7 @@ import {
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 import { useOrderStore } from "@/src/lib/stores/useOrderStore";
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
+import { useSavedPiecesSync } from "@/src/lib/supabase/useSavedPiecesSync";
 import { useRestockStore } from "@/src/lib/stores/useRestockStore";
 import { useEarlyAccessStore } from "@/src/lib/stores/useEarlyAccessStore";
 
