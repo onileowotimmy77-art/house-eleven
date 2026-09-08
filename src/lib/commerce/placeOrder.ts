@@ -185,7 +185,21 @@ async function reconcileBagWithLiveInventory() {
 export async function placeOrder(
   paymentMethod: CheckoutPaymentMethod
 ) {
-  
+  const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+if (!user) {
+  return {
+    status: "unauthenticated" as const,
+  };
+}
+
+if (!user.email_confirmed_at) {
+  return {
+    status: "email_unconfirmed" as const,
+  };
+}
   /*
    * Read the bag at the moment checkout
    * begins.
