@@ -50,6 +50,7 @@ const storageKeys = new Map<string, typeof stores[number]>([
 export default function StoreSyncProvider({
   children,
 }: StoreSyncProviderProps) {
+  useSavedPiecesSync();
   useEffect(() => {
     /*
      * Initial hydration for stores that
