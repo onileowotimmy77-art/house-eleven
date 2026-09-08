@@ -1,3 +1,5 @@
+import { supabase } from "../supabase/client";
+
 import { getProduct } from "@/src/data/getProduct";
 
 import {
