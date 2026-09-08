@@ -46,7 +46,7 @@ export function useSavedPiecesSync() {
      * for the same authenticated session.
      */
     if (
-      hasSyncedUser.current === userId
+      hasSyncedUser.current === userId 
     ) {
       return;
     }
