@@ -7,6 +7,27 @@ export interface SupabaseSavedPieceRow {
   created_at: string;
 }
 
+async function getAuthenticatedUserId() {
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error) {
+    throw new Error(
+      `Failed to get authenticated user: ${error.message}`
+    );
+  }
+
+  if (!user) {
+    throw new Error(
+      "An authenticated user is required to save pieces."
+    );
+  }
+
+  return user.id;
+}
+
 export async function getSavedPieces() {
   const { data, error } = await supabase
     .from("saved_pieces")
@@ -38,9 +59,13 @@ export async function saveSavedPiece(
     );
   }
 
+  const userId =
+    await getAuthenticatedUserId();
+
   const { error } = await supabase
     .from("saved_pieces")
     .insert({
+      user_id: userId,
       product_slug: normalizedSlug,
     });
 
@@ -90,8 +115,12 @@ export async function saveSavedPieces(
     return;
   }
 
+  const userId =
+    await getAuthenticatedUserId();
+
   const rows = normalizedSlugs.map(
     (productSlug) => ({
+      user_id: userId,
       product_slug: productSlug,
     })
   );
