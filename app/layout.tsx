@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import StoreSyncProvider from "@/components/providers/StoreSyncProvider";
-
 import { AuthProvider } from "@/components/providers/AuthProvider";
 
 import {
@@ -70,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">    
+    <html lang="en">
       <body
         className={`
           ${spaceGrotesk.variable}
@@ -86,30 +85,30 @@ export default function RootLayout({
           antialiased
         `}
       >
-            <StoreSyncProvider>
-              <AuthProvider>
-                <MenuProvider>
-                  <AppTransitionProvider>
-                    <CursorProvider>
-                      <AnimationProvider>
-                        <EntranceProvider>
-                          <Cursor />
+        <AuthProvider>
+          <StoreSyncProvider>
+            <MenuProvider>
+              <AppTransitionProvider>
+                <CursorProvider>
+                  <AnimationProvider>
+                    <EntranceProvider>
+                      <Cursor />
 
-                          <LenisProvider>
-                            <Navbar />
+                      <LenisProvider>
+                        <Navbar />
 
-                            <Concierge />
+                        <Concierge />
 
-                            {children}
-                          </LenisProvider>
-                        </EntranceProvider>
-                      </AnimationProvider>
-                    </CursorProvider>
-                  </AppTransitionProvider>
-                </MenuProvider>
-              </AuthProvider>
-            </StoreSyncProvider>
-          </body>
+                        {children}
+                      </LenisProvider>
+                    </EntranceProvider>
+                  </AnimationProvider>
+                </CursorProvider>
+              </AppTransitionProvider>
+            </MenuProvider>
+          </StoreSyncProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
