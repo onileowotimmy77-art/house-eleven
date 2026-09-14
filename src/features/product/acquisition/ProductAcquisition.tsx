@@ -11,11 +11,18 @@ import Section from "@/components/layout/Section";
 
 import CommerceNotification from "../../commerce/CommerceNotification";
 
+import { useAuth } from "@/components/providers/AuthProvider";
+
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
 import { useRestockStore } from "@/src/lib/stores/useRestockStore";
 import { useEarlyAccessStore } from "@/src/lib/stores/useEarlyAccessStore";
 import { useInventoryStore } from "@/src/lib/stores/useInventoryStore";
+
+import {
+  removeSavedPiece,
+  saveSavedPiece,
+} from "@/src/lib/supabase/savedPieces";
 
 import type { Product } from "@/src/data/products";
 import type { ProductInventory } from "@/src/data/inventory";
@@ -40,6 +47,8 @@ export default function ProductAcquisition({
   product,
   inventory,
 }: ProductAcquisitionProps) {
+  const { user } = useAuth();
+
   const addToBag = useBagStore(
     (state) => state.addToBag
   );
@@ -79,6 +88,10 @@ export default function ProductAcquisition({
 
   const removePiece = useSavedPiecesStore(
     (state) => state.removePiece
+  );
+
+  const replacePieces = useSavedPiecesStore(
+    (state) => state.replacePieces
   );
 
   const isSaved = useSavedPiecesStore(
@@ -124,6 +137,11 @@ export default function ProductAcquisition({
     useState<CommerceNotificationType | null>(
       null
     );
+
+  const [
+    isSavingPiece,
+    setIsSavingPiece,
+  ] = useState(false);
 
   /*
    * Use live inventory whenever it exists.
@@ -196,7 +214,7 @@ export default function ProductAcquisition({
   }, [
     selectedSize,
     sizes,
-    ]);
+  ]);
 
   const availability = useMemo(() => {
     switch (inventoryStatus) {
@@ -235,18 +253,87 @@ export default function ProductAcquisition({
     }
   }, [inventoryStatus]);
 
-  function handleSavePiece() {
-    if (isSaved) {
-      removePiece(product.slug);
+  async function handleSavePiece() {
+    if (isSavingPiece) {
+      return;
+    }
 
-      setNotification("removed");
+    const previousPieces =
+      useSavedPiecesStore.getState().pieces;
+
+    const previousSlugs =
+      previousPieces.map(
+        (piece) => piece.productSlug
+      );
+
+    const wasSaved = isSaved;
+
+    setIsSavingPiece(true);
+
+    /*
+     * Update the local store immediately so the
+     * interface remains responsive.
+     *
+     * The remote operation below becomes the
+     * source of persistence for authenticated
+     * residents.
+     */
+    if (wasSaved) {
+      removePiece(product.slug);
+    } else {
+      savePiece(product.slug);
+    }
+
+    /*
+     * Guests intentionally remain local-only.
+     */
+    if (!user) {
+      setNotification(
+        wasSaved
+          ? "removed"
+          : "saved"
+      );
+
+      setIsSavingPiece(false);
 
       return;
     }
 
-    savePiece(product.slug);
+    try {
+      if (wasSaved) {
+        await removeSavedPiece(
+          product.slug
+        );
+      } else {
+        await saveSavedPiece(
+          product.slug
+        );
+      }
 
-    setNotification("saved");
+      setNotification(
+        wasSaved
+          ? "removed"
+          : "saved"
+      );
+    } catch (error) {
+      /*
+       * Supabase persistence failed.
+       *
+       * Restore the exact local state that
+       * existed before the interaction so the
+       * interface cannot report a false state.
+       */
+      replacePieces(
+        previousSlugs
+      );
+
+      console.error(
+        "Failed to persist saved piece:",
+        error
+      );
+    } finally {
+      setIsSavingPiece(false);
+    }
   }
 
   function handleRestockRequest() {
@@ -564,7 +651,7 @@ export default function ProductAcquisition({
                   gap-x-8
                   gap-y-3
                   sm:grid-cols-4
-                  "
+                "
               >
                 {sizes.map(
                   ({
@@ -800,6 +887,7 @@ export default function ProductAcquisition({
 
             <button
               type="button"
+              disabled={isSavingPiece}
               onClick={
                 handleSavePiece
               }
@@ -814,9 +902,13 @@ export default function ProductAcquisition({
                 transition-colors
                 duration-300
                 hover:text-white/70
+                disabled:cursor-wait
+                disabled:opacity-40
               "
             >
-              {isSaved
+              {isSavingPiece
+                ? "Updating..."
+                : isSaved
                 ? "Saved ✓"
                 : "Save Piece"}
             </button>
