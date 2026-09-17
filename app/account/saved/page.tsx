@@ -10,7 +10,14 @@ import EmptySavedPieces from "@/src/features/account/EmptySavedPiece";
 import SavedPieceCard from "@/src/features/account/SavedPieceCard";
 import CommerceNotification from "@/src/features/commerce/CommerceNotification";
 
+import { useAuth } from "@/components/providers/AuthProvider";
+
 import { getProduct } from "@/src/data/getProduct";
+
+import {
+  removeSavedPiece,
+  saveSavedPiece,
+} from "@/src/lib/supabase/savedPieces";
 
 import { useBagStore } from "@/src/lib/stores/useBagStore";
 import { useSavedPiecesStore } from "@/src/lib/stores/useSavedPiecesStore";
@@ -27,6 +34,8 @@ interface NotificationState {
 }
 
 export default function SavedPiecesPage() {
+  const { user } = useAuth();
+
   const pieces = useSavedPiecesStore(
     (state) => state.pieces
   );
@@ -50,6 +59,11 @@ export default function SavedPiecesPage() {
     null
   );
 
+  const [
+    updatingSlug,
+    setUpdatingSlug,
+  ] = useState<string | null>(null);
+
   useEffect(() => {
     if (!notification) {
       return;
@@ -67,36 +81,112 @@ export default function SavedPiecesPage() {
     };
   }, [notification]);
 
-  function handleRemovePiece(
+  async function handleRemovePiece(
     productSlug: string
   ) {
+    if (updatingSlug) {
+      return;
+    }
+
+    setUpdatingSlug(productSlug);
+
     removePiece(productSlug);
 
-    setNotification({
-      productSlug,
-      type: "removed",
-    });
+    /*
+     * Guests intentionally remain local-only.
+     */
+    if (!user) {
+      setNotification({
+        productSlug,
+        type: "removed",
+      });
+
+      setUpdatingSlug(null);
+
+      return;
+    }
+
+    try {
+      await removeSavedPiece(
+        productSlug
+      );
+
+      setNotification({
+        productSlug,
+        type: "removed",
+      });
+    } catch (error) {
+      /*
+       * Restore the piece locally because
+       * remote persistence failed.
+       */
+      savePiece(productSlug);
+
+      console.error(
+        "Failed to remove saved piece:",
+        error
+      );
+    } finally {
+      setUpdatingSlug(null);
+    }
   }
 
-  function handleUndoRemove() {
+  async function handleUndoRemove() {
     if (
       !notification ||
-      notification.type !== "removed"
+      notification.type !== "removed" ||
+      updatingSlug
     ) {
       return;
     }
 
-    savePiece(
-      notification.productSlug
-    );
+    const productSlug =
+      notification.productSlug;
 
-    setNotification(null);
+    setUpdatingSlug(productSlug);
+
+    savePiece(productSlug);
+
+    /*
+     * Guests intentionally remain local-only.
+     */
+    if (!user) {
+      setNotification(null);
+      setUpdatingSlug(null);
+
+      return;
+    }
+
+    try {
+      await saveSavedPiece(
+        productSlug
+      );
+
+      setNotification(null);
+    } catch (error) {
+      /*
+       * Restore the removed state because
+       * remote persistence failed.
+       */
+      removePiece(productSlug);
+
+      console.error(
+        "Failed to restore saved piece:",
+        error
+      );
+    } finally {
+      setUpdatingSlug(null);
+    }
   }
 
-  function handleMoveToBag(
+  async function handleMoveToBag(
     productSlug: string,
     size: string
-  ): boolean {
+  ): Promise<boolean> {
+    if (updatingSlug) {
+      return false;
+    }
+
     const wasAdded =
       addToBag({
         productSlug,
@@ -114,15 +204,54 @@ export default function SavedPiecesPage() {
       return false;
     }
 
+    setUpdatingSlug(productSlug);
+
     removePiece(productSlug);
 
-    setNotification({
-      productSlug,
-      type: "moved",
-      size,
-    });
+    /*
+     * Guests intentionally remain local-only.
+     */
+    if (!user) {
+      setNotification({
+        productSlug,
+        type: "moved",
+        size,
+      });
 
-    return true;
+      setUpdatingSlug(null);
+
+      return true;
+    }
+
+    try {
+      await removeSavedPiece(
+        productSlug
+      );
+
+      setNotification({
+        productSlug,
+        type: "moved",
+        size,
+      });
+
+      return true;
+    } catch (error) {
+      /*
+       * The Bag addition has already happened,
+       * so restore the saved piece locally rather
+       * than creating an inconsistent archive state.
+       */
+      savePiece(productSlug);
+
+      console.error(
+        "Failed to remove moved saved piece:",
+        error
+      );
+
+      return false;
+    } finally {
+      setUpdatingSlug(null);
+    }
   }
 
   const notificationProduct =
