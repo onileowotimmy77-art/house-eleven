@@ -179,7 +179,7 @@ export default function SavedPiecesPage() {
     }
   }
 
-  async function handleMoveToBag(
+  function handleMoveToBag(
     productSlug: string,
     size: string
   ): Promise<boolean> {
