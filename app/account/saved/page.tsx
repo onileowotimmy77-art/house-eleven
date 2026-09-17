@@ -180,49 +180,47 @@ export default function SavedPiecesPage() {
   }
 
   function handleMoveToBag(
-    productSlug: string,
-    size: string
-  ): Promise<boolean> {
-    if (updatingSlug) {
-      return false;
-    }
+  productSlug: string,
+  size: string
+): boolean {
+  if (updatingSlug) {
+    return false;
+  }
 
-    const wasAdded =
-      addToBag({
-        productSlug,
-        size,
-        quantity: 1,
-      });
+  const wasAdded =
+    addToBag({
+      productSlug,
+      size,
+      quantity: 1,
+    });
 
-    if (!wasAdded) {
-      setNotification({
-        productSlug,
-        type: "unavailable",
-        size,
-      });
+  if (!wasAdded) {
+    setNotification({
+      productSlug,
+      type: "unavailable",
+      size,
+    });
 
-      return false;
-    }
+    return false;
+  }
 
-    setUpdatingSlug(productSlug);
+  setUpdatingSlug(productSlug);
 
-    removePiece(productSlug);
+  removePiece(productSlug);
 
-    /*
-     * Guests intentionally remain local-only.
-     */
-    if (!user) {
-      setNotification({
-        productSlug,
-        type: "moved",
-        size,
-      });
+  if (!user) {
+    setNotification({
+      productSlug,
+      type: "moved",
+      size,
+    });
 
-      setUpdatingSlug(null);
+    setUpdatingSlug(null);
 
-      return true;
-    }
+    return true;
+  }
 
+  void (async () => {
     try {
       await removeSavedPiece(
         productSlug
@@ -233,26 +231,20 @@ export default function SavedPiecesPage() {
         type: "moved",
         size,
       });
-
-      return true;
     } catch (error) {
-      /*
-       * The Bag addition has already happened,
-       * so restore the saved piece locally rather
-       * than creating an inconsistent archive state.
-       */
       savePiece(productSlug);
 
       console.error(
         "Failed to remove moved saved piece:",
         error
       );
-
-      return false;
     } finally {
       setUpdatingSlug(null);
     }
-  }
+  })();
+
+  return true;
+}
 
   const notificationProduct =
     notification
